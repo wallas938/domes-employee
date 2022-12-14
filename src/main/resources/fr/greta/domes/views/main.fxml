@@ -28,7 +28,7 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="540.0" style="-fx-background-color: FF8B00; -fx-opacity: .6;">
+            <VBox alignment="TOP_CENTER" minWidth="350.0" prefWidth="540.0" style="-fx-background-color: FF8B00; -fx-opacity: .6;">
                <children>
                   <Label fx:id="errorMessage" text="Your email/password is wrong" textFill="RED">
                      <VBox.margin>
