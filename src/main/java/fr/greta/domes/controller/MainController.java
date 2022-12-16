@@ -1,65 +1,40 @@
 package fr.greta.domes.controller;
-
-import javafx.beans.binding.Bindings;
+import fr.greta.domes.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
-import javafx.scene.paint.Paint;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.stage.Stage;
 
-public class MainController implements Initializable {
-    @FXML
-    private Button submitButton;
+import java.io.IOException;
+import java.util.Objects;
 
-    @FXML
-    private TextField email;
+public class MainController {
 
-    @FXML
-    private TextField password;
-
-    @FXML
-    private Label errorMessage;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        submitButton.setDisable(true);
-        errorMessage.setVisible(false);
-        submitButton.disableProperty()
-                .bind(
-                        Bindings.when(
-                                        email.textProperty()
-                                                .isNotEmpty()
-                                                .and(password.textProperty().isNotEmpty()))
-                                .then(false).otherwise(true));
-    }
-
-    @FXML
-    protected void submit() throws InterruptedException {
-        /**
-         * For wrong credentials after server checking
-         * email.setBorder(Border.stroke(Paint.valueOf("FF0000")));
-         * password.setBorder(Border.stroke(Paint.valueOf("FF0000")));
-         * **/
-        showErrorMessage(3500);
-    }
-
-    private void showErrorMessage(int timer) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                errorMessage.setVisible(true);
-                try {
-                    Thread.sleep(timer);
-                    errorMessage.setVisible(false);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+    private HomeController homeController;
+    @FXML private Button submitButton;
+    @FXML private TextField email;
+    @FXML private TextField password;
+    @FXML protected void login(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Main.class.getResource("views/home.fxml"));
+        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        try {
+            scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("css/home.css")).toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        stage.setTitle("Home Page");
+        stage.setScene(scene);
+        stage.show();
     }
 }
