@@ -24,6 +24,8 @@ public class MainController {
     @FXML private Button submitButton;
     @FXML private TextField email;
     @FXML private TextField password;
+
+
     @FXML protected void login(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Main.class.getResource("views/home.fxml"));
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
