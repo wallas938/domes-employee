@@ -1,0 +1,38 @@
+/*
+    Navigation Bar
+*/
+
+.nav-container {
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);
+    -fx-background-radius: 8;
+}
+
+.cursor{
+    -fx-cursor: hand;
+    -fx-fill: "000"
+}
+
+.page-title {
+    -fx-font-size: 24;
+    -fx-font-family: "Roboto Light";
+}
+
+.filter {
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);
+    -fx-background-radius: 8;
+}
+
+#filterButton {
+    -fx-background-color: #5597FF;
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 40;
+}
+
+.table-view {
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);
+    -fx-background-radius: 8;
+}

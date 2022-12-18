@@ -1,7 +1,6 @@
 package fr.greta.domes.controller.service;
 
-import fr.greta.domes.category.Category;
-import fr.greta.domes.category.Specie;
+import fr.greta.domes.model.category.Category;
 
 import java.util.Collection;
 import java.util.List;

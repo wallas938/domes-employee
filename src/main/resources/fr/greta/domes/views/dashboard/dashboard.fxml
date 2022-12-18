@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+
+    <left>
+        <fx:include source="navigation.fxml" />
+    </left>
+
+    <center>
+        <fx:include source="productView.fxml" />
+    </center>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets left="50.0" top="50.0" />
+   </padding>
+
+</BorderPane>

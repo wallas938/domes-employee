@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.greta.domes.controller.NavigationController">
+   <opaqueInsets>
+      <Insets left="50.0" top="50.0"/>
+   </opaqueInsets>
+   <VBox alignment="TOP_CENTER" prefHeight="716.0" prefWidth="61.0" styleClass="nav-container"
+         stylesheets="@../../css/dashboard.css" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <opaqueInsets>
+         <Insets/>
+      </opaqueInsets>
+      <effect>
+         <DropShadow/>
+      </effect>
+      <ImageView fitHeight="60.0" fitWidth="60.0">
+         <VBox.margin>
+            <Insets bottom="40.0" top="62.0"/>
+         </VBox.margin>
+         <Image url="@../../images/logo.png"/>
+      </ImageView>
+      <ImageView fx:id="toProducts" fitHeight="56.0" fitWidth="56.0">
+         <VBox.margin>
+            <Insets bottom="25.0"/>
+         </VBox.margin>
+         <Image url="@../../images/animal_icon_active.png"/>
+      </ImageView>
+      <ImageView fx:id="toClients" fitHeight="56.0" fitWidth="56.0">
+         <VBox.margin>
+            <Insets bottom="25.0"/>
+         </VBox.margin>
+         <Image url="@../../images/clients_icon.png"/>
+      </ImageView>
+      <ImageView fx:id="toOrders" fitHeight="56.0" fitWidth="56.0">
+         <VBox.margin>
+            <Insets bottom="139.0"/>
+         </VBox.margin>
+         <Image url="@../../images/order_icon.png"/>
+      </ImageView>
+      <ImageView fx:id="toProfile" fitHeight="56.0" fitWidth="56.0">
+         <VBox.margin>
+            <Insets bottom="25.0"/>
+         </VBox.margin>
+         <Image url="@../../images/profile_icon.png"/>
+      </ImageView>
+      <ImageView fx:id="logout" fitHeight="56.0" fitWidth="56.0">
+         <Image url="@../../images/logout.png"/>
+      </ImageView>
+   </VBox>
+</AnchorPane>
