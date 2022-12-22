@@ -1,6 +1,6 @@
 package fr.greta.domes.controller.service;
 
-import fr.greta.domes.model.category.Category;
+import fr.greta.domes.model.enums.Category;
 
 import java.util.Collection;
 import java.util.List;

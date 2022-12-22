@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.DashboardController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.ProductViewController">
     <padding>
         <Insets top="87.0" />
     </padding>

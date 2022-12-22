@@ -1,4 +1,4 @@
-package fr.greta.domes.model.category;
+package fr.greta.domes.model.enums;
 
 import fr.greta.domes.view.ViewFactory;
 
