@@ -1,4 +1,4 @@
-package fr.greta.domes.category;
+package fr.greta.domes.model.enums;
 
 public enum Category {
     ALL() {

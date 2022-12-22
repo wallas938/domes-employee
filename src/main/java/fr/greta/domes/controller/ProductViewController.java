@@ -1,10 +1,6 @@
 package fr.greta.domes.controller;
 
 import fr.greta.domes.controller.service.AnimalService;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,34 +8,37 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
-
+public class ProductViewController implements Initializable {
     @FXML
     private CheckBox priceCheckboxStatus;
     @FXML
     private CheckBox ageCheckboxStatus;
     @FXML
-    private TextField minPriceValue;
-    @FXML
-    private TextField maxPriceValue;
-    @FXML
     private Label minPriceLabel;
+    @FXML
+    private TextField minPriceValue;
     @FXML
     private Label maxPriceLabel;
     @FXML
-    private TextField minAgeValue;
-    @FXML
-    private TextField maxAgeValue;
+    private TextField maxPriceValue;
     @FXML
     private Label minAgeLabel;
     @FXML
+    private TextField minAgeValue;
+    @FXML
     private Label maxAgeLabel;
+    @FXML
+    private TextField maxAgeValue;
     @FXML
     private ChoiceBox<String> byCategory;
     @FXML
     private ChoiceBox<String> bySpecie;
     @FXML
     private Button filterButton;
+    @FXML
+    private MenuButton selectPageNumber;
+    @FXML
+    private MenuButton selectSizeValue;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,7 +46,6 @@ public class HomeController implements Initializable {
         setAgeFieldsVisibility(false);
 
         byCategory.getItems().addAll(AnimalService.categories());
-
         bySpecie.getItems().addAll(AnimalService.categories());
     }
 
