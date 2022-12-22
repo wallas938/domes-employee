@@ -18,10 +18,10 @@ public class DashboardController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
             switch (newValue) {
-                case "TO_PRODUCTS" -> dashboard.setCenter(Model.getInstance().getViewFactory().getProductView());
-                case "TO_CLIENTS" -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientView());
-                case "TO_ORDERS" -> dashboard.setCenter(Model.getInstance().getViewFactory().getOrderView());
-                case "TO_PROFILE" -> dashboard.setCenter(Model.getInstance().getViewFactory().getProfileView());
+                case TO_PRODUCTS -> dashboard.setCenter(Model.getInstance().getViewFactory().getProductView());
+                case TO_CLIENTS -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientView());
+                case TO_ORDERS -> dashboard.setCenter(Model.getInstance().getViewFactory().getOrderView());
+                case TO_PROFILE -> dashboard.setCenter(Model.getInstance().getViewFactory().getProfileView());
             }
         });
     }
