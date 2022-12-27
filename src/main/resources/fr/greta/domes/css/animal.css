@@ -1,0 +1,18 @@
+.filter {
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);
+    -fx-background-radius: 8;
+}
+
+#filterButton {
+    -fx-background-color: rgba(85, 151, 255, 0.6);
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+}
+
+.table-view {
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);
+    -fx-background-radius: 8;
+}

@@ -9,7 +9,8 @@ module fr.greta.domes {
     requires org.kordamp.bootstrapfx.core;
 
     opens fr.greta.domes to javafx.fxml;
+    opens fr.greta.domes.controller to javafx.fxml;
+    opens fr.greta.domes.model to javafx.base;
     exports fr.greta.domes;
     exports fr.greta.domes.controller;
-    opens fr.greta.domes.controller to javafx.fxml;
 }

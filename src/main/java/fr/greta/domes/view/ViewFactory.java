@@ -25,7 +25,7 @@ public class ViewFactory {
     public AnchorPane getProductView() {
         if (productView == null) {
             try {
-                productView = new FXMLLoader(Main.class.getResource("views/dashboard/productView.fxml")).load();
+                productView = new FXMLLoader(Main.class.getResource("views/dashboard/animal/animalView.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -36,7 +36,7 @@ public class ViewFactory {
     public AnchorPane getClientView() {
         if (clientView == null) {
             try {
-                clientView = new FXMLLoader(Main.class.getResource("views/dashboard/clientView.fxml")).load();
+                clientView = new FXMLLoader(Main.class.getResource("views/dashboard/client/clientView.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -47,7 +47,7 @@ public class ViewFactory {
     public AnchorPane getOrderView() {
         if (orderView == null) {
             try {
-                orderView = new FXMLLoader(Main.class.getResource("views/dashboard/orderView.fxml")).load();
+                orderView = new FXMLLoader(Main.class.getResource("views/dashboard/order/orderView.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -58,7 +58,7 @@ public class ViewFactory {
     public AnchorPane getProfileView() {
         if (profileView == null) {
             try {
-                profileView = new FXMLLoader(Main.class.getResource("views/dashboard/profileView.fxml")).load();
+                profileView = new FXMLLoader(Main.class.getResource("views/dashboard/profile/profileView.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,7 +78,7 @@ public class ViewFactory {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/login.fxml"));
         LoginController loginController = new LoginController();
         loader.setController(loginController);
-        createStage(loader);
+        createStage(loader, "css/login.css");
     }
 
     /*
@@ -107,8 +107,11 @@ public class ViewFactory {
         Stage stage = new Stage();
         if (!stylesheetPath.isEmpty())
             scene.getStylesheets().add(Main.class.getResource(stylesheetPath).toString());
+
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.getIcons().add(new Image(Main.class.getResource("images/logo.png").toString()));
+        stage.centerOnScreen();
         stage.show();
     }
 

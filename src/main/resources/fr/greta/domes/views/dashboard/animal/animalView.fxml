@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.dlsc.formsfx.view.controls.SimpleCheckBoxControl?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="900.0" stylesheets="@../../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.AnimalController">
+    <padding>
+        <Insets top="87.0" />
+    </padding>
+     <Label fx:id="minPriceLabel" layoutX="60.0" layoutY="122.0" prefWidth="26.0" text="min :" />
+     <TextField fx:id="minPriceValue" layoutX="93.0" layoutY="121.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="40.0" styleClass="input" />
+     <Label fx:id="maxPriceLabel" layoutX="145.0" layoutY="123.0" text="max :" />
+     <TextField fx:id="maxPriceValue" layoutX="179.0" layoutY="121.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="40.0" styleClass="input" />
+     <Label fx:id="minAgeLabel" layoutX="285.0" layoutY="123.0" prefWidth="26.0" text="min :" />
+     <TextField fx:id="minAgeValue" layoutX="318.0" layoutY="122.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="40.0" styleClass="input" />
+     <Label fx:id="maxAgeLabel" layoutX="370.0" layoutY="124.0" text="max :" />
+     <TextField fx:id="maxAgeValue" layoutX="404.0" layoutY="122.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="40.0" styleClass="input" />
+     <ChoiceBox fx:id="byCategory" layoutX="60.0" layoutY="149.0" prefWidth="150.0" />
+     <ChoiceBox fx:id="bySpecie" layoutX="285.0" layoutY="149.0" prefWidth="150.0" />
+   <Button fx:id="filterButton" layoutX="498.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="cursor" text="Search" />
+   <Label layoutX="93.0" layoutY="92.0" text="Price" />
+   <Label layoutX="318.0" layoutY="92.0" text="Age" />
+    <Label layoutX="46.0" layoutY="14.0" styleClass="page-title" text="animals &gt;" />
+    <TableView fx:id="animalsTable" editable="true" layoutX="46.0" layoutY="229.0" prefHeight="200.0" prefWidth="706.0" />
+    <Pane layoutX="152.0" layoutY="429.0" prefHeight="53.0" prefWidth="503.0">
+        <Pagination maxPageIndicatorCount="0" pageCount="2" prefHeight="51.0" prefWidth="503.0" />
+        <MenuButton fx:id="selectPageNumber" layoutX="416.0" layoutY="14.0" mnemonicParsing="false" text="Page n°">
+           <items>
+               <MenuItem mnemonicParsing="false" text="Action 1" />
+               <MenuItem mnemonicParsing="false" text="Action 2" />
+           </items>
+        </MenuButton>
+        <MenuButton fx:id="selectSizeValue" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="size">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+            </items>
+        </MenuButton>
+    </Pane>
+   <SimpleCheckBoxControl layoutX="56.0" layoutY="49.0" prefHeight="17.0" prefWidth="40.0" />
+   <CheckBox fx:id="priceCheckboxStatus" layoutX="60.0" layoutY="92.0" mnemonicParsing="false" onAction="#togglePriceCheckbox" styleClass="checkbox" />
+   <CheckBox fx:id="ageCheckboxStatus" layoutX="285.0" layoutY="92.0" mnemonicParsing="false" onAction="#toggleAgeCheckbox" styleClass="checkbox" />
+</AnchorPane>
