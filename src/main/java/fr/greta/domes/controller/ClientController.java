@@ -1,4 +1,4 @@
 package fr.greta.domes.controller;
 
-public class OrderViewController {
+public class ClientController {
 }

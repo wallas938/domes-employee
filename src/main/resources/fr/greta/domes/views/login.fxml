@@ -12,88 +12,82 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0"
-            prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1280.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <HBox prefHeight="832.0" prefWidth="1280.0">
       <VBox alignment="CENTER" prefWidth="740.0" style="-fx-background-color: ECF0F3;" HBox.hgrow="ALWAYS">
          <ImageView fitHeight="500.0" fitWidth="510.0">
             <VBox.margin>
-               <Insets/>
+               <Insets />
             </VBox.margin>
-            <Image url="@../images/logo.png"/>
+            <Image url="@../images/logo.png" />
          </ImageView>
       </VBox>
-      <VBox alignment="TOP_CENTER" minWidth="350.0" prefWidth="540.0"
-            style="-fx-background-color: FF8B00; -fx-opacity: .6;">
+      <VBox alignment="TOP_CENTER" minWidth="350.0" prefWidth="540.0" style="-fx-background-color: FF8B00; -fx-opacity: .6;">
          <Label fx:id="errorMessage" text="Your email/password is wrong" textFill="RED">
             <VBox.margin>
-               <Insets top="198.0"/>
+               <Insets top="198.0" />
             </VBox.margin>
             <font>
-               <Font name="System Bold" size="20.0"/>
+               <Font name="System Bold" size="20.0" />
             </font>
          </Label>
-         <Label style="-fx-font-weight: bold;" text="Login" textFill="WHITE">
+         <Label text="Login" textFill="WHITE">
             <font>
-               <Font name="System Bold" size="48.0"/>
+               <Font name="System Bold" size="48.0" />
             </font>
             <opaqueInsets>
-               <Insets/>
+               <Insets />
             </opaqueInsets>
             <VBox.margin>
-               <Insets top="8.0"/>
+               <Insets top="8.0" />
             </VBox.margin>
          </Label>
          <VBox>
             <VBox.margin>
-               <Insets bottom="64.0" left="99.0" top="58.0"/>
+               <Insets bottom="64.0" left="99.0" top="58.0" />
             </VBox.margin>
             <Label text="Email" textFill="WHITE">
                <VBox.margin>
-                  <Insets bottom="8.0"/>
+                  <Insets bottom="8.0" />
                </VBox.margin>
                <font>
-                  <Font size="16.0"/>
+                  <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="email" maxWidth="336.0" minWidth="336.0" prefHeight="50.0" prefWidth="336.0"
-                       style="-fx-border-radius: 8;">
+            <TextField fx:id="email" maxWidth="336.0" minWidth="336.0" prefHeight="50.0" prefWidth="336.0" styleClass="input">
                <VBox.margin>
-                  <Insets/>
+                  <Insets />
                </VBox.margin>
                <effect>
-                  <DropShadow offsetX="3.0" offsetY="3.0"/>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
                </effect>
             </TextField>
          </VBox>
          <VBox>
             <VBox.margin>
-               <Insets bottom="61.0" left="99.0"/>
+               <Insets bottom="61.0" left="99.0" />
             </VBox.margin>
             <Label text="Password" textFill="WHITE">
                <VBox.margin>
-                  <Insets bottom="8.0"/>
+                  <Insets bottom="8.0" />
                </VBox.margin>
                <font>
-                  <Font size="16.0"/>
+                  <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="password" accessibleRole="PASSWORD_FIELD" maxWidth="336.0" minWidth="336.0"
-                       prefHeight="50.0" prefWidth="336.0">
+            <TextField fx:id="password" accessibleRole="PASSWORD_FIELD" maxWidth="336.0" minWidth="336.0" prefHeight="50.0" prefWidth="336.0" styleClass="input">
                <VBox.margin>
-                  <Insets/>
+                  <Insets />
                </VBox.margin>
                <effect>
-                  <DropShadow offsetX="3.0" offsetY="3.0"/>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
                </effect>
             </TextField>
          </VBox>
          <VBox alignment="CENTER">
-            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#login" prefHeight="48.0"
-                    prefWidth="336.0" style="-fx-background-color: #5597FF; -fx-background-radius: 30;"
-                    text="Connection" textFill="WHITE">
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#login" prefHeight="48.0" prefWidth="336.0" style="-fx-background-color: #5597FF; -fx-background-radius: 30;" styleClass="cursor" text="Connection" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="32.0"/>
+                  <Font name="System Bold" size="32.0" />
                </font>
             </Button>
          </VBox>

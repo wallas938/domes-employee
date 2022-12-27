@@ -1,13 +1,9 @@
-@import url(../fonts/Roboto-Medium.ttf);
-@import url(navigation.css);
-@import url(animal.css);
-
 /*
     Text
 */
 .page-title {
     -fx-font-size: 24;
-    -fx-font-family: 'Roboto', sans-serif;
+    -fx-font-family: "Roboto Light";
 }
 
 /*

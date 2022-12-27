@@ -4,9 +4,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.ClientViewController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.ClientController">
    <children>
-      <Label layoutX="149.0" layoutY="164.0" text="PROFILE VIEW">
+      <Label layoutX="149.0" layoutY="164.0" text="CLIENT VIEW">
          <font>
             <Font name="System Bold" size="49.0" />
          </font>
