@@ -1,0 +1,14 @@
+.txt-body {
+    -fx-font-size: 14;
+    -fx-text-fill: black;
+}
+
+.delete {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
+.edit {
+    -fx-background-color: rgba(85, 151, 255, 0.6);
+    -fx-text-fill: white;
+}

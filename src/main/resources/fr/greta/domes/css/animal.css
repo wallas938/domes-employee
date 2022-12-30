@@ -1,3 +1,13 @@
+.root {
+    -fx-pref-width: 800;
+}
+
+.add-animal {
+    -fx-background-color: transparent;
+    -fx-background-radius: 70;
+    -fx-border-radius: 0;
+}
+
 .filter {
     -fx-background-color: #FFF;
     -fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.1), 1, 1, 2, 0);

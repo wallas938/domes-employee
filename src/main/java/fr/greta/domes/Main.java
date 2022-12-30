@@ -1,6 +1,6 @@
 package fr.greta.domes;
 
-import fr.greta.domes.model.enums.Model;
+import fr.greta.domes.model.Model;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

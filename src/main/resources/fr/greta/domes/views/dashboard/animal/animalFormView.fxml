@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../css/animalForm.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.animal.AnimalFormController">
+   <children>
+      <Label layoutX="71.0" layoutY="162.0" text="ANIMAL FORM VIEW">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

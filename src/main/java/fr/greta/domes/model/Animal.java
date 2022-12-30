@@ -7,10 +7,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Animal {
-
     private UUID uuid;
     private String description;
-    private String imageUrl;
+    private String mainPicture;
+    private String secondPicture;
+    private String thirdPicture;
+    private String fourthPicture;
     private Category category;
     private Specie specie;
     private double price;
@@ -19,10 +21,13 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(UUID uuid, String description, String imageUrl, Category category, Specie specie, double price, int age) {
+    public Animal(UUID uuid, String description, String mainPicture, String secondPicture, String thirdPicture, String fourthPicture, Category category, Specie specie, double price, int age) {
         this.uuid = uuid;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.mainPicture = mainPicture;
+        this.secondPicture = secondPicture;
+        this.thirdPicture = thirdPicture;
+        this.fourthPicture = fourthPicture;
         this.category = category;
         this.specie = specie;
         this.price = price;
@@ -37,12 +42,36 @@ public class Animal {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getMainPicture() {
+        return mainPicture;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setMainPicture(String url) {
+        this.mainPicture = url;
+    }
+
+    public String getSecondPicture() {
+        return secondPicture;
+    }
+
+    public void setSecondPicture(String url) {
+        this.secondPicture = url;
+    }
+
+    public String getThirdPicture() {
+        return thirdPicture;
+    }
+
+    public void setThirdPicture(String url) {
+        this.thirdPicture = url;
+    }
+
+    public String getFourthPicture() {
+        return fourthPicture;
+    }
+
+    public void setFourthPicture(String url) {
+        this.fourthPicture = url;
     }
 
     public Category getCategory() {
@@ -90,12 +119,12 @@ public class Animal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(uuid, animal.uuid) && Objects.equals(description, animal.description) && Objects.equals(imageUrl, animal.imageUrl) && category == animal.category && specie == animal.specie;
+        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(uuid, animal.uuid) && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && category == animal.category && specie == animal.specie;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, description, imageUrl, category, specie, price, age);
+        return Objects.hash(uuid, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
     }
 
     @Override
@@ -103,7 +132,10 @@ public class Animal {
         return "Animal{" +
                 "uuid=" + uuid +
                 ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", mainPicture='" + mainPicture + '\'' +
+                ", secondPicture='" + secondPicture + '\'' +
+                ", thirdPicture='" + thirdPicture + '\'' +
+                ", fourthPicture='" + fourthPicture + '\'' +
                 ", category=" + category +
                 ", specie=" + specie +
                 ", price=" + price +
