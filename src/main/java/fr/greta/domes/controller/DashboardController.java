@@ -1,11 +1,7 @@
 package fr.greta.domes.controller;
 
-import fr.greta.domes.controller.service.AnimalService;
-import fr.greta.domes.model.enums.Model;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import fr.greta.domes.model.Model;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
@@ -18,7 +14,9 @@ public class DashboardController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
             switch (newValue) {
-                case TO_PRODUCTS -> dashboard.setCenter(Model.getInstance().getViewFactory().getProductView());
+                case TO_ANIMALS -> dashboard.setCenter(Model.getInstance().getViewFactory().getAnimalView());
+                case TO_ANIMAL_DETAIL -> dashboard.setCenter(Model.getInstance().getViewFactory().getAnimalDetailView());
+                case TO_ANIMALS_FORM -> dashboard.setCenter(Model.getInstance().getViewFactory().getAnimalFormView());
                 case TO_CLIENTS -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientView());
                 case TO_ORDERS -> dashboard.setCenter(Model.getInstance().getViewFactory().getOrderView());
                 case TO_PROFILE -> dashboard.setCenter(Model.getInstance().getViewFactory().getProfileView());

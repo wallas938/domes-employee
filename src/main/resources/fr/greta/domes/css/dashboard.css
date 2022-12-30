@@ -1,6 +1,11 @@
 @import url(../fonts/Roboto-Medium.ttf);
 @import url(navigation.css);
 @import url(animal.css);
+@import url(animalDetail.css);
+
+.root {
+    -fx-pref-width: 1200;
+}
 
 /*
     Text
@@ -15,7 +20,10 @@
 */
 .cursor{
     -fx-cursor: hand;
-    -fx-fill: "000"
+}
+
+.button {
+    -fx-font-weight: bold;
 }
 
 /*

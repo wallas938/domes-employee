@@ -41,8 +41,9 @@ dependencies {
     implementation('net.synedra:validatorfx:0.4.0') {
         exclude(group: 'org.openjfx')
     }
+
     // https://mvnrepository.com/artifact/de.jensd/fontawesomefx
-    implementation group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
+    implementation group: 'de.jensd', name: 'fontawesomefx-fontawesome', version: '4.7.0-9.1.2'
     //implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

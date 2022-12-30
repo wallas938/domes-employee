@@ -1,7 +1,10 @@
-package fr.greta.domes.controller;
+package fr.greta.domes.controller.animal;
 
+import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.controller.service.AnimalService;
 import fr.greta.domes.model.Animal;
+import fr.greta.domes.model.Model;
+import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.enums.Category;
 import fr.greta.domes.model.enums.Specie;
 import javafx.collections.FXCollections;
@@ -17,6 +20,8 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class AnimalController implements Initializable {
+    @FXML
+    private Button addAnimalButton;
     @FXML
     private TableView<Animal> animalsTable;
     @FXML
@@ -62,7 +67,9 @@ public class AnimalController implements Initializable {
     }
 
     private void initEventListeners() {
-
+        addAnimalButton.setOnMouseClicked(event -> {
+            showAnimalForm();
+        });
     }
 
     private void initFilterValues() {
@@ -75,12 +82,12 @@ public class AnimalController implements Initializable {
     private void initTableView() {
         ObservableList<Animal> animals = FXCollections.observableList(
                 List.of(
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.Alligator_Snapping_Turtle, 20.20, 40),
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.Aldabra_Tortoise, 200.20, 18),
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.American_Alligator, 120.20, 24),
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.Armenian_Viper, 40.20, 32),
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.Ball_Python, 90.20, 20),
-                        new Animal(UUID.randomUUID(), null, null, Category.REPTILE, Specie.Boelen_Python, 80.20, 7)
+                        new Animal(UUID.randomUUID(), null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, Category.REPTILE, Specie.Alligator_Snapping_Turtle, 20.20, 40),
+                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Aldabra_Tortoise, 200.20, 18),
+                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.American_Alligator, 120.20, 24),
+                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Armenian_Viper, 40.20, 32),
+                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Ball_Python, 90.20, 20),
+                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Boelen_Python, 80.20, 7)
                 )
         );
 
@@ -99,7 +106,7 @@ public class AnimalController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("specie"));
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
         animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
 
@@ -107,13 +114,24 @@ public class AnimalController implements Initializable {
             TableRow<Animal> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
 
-                if (!row.isEmpty() && event.getClickCount() == 2 ) {
-                    Animal rowData = row.getItem();
-                    // code to be executed when the row is double-clicked
+                if (!row.isEmpty()) {
+                    Animal animal = row.getItem();
+                    AnimalDetailController.setCurrentAnimal(animal);
+                    showAnimalDetail();
                 }
             });
             return row;
         });
+    }
+
+    private void showAnimalDetail() {
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
+        Model.getInstance().getViewFactory().getAnimalDetailView();
+    }
+
+    private void showAnimalForm() {
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
+        Model.getInstance().getViewFactory().getAnimalFormView();
     }
 
     public void setPriceFieldsVisibility(boolean status) {

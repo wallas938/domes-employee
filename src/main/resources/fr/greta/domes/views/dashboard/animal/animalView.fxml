@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.dlsc.formsfx.view.controls.SimpleCheckBoxControl?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -11,10 +13,12 @@
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="900.0" stylesheets="@../../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.AnimalController">
+<AnchorPane stylesheets="@../../../css/dashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.animal.AnimalController">
     <padding>
         <Insets top="87.0" />
     </padding>
@@ -31,7 +35,7 @@
    <Button fx:id="filterButton" layoutX="498.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="cursor" text="Search" />
    <Label layoutX="93.0" layoutY="92.0" text="Price" />
    <Label layoutX="318.0" layoutY="92.0" text="Age" />
-    <Label layoutX="46.0" layoutY="14.0" styleClass="page-title" text="animals &gt;" />
+    <Label layoutX="46.0" layoutY="14.0" styleClass="link-history" text="animals &gt;" />
     <TableView fx:id="animalsTable" editable="true" layoutX="46.0" layoutY="229.0" prefHeight="200.0" prefWidth="706.0" />
     <Pane layoutX="152.0" layoutY="429.0" prefHeight="53.0" prefWidth="503.0">
         <Pagination maxPageIndicatorCount="0" pageCount="2" prefHeight="51.0" prefWidth="503.0" />
@@ -51,4 +55,20 @@
    <SimpleCheckBoxControl layoutX="56.0" layoutY="49.0" prefHeight="17.0" prefWidth="40.0" />
    <CheckBox fx:id="priceCheckboxStatus" layoutX="60.0" layoutY="92.0" mnemonicParsing="false" onAction="#togglePriceCheckbox" styleClass="checkbox" />
    <CheckBox fx:id="ageCheckboxStatus" layoutX="285.0" layoutY="92.0" mnemonicParsing="false" onAction="#toggleAgeCheckbox" styleClass="checkbox" />
+   <Button fx:id="addAnimalButton" layoutX="814.0" layoutY="102.0" mnemonicParsing="false" prefWidth="62.0">
+      <graphic>
+         <ImageView fitHeight="75.0" fitWidth="75.0">
+            <image>
+               <Image url="@../../../images/new_animal_icon.png" />
+            </image>
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor>
+         </ImageView>
+      </graphic>
+      <styleClass>
+         <String fx:value="add-animal" />
+         <String fx:value="cursor" />
+      </styleClass>
+   </Button>
 </AnchorPane>

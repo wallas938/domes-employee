@@ -2,16 +2,20 @@ package fr.greta.domes.view;
 
 import fr.greta.domes.Main;
 import fr.greta.domes.controller.LoginController;
+import fr.greta.domes.controller.animal.AnimalDetailController;
 import fr.greta.domes.model.Navigation;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class ViewFactory {
-    private AnchorPane productView;
+    private AnchorPane animalView;
+    private AnchorPane animalDetailView;
+    private AnchorPane animalFormView;
     private AnchorPane clientView;
     private AnchorPane orderView;
     private AnchorPane profileView;
@@ -22,17 +26,42 @@ public class ViewFactory {
     /*
      * Views
      * */
-    public AnchorPane getProductView() {
-        if (productView == null) {
+
+    //Animal Views
+    public AnchorPane getAnimalView() {
+        if (animalView == null) {
             try {
-                productView = new FXMLLoader(Main.class.getResource("views/dashboard/animal/animalView.fxml")).load();
+                animalView = new FXMLLoader(Main.class.getResource("views/dashboard/animal/animalView.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return productView;
+        return animalView;
     }
 
+    public AnchorPane getAnimalDetailView() {
+        if (animalDetailView == null) {
+            try {
+                animalDetailView = new FXMLLoader(Main.class.getResource("views/dashboard/animal/animalDetailView.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return animalDetailView;
+    }
+
+    public AnchorPane getAnimalFormView() {
+        if (animalFormView == null) {
+            try {
+                animalFormView = new FXMLLoader(Main.class.getResource("views/dashboard/animal/animalFormView.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return animalFormView;
+    }
+
+    //Client Views
     public AnchorPane getClientView() {
         if (clientView == null) {
             try {
@@ -44,6 +73,7 @@ public class ViewFactory {
         return clientView;
     }
 
+    //Order Views
     public AnchorPane getOrderView() {
         if (orderView == null) {
             try {
@@ -55,6 +85,7 @@ public class ViewFactory {
         return orderView;
     }
 
+    //Profile Views
     public AnchorPane getProfileView() {
         if (profileView == null) {
             try {
@@ -105,9 +136,7 @@ public class ViewFactory {
             e.printStackTrace();
         }
         Stage stage = new Stage();
-        if (!stylesheetPath.isEmpty())
-            scene.getStylesheets().add(Main.class.getResource(stylesheetPath).toString());
-
+        scene.getStylesheets().add(Main.class.getResource(stylesheetPath).toString());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.getIcons().add(new Image(Main.class.getResource("images/logo.png").toString()));
