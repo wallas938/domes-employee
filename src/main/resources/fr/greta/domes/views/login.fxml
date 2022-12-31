@@ -26,12 +26,12 @@
       <children>
          <HBox alignment="CENTER" layoutY="100.0" prefHeight="35.0" prefWidth="600.0">
             <children>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Login" />
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Connexion" />
             </children>
          </HBox>
          <HBox alignment="CENTER" layoutX="5.0" layoutY="176.0" prefHeight="35.0" prefWidth="600.0">
             <children>
-               <Label fx:id="errorMessage" styleClass="error" text="Your email/password is wrong" textFill="RED">
+               <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED">
                   <font>
                      <Font name="System Bold" size="20.0" />
                   </font>
@@ -60,7 +60,7 @@
             <children>
                <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity">
                   <children>
-                     <Label text="Password" textFill="WHITE">
+                     <Label text="Mot de passe" textFill="WHITE">
                         <font>
                            <Font size="16.0" />
                         </font>
@@ -70,7 +70,7 @@
                </VBox>
             </children>
          </VBox>
-         <Button fx:id="submitButton" layoutX="191.0" layoutY="582.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #5597FF; -fx-background-radius: 30;" styleClass="cursor" text="Connection" textFill="WHITE">
+         <Button fx:id="submitButton" layoutX="191.0" layoutY="582.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #5597FF; -fx-background-radius: 30;" styleClass="cursor" text="se connecter" textFill="WHITE">
             <font>
                <Font name="System Bold" size="32.0" />
             </font>

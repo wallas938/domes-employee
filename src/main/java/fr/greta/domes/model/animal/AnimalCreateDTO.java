@@ -1,13 +1,11 @@
-package fr.greta.domes.model;
+package fr.greta.domes.model.animal;
 
 import fr.greta.domes.model.enums.Category;
 import fr.greta.domes.model.enums.Specie;
 
 import java.util.Objects;
-import java.util.UUID;
 
-public class Animal {
-    private UUID uuid;
+public class AnimalCreateDTO {
     private String description;
     private String mainPicture;
     private String secondPicture;
@@ -18,20 +16,7 @@ public class Animal {
     private double price;
     private int age;
 
-    public Animal() {
-    }
-
-    public Animal(UUID uuid, String description, String mainPicture, String secondPicture, String thirdPicture, String fourthPicture, Category category, Specie specie, double price, int age) {
-        this.uuid = uuid;
-        this.description = description;
-        this.mainPicture = mainPicture;
-        this.secondPicture = secondPicture;
-        this.thirdPicture = thirdPicture;
-        this.fourthPicture = fourthPicture;
-        this.category = category;
-        this.specie = specie;
-        this.price = price;
-        this.age = age;
+    public AnimalCreateDTO() {
     }
 
     public String getDescription() {
@@ -46,32 +31,32 @@ public class Animal {
         return mainPicture;
     }
 
-    public void setMainPicture(String url) {
-        this.mainPicture = url;
+    public void setMainPicture(String mainPicture) {
+        this.mainPicture = mainPicture;
     }
 
     public String getSecondPicture() {
         return secondPicture;
     }
 
-    public void setSecondPicture(String url) {
-        this.secondPicture = url;
+    public void setSecondPicture(String secondPicture) {
+        this.secondPicture = secondPicture;
     }
 
     public String getThirdPicture() {
         return thirdPicture;
     }
 
-    public void setThirdPicture(String url) {
-        this.thirdPicture = url;
+    public void setThirdPicture(String thirdPicture) {
+        this.thirdPicture = thirdPicture;
     }
 
     public String getFourthPicture() {
         return fourthPicture;
     }
 
-    public void setFourthPicture(String url) {
-        this.fourthPicture = url;
+    public void setFourthPicture(String fourthPicture) {
+        this.fourthPicture = fourthPicture;
     }
 
     public Category getCategory() {
@@ -106,32 +91,23 @@ public class Animal {
         this.age = age;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Animal animal = (Animal) o;
-        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(uuid, animal.uuid) && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && category == animal.category && specie == animal.specie;
+        AnimalCreateDTO that = (AnimalCreateDTO) o;
+        return Double.compare(that.price, price) == 0 && age == that.age && Objects.equals(description, that.description) && Objects.equals(mainPicture, that.mainPicture) && Objects.equals(secondPicture, that.secondPicture) && Objects.equals(thirdPicture, that.thirdPicture) && Objects.equals(fourthPicture, that.fourthPicture) && category == that.category && specie == that.specie;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
+        return Objects.hash(description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
     }
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "uuid=" + uuid +
-                ", description='" + description + '\'' +
+        return "AnimalCreateDTO{" +
+                "description='" + description + '\'' +
                 ", mainPicture='" + mainPicture + '\'' +
                 ", secondPicture='" + secondPicture + '\'' +
                 ", thirdPicture='" + thirdPicture + '\'' +
