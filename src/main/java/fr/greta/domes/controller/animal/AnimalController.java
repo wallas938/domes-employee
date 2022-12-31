@@ -2,7 +2,7 @@ package fr.greta.domes.controller.animal;
 
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.controller.service.AnimalService;
-import fr.greta.domes.model.Animal;
+import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.Model;
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.enums.Category;

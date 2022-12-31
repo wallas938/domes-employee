@@ -2,7 +2,7 @@ package fr.greta.domes.controller.animal;
 
 import fr.greta.domes.Main;
 import fr.greta.domes.controller.NavigationController;
-import fr.greta.domes.model.Animal;
+import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.Navigation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
