@@ -2,6 +2,7 @@ package fr.greta.domes.controller.animal;
 
 import fr.greta.domes.Main;
 import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.Navigation;
 import javafx.fxml.FXML;
@@ -51,6 +52,15 @@ public class AnimalDetailController implements Initializable {
         });
     }
 
+    /*
+    * Methods
+    * */
+
+    public void showEditForm() {
+        AnimalFormController.setAnimalData(currentAnimal);
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
+//        Model.getInstance().getViewFactory().getAnimalFormView();
+    }
     public void setFields(Animal currentAnimal) {
         setAnimalRef(currentAnimal.getUuid().toString());
         setAge(currentAnimal.getAge());
@@ -67,6 +77,9 @@ public class AnimalDetailController implements Initializable {
         currentAnimal = animal;
     }
 
+    /*
+    * Setters and getters
+    * */
     public String getAnimalRef() {
         return animalRef.getText();
     }
@@ -147,6 +160,9 @@ public class AnimalDetailController implements Initializable {
         this.fourthImage.setImage(pictureUrlHandler(url));
     }
 
+    /*
+    * Private utils
+    * */
     private Image pictureUrlHandler(String imageUrl) {
         Image image;
         try {

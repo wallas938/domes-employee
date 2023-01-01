@@ -126,12 +126,13 @@ public class AnimalController implements Initializable {
 
     private void showAnimalDetail() {
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
-        Model.getInstance().getViewFactory().getAnimalDetailView();
+//        Model.getInstance().getViewFactory().getAnimalDetailView();
     }
 
     private void showAnimalForm() {
+        AnimalFormController.setAnimalData(null);
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
-        Model.getInstance().getViewFactory().getAnimalFormView();
+//        Model.getInstance().getViewFactory().getAnimalFormView();
     }
 
     public void setPriceFieldsVisibility(boolean status) {
