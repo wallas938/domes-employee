@@ -15,7 +15,7 @@
          <Label fx:id="animalRef" alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="295.0" styleClass="txt-body" text="value" textAlignment="RIGHT" />
       </children>
    </HBox>
-   <Button fx:id="editButton" layoutX="543.0" layoutY="427.0" mnemonicParsing="false" text="Modifier">
+   <Button fx:id="editButton" layoutX="543.0" layoutY="427.0" mnemonicParsing="false" onAction="#showEditForm" text="Modifier">
       <styleClass>
          <String fx:value="edit" />
          <String fx:value="cursor" />
