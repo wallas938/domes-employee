@@ -31,7 +31,7 @@
      <Label fx:id="maxAgeLabel" layoutX="370.0" layoutY="124.0" text="max :" />
      <TextField fx:id="maxAgeValue" layoutX="404.0" layoutY="122.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="40.0" styleClass="input" />
      <ChoiceBox fx:id="byCategory" layoutX="60.0" layoutY="149.0" prefWidth="150.0" />
-     <ChoiceBox fx:id="bySpecie" layoutX="285.0" layoutY="149.0" prefWidth="150.0" />
+     <ChoiceBox fx:id="bySpecie" layoutX="60.0" layoutY="192.0" prefWidth="150.0" />
    <Button fx:id="filterButton" layoutX="498.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="cursor" text="Rechercher" />
    <Label layoutX="93.0" layoutY="92.0" text="Prix" />
    <Label layoutX="318.0" layoutY="92.0" text="Age" />

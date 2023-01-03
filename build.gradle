@@ -42,6 +42,12 @@ dependencies {
         exclude(group: 'org.openjfx')
     }
 
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+
+
     // https://mvnrepository.com/artifact/de.jensd/fontawesomefx
     implementation group: 'de.jensd', name: 'fontawesomefx-fontawesome', version: '4.7.0-9.1.2'
     //implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')

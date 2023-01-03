@@ -1,7 +1,7 @@
 package fr.greta.domes.model.animal;
 
-import fr.greta.domes.model.enums.Category;
-import fr.greta.domes.model.enums.Specie;
+import fr.greta.domes.model.category.Category;
+import fr.greta.domes.model.specie.Specie;
 
 import java.util.Objects;
 
@@ -91,31 +91,5 @@ public class AnimalCreateDTO {
         this.age = age;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AnimalCreateDTO that = (AnimalCreateDTO) o;
-        return Double.compare(that.price, price) == 0 && age == that.age && Objects.equals(description, that.description) && Objects.equals(mainPicture, that.mainPicture) && Objects.equals(secondPicture, that.secondPicture) && Objects.equals(thirdPicture, that.thirdPicture) && Objects.equals(fourthPicture, that.fourthPicture) && category == that.category && specie == that.specie;
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
-    }
-
-    @Override
-    public String toString() {
-        return "AnimalCreateDTO{" +
-                "description='" + description + '\'' +
-                ", mainPicture='" + mainPicture + '\'' +
-                ", secondPicture='" + secondPicture + '\'' +
-                ", thirdPicture='" + thirdPicture + '\'' +
-                ", fourthPicture='" + fourthPicture + '\'' +
-                ", category=" + category +
-                ", specie=" + specie +
-                ", price=" + price +
-                ", age=" + age +
-                '}';
-    }
 }
