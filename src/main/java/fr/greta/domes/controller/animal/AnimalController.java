@@ -1,23 +1,25 @@
 package fr.greta.domes.controller.animal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.controller.NavigationController;
-import fr.greta.domes.controller.service.AnimalService;
+import fr.greta.domes.model.category.Category;
 import fr.greta.domes.model.animal.Animal;
-import fr.greta.domes.model.Model;
+
 import fr.greta.domes.model.Navigation;
-import fr.greta.domes.model.enums.Category;
-import fr.greta.domes.model.enums.Specie;
+import fr.greta.domes.model.specie.Specie;
+import fr.greta.domes.service.CategoryService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import okhttp3.*;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 
 public class AnimalController implements Initializable {
     @FXML
@@ -48,6 +50,8 @@ public class AnimalController implements Initializable {
     private ChoiceBox<String> byCategory;
     @FXML
     private ChoiceBox<String> bySpecie;
+    private Category filterCurrentCategory;
+    private Specie filterCurrentSpecie;
     @FXML
     private Button filterButton;
     @FXML
@@ -57,12 +61,14 @@ public class AnimalController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initFilterValues();
+        initFilterFields();
+
+
         initTableView();
 
         /*
-        * Keep at the last position
-        * */
+         * Keep at the last position
+         * */
         initEventListeners();
     }
 
@@ -70,28 +76,131 @@ public class AnimalController implements Initializable {
         addAnimalButton.setOnMouseClicked(event -> {
             showAnimalForm();
         });
+
+        byCategory.setOnAction(event -> {
+            onChoiceBoxCategoriesChange();
+        });
     }
 
-    private void initFilterValues() {
+    private void onChoiceBoxCategoriesChange() {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species?categoryName=%s", byCategory.getValue())).build();
+
+        // Reset old values
+        bySpecie.getItems().clear();
+
+        // Init ChoiceBox "TOUTES" value
+        bySpecie.getItems().add("TOUTES");
+
+        Platform.runLater(() -> {
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    updateChoiceBoxSpeciesValues(response);
+                }
+            });
+        });
+    }
+    private void onChoiceBoxSpeciesChange() {
+        OkHttpClient client = new OkHttpClient();
+        // FETCH animals by filters - complete request url
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/", byCategory.getValue())).build();
+
+    }
+
+    private void updateChoiceBoxSpeciesValues(Response response) {
+        Platform.runLater(() -> {
+            // Update UI here
+            ObjectMapper objectMapper = new ObjectMapper();
+            ResponseBody responseBody = response.body();
+            try {
+                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
+
+                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
+
+                List<String> speciesNames = species.stream().map(specie -> specie.getName()).toList();
+
+                bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void updateChoiceBoxCategoriesValues() {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder().url("http://localhost:8081/api/categories").build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Platform.runLater(() -> {
+                    // Update UI here
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    ResponseBody responseBody = response.body();
+                    try {
+                        CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Category.class);
+
+                        List<Category> categories = objectMapper.readValue(responseBody.byteStream(), listType);
+
+                        List<String> categoriesNames = categories.stream().map(category -> category.getName()).toList();
+
+                        byCategory.getItems().addAll(FXCollections.observableList(categoriesNames));
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        });
+    }
+
+    private void initFilterFields() {
         setPriceFieldsVisibility(false);
+
         setAgeFieldsVisibility(false);
 
-        byCategory.getItems().addAll(AnimalService.categories());
-        bySpecie.getItems().addAll(AnimalService.categories());
+        firstChoiceBoxesInit();
     }
-    private void initTableView() {
-        ObservableList<Animal> animals = FXCollections.observableList(
-                List.of(
-                        new Animal(UUID.randomUUID(), null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, Category.REPTILE, Specie.Alligator_Snapping_Turtle, 20.20, 40),
-                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Aldabra_Tortoise, 200.20, 18),
-                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.American_Alligator, 120.20, 24),
-                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Armenian_Viper, 40.20, 32),
-                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Ball_Python, 90.20, 20),
-                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Boelen_Python, 80.20, 7)
-                )
-        );
 
-        animalsTable.setItems(animals);
+    private void firstChoiceBoxesInit() {
+        byCategory.getItems().add("TOUTES");
+        bySpecie.getItems().add("TOUTES");
+
+        bySpecie.setValue("TOUTES");
+        byCategory.setValue("TOUTES");
+
+        // Update category choiceBox values
+        updateChoiceBoxCategoriesValues();
+
+    }
+
+    private void initTableView() {
+//        ObservableList<Animal> animals = FXCollections.observableList(
+//                List.of(
+//                        new Animal(UUID.randomUUID(), null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, Category.REPTILE, Specie.Alligator_Snapping_Turtle, 20.20, 40),
+//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Aldabra_Tortoise, 200.20, 18),
+//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.American_Alligator, 120.20, 24),
+//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Armenian_Viper, 40.20, 32),
+//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Ball_Python, 90.20, 20),
+//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Boelen_Python, 80.20, 7)
+//                )
+//        );
+//
+//        animalsTable.setItems(animals);
 
         TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
         refColumn.setCellValueFactory(new PropertyValueFactory<>("uuid"));

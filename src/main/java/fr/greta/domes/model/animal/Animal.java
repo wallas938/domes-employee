@@ -1,7 +1,7 @@
 package fr.greta.domes.model.animal;
 
-import fr.greta.domes.model.enums.Category;
-import fr.greta.domes.model.enums.Specie;
+import fr.greta.domes.model.category.Category;
+import fr.greta.domes.model.specie.Specie;
 
 import java.util.Objects;
 import java.util.UUID;

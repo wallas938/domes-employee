@@ -88,7 +88,6 @@ public class NavigationController implements Initializable {
     }
 
     public static void setCurrentNavigation(Navigation navigation) {
-        System.out.println(navigation);
         currentNavigation.setValue(navigation);
     }
 }
