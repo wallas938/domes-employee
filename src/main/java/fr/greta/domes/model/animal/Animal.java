@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Animal {
-    private UUID uuid;
+    private UUID id;
     private String description;
     private String mainPicture;
     private String secondPicture;
@@ -21,8 +21,8 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(UUID uuid, String description, String mainPicture, String secondPicture, String thirdPicture, String fourthPicture, Category category, Specie specie, double price, int age) {
-        this.uuid = uuid;
+    public Animal(UUID id, String description, String mainPicture, String secondPicture, String thirdPicture, String fourthPicture, Category category, Specie specie, double price, int age) {
+        this.id = id;
         this.description = description;
         this.mainPicture = mainPicture;
         this.secondPicture = secondPicture;
@@ -106,12 +106,12 @@ public class Animal {
         this.age = age;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public UUID getId() {
+        return id;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override
@@ -119,18 +119,18 @@ public class Animal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(uuid, animal.uuid) && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && category == animal.category && specie == animal.specie;
+        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(id, animal.id) && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && category == animal.category && specie == animal.specie;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
+        return Objects.hash(id, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
     }
 
     @Override
     public String toString() {
         return "Animal{" +
-                "uuid=" + uuid +
+                "id=" + id +
                 ", description='" + description + '\'' +
                 ", mainPicture='" + mainPicture + '\'' +
                 ", secondPicture='" + secondPicture + '\'' +

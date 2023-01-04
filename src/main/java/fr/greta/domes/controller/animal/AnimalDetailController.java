@@ -2,7 +2,6 @@ package fr.greta.domes.controller.animal;
 
 import fr.greta.domes.Main;
 import fr.greta.domes.controller.NavigationController;
-import fr.greta.domes.model.Model;
 import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.Navigation;
 import javafx.fxml.FXML;
@@ -62,15 +61,15 @@ public class AnimalDetailController implements Initializable {
 //        Model.getInstance().getViewFactory().getAnimalFormView();
     }
     public void setFields(Animal currentAnimal) {
-        setAnimalRef(currentAnimal.getUuid().toString());
+        setAnimalRef(currentAnimal.getId().toString());
         setAge(currentAnimal.getAge());
         setPrice(currentAnimal.getPrice());
         setMainPicture(currentAnimal.getMainPicture());
         setSecondImage(currentAnimal.getSecondPicture());
         setThirdImage(currentAnimal.getThirdPicture());
         setFourthImage(currentAnimal.getFourthPicture());
-        setCategory(currentAnimal.getCategory().toString());
-        setSpecie(currentAnimal.getSpecie().toString());
+        setCategory(currentAnimal.getCategory().getName());
+        setSpecie(currentAnimal.getSpecie().getName());
     }
 
     public static void setCurrentAnimal(Animal animal) {

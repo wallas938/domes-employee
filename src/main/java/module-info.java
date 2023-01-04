@@ -19,8 +19,10 @@ module fr.greta.domes {
     opens fr.greta.domes.model.category to javafx.base;
     opens fr.greta.domes.model.specie to javafx.base;
     opens fr.greta.domes.model.animal to javafx.base;
+
     exports fr.greta.domes.model.category to com.fasterxml.jackson.databind;
     exports fr.greta.domes.model.specie to com.fasterxml.jackson.databind;
+    exports fr.greta.domes.model.animal to com.fasterxml.jackson.databind;
 
     exports fr.greta.domes;
 
