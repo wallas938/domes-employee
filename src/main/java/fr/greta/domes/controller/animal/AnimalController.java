@@ -8,8 +8,8 @@ import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.specie.Specie;
-import fr.greta.domes.service.CategoryService;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,6 +70,8 @@ public class AnimalController implements Initializable {
          * Keep at the last position
          * */
         initEventListeners();
+
+        getAllAnimals();
     }
 
     private void initEventListeners() {
@@ -112,7 +114,8 @@ public class AnimalController implements Initializable {
         Request request = new Request.Builder().url(String.format("http://localhost:8081/api/", byCategory.getValue())).build();
 
     }
-
+    // Fetch All Animals
+    private void getAllAnimals() {}
     private void updateChoiceBoxSpeciesValues(Response response) {
         Platform.runLater(() -> {
             // Update UI here
@@ -200,37 +203,63 @@ public class AnimalController implements Initializable {
 //                )
 //        );
 //
-//        animalsTable.setItems(animals);
+//
+        OkHttpClient client = new OkHttpClient();
+        // FETCH animals by filters - complete request url
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals", byCategory.getValue())).build();
 
-        TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
-        refColumn.setCellValueFactory(new PropertyValueFactory<>("uuid"));
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
 
-        TableColumn<Animal, Integer> categoryColumn = new TableColumn<>("category");
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ObjectMapper objectMapper = new ObjectMapper();
+                ResponseBody responseBody = response.body();
 
-        TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
-        specieColumn.setCellValueFactory(new PropertyValueFactory<>("specie"));
+                try {
+                    CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Animal.class);
 
-        TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+                    List<Animal> animals = objectMapper.readValue(responseBody.byteStream(), listType);
+                    Platform.runLater(() -> {
+                        animalsTable.setItems(FXCollections.observableList(animals));
+                        TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
+                        refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+                        TableColumn<Animal, String> categoryColumn = new TableColumn<>("category");
+                        categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCategory().getName()));
 
-        animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
+                        TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
+                        specieColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSpecie().getName()));
 
-        animalsTable.setRowFactory(param -> {
-            TableRow<Animal> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
+                        TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
+                        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-                if (!row.isEmpty()) {
-                    Animal animal = row.getItem();
-                    AnimalDetailController.setCurrentAnimal(animal);
-                    showAnimalDetail();
+                        TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
+                        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+
+                        animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
+
+                        animalsTable.setRowFactory(param -> {
+                            TableRow<Animal> row = new TableRow<>();
+                            row.setOnMouseClicked(event -> {
+
+                                if (!row.isEmpty()) {
+                                    Animal animal = row.getItem();
+                                    AnimalDetailController.setCurrentAnimal(animal);
+                                    showAnimalDetail();
+                                }
+                            });
+                            return row;
+                        });
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            });
-            return row;
+            }
         });
+
     }
 
     private void showAnimalDetail() {
