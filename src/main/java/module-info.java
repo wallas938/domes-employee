@@ -23,6 +23,7 @@ module fr.greta.domes {
     exports fr.greta.domes.model.category to com.fasterxml.jackson.databind;
     exports fr.greta.domes.model.specie to com.fasterxml.jackson.databind;
     exports fr.greta.domes.model.animal to com.fasterxml.jackson.databind;
+    exports fr.greta.domes.model to com.fasterxml.jackson.databind;
 
     exports fr.greta.domes;
 
