@@ -3,6 +3,7 @@ package fr.greta.domes.controller.animal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.model.animal.AnimalPage;
 import fr.greta.domes.model.category.Category;
 import fr.greta.domes.model.animal.Animal;
 
@@ -13,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
@@ -22,6 +24,14 @@ import java.net.URL;
 import java.util.*;
 
 public class AnimalController implements Initializable {
+    @FXML
+    private Pagination pagination;
+    @FXML
+    private Button goToPage;
+    @FXML
+    private TextField pageNumberField;
+    @FXML
+    private MenuButton selectSizeValue;
     @FXML
     private Button addAnimalButton;
     @FXML
@@ -54,27 +64,22 @@ public class AnimalController implements Initializable {
     private Specie filterCurrentSpecie;
     @FXML
     private Button filterButton;
-    @FXML
-    private MenuButton selectPageNumber;
-    @FXML
-    private MenuButton selectSizeValue;
+
+    private MenuItem size15 = new MenuItem("15");
+    private MenuItem size25 = new MenuItem("25");
+    private MenuItem size50 = new MenuItem("50");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initFilterFields();
 
-
         initTableView();
 
-        /*
-         * Keep at the last position
-         * */
         initEventListeners();
-
-        getAllAnimals();
     }
 
     private void initEventListeners() {
+
         addAnimalButton.setOnMouseClicked(event -> {
             showAnimalForm();
         });
@@ -82,12 +87,50 @@ public class AnimalController implements Initializable {
         byCategory.setOnAction(event -> {
             onChoiceBoxCategoriesChange();
         });
+        /*
+         * Animal Page size init
+         * */
+        selectSizeValue.getItems().addAll(size15, size25, size50);
+
+        selectSizeValue.setText(size15.getText());
+
+        /*
+         * Size values event init
+         * */
+        size15.setOnAction(event -> {
+            updateTableView(Integer.parseInt(size15.getText()), numberParser(pageNumberField.getText()));
+            selectSizeValue.setText(String.valueOf(numberParser(size15.getText())));
+        });
+        size25.setOnAction(event -> {
+            updateTableView(Integer.parseInt(size25.getText()), numberParser(pageNumberField.getText()));
+            selectSizeValue.setText(String.valueOf(numberParser(size25.getText())));
+        });
+        size50.setOnAction(event -> {
+            updateTableView(Integer.parseInt(size50.getText()), numberParser(pageNumberField.getText()));
+            selectSizeValue.setText(String.valueOf(numberParser(size50.getText())));
+        });
+
+        /*
+         * Paging search event init
+         * */
+        goToPage.setOnAction(event -> {
+            updateTableView(numberParser(selectSizeValue.getText()), numberParser(pageNumberField.getText()));
+        });
+    }
+
+    private void initTablePagination(int currentPage, int pageCount) {
+        pagination.setPageCount(pageCount);
+        pagination.setCurrentPageIndex(currentPage - 1);
+        pagination.lookupAll(".bullet-button").forEach(node -> {
+            System.out.println(node);
+        });
+
     }
 
     private void onChoiceBoxCategoriesChange() {
         OkHttpClient client = new OkHttpClient();
 
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species?categoryName=%s", byCategory.getValue())).build();
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species/categoryName?categoryName=%s", byCategory.getValue())).build();
 
         // Reset old values
         bySpecie.getItems().clear();
@@ -108,14 +151,7 @@ public class AnimalController implements Initializable {
             });
         });
     }
-    private void onChoiceBoxSpeciesChange() {
-        OkHttpClient client = new OkHttpClient();
-        // FETCH animals by filters - complete request url
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/", byCategory.getValue())).build();
 
-    }
-    // Fetch All Animals
-    private void getAllAnimals() {}
     private void updateChoiceBoxSpeciesValues(Response response) {
         Platform.runLater(() -> {
             // Update UI here
@@ -192,21 +228,9 @@ public class AnimalController implements Initializable {
     }
 
     private void initTableView() {
-//        ObservableList<Animal> animals = FXCollections.observableList(
-//                List.of(
-//                        new Animal(UUID.randomUUID(), null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, "https://www.webbox.co.uk/wp-content/uploads/2020/10/angry_cat_2-scaled.jpg", null, Category.REPTILE, Specie.Alligator_Snapping_Turtle, 20.20, 40),
-//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Aldabra_Tortoise, 200.20, 18),
-//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.American_Alligator, 120.20, 24),
-//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Armenian_Viper, 40.20, 32),
-//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Ball_Python, 90.20, 20),
-//                        new Animal(UUID.randomUUID(), null, null, null, null, null, Category.REPTILE, Specie.Boelen_Python, 80.20, 7)
-//                )
-//        );
-//
-//
         OkHttpClient client = new OkHttpClient();
         // FETCH animals by filters - complete request url
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals", byCategory.getValue())).build();
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals?pageNumber=%s&pageSize=%s", numberParser(pageNumberField.getText()), size15.getText())).build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -219,11 +243,21 @@ public class AnimalController implements Initializable {
                 ResponseBody responseBody = response.body();
 
                 try {
-                    CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Animal.class);
 
-                    List<Animal> animals = objectMapper.readValue(responseBody.byteStream(), listType);
+                    AnimalPage animals = objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+
                     Platform.runLater(() -> {
-                        animalsTable.setItems(FXCollections.observableList(animals));
+                        /*
+                         * Init Pagination values
+                         * */
+                        int byElements = animals.getTotalElements() > 0 ? animals.getTotalElements() : 1;
+
+                        initTablePagination(numberParser(pageNumberField.getText()), (animals.getTotalPages() - 1));
+
+                        /*
+                         * Init Table Columns
+                         * */
+
                         TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
                         refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -241,6 +275,9 @@ public class AnimalController implements Initializable {
 
                         animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
 
+                        /*
+                         * Set Events on each table rows
+                         * */
                         animalsTable.setRowFactory(param -> {
                             TableRow<Animal> row = new TableRow<>();
                             row.setOnMouseClicked(event -> {
@@ -253,6 +290,10 @@ public class AnimalController implements Initializable {
                             });
                             return row;
                         });
+                        animalsTable.setItems(FXCollections.observableList(animals.getAnimals()));
+
+//                        createPage(animals);
+
                     });
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -260,6 +301,76 @@ public class AnimalController implements Initializable {
             }
         });
 
+    }
+
+    private void updateTableView(int pageSize, int pageNumber) {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals?pageNumber=%s&pageSize=%s", pageNumber, pageSize)).build();
+
+        Platform.runLater(() -> {
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("error");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    ObjectMapper objectMapper = new ObjectMapper();
+
+                    ResponseBody responseBody = response.body();
+
+                    try {
+                        AnimalPage animals = objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+
+                        Platform.runLater(() -> {
+                            /*
+                             * Init Pagination values
+                             * */
+                            int byElements = animals.getTotalElements() > 0 ? animals.getTotalElements() : 1;
+
+                            initTablePagination(numberParser(pageNumberField.getText()), (animals.getTotalPages() - 1));
+                animalsTable.setItems(FXCollections.observableList(animals.getAnimals()));
+
+//                            createPage(animals);
+
+                        });
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+
+                    }
+                }
+            });
+        });
+    }
+
+//    private void createPage(AnimalPage animalPage) {
+//        pagination.setPageCount(animalPage.getAnimals().size());
+//        pagination.setCurrentPageIndex(numberParser(selectSizeValue.getText())-1);
+//        pagination.setPageFactory(new javafx.util.Callback<Integer, Node>() {
+//            public Node call(Integer pageIndex) {
+//                int fromIndex = (pageIndex * Integer.parseInt(selectSizeValue.getText()));
+//                int toIndex = Math.min(fromIndex + Integer.parseInt(selectSizeValue.getText()), animalPage.getAnimals().size());
+//                System.out.println(pageIndex);
+//                animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals().subList(fromIndex, toIndex)));
+//                return animalsTable;
+//            }
+//        });
+//    }
+
+    private int numberParser(String pageNumberString) {
+        int pageNumber = 1;
+        try {
+            // Gérer le type de la pageNumber
+            pageNumber = Integer.parseInt(pageNumberString);
+            return pageNumber;
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            pageNumber = 1;
+            pageNumberField.setText("1");
+            return pageNumber;
+        }
     }
 
     private void showAnimalDetail() {
@@ -303,27 +414,5 @@ public class AnimalController implements Initializable {
         }
         setAgeFieldsVisibility(false);
         return;
-    }
-
-    private boolean isPriceChecked() {
-        return priceCheckboxStatus.isSelected();
-    }
-
-    private boolean isAgeChecked() {
-        return ageCheckboxStatus.isSelected();
-    }
-
-    private int getMinPriceValue() {
-        if (Integer.parseInt(minPriceValue.getText()) >= 0 && Integer.parseInt(minPriceValue.getText()) < Integer.parseInt(maxPriceValue.getText())) {
-            return Integer.parseInt(minPriceValue.getText());
-        }
-        return 0;
-    }
-
-    private int getMaxPriceValue() {
-        if (Integer.parseInt(maxPriceValue.getText()) > 0 && Integer.parseInt(maxPriceValue.getText()) > Integer.parseInt(minPriceValue.getText())) {
-            return Integer.parseInt(maxPriceValue.getText());
-        }
-        return 1;
     }
 }
