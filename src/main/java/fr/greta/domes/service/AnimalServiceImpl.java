@@ -37,7 +37,7 @@ public class AnimalServiceImpl implements AnimalService {
                 asq.getSpecieName(),
                 asq.getPageNumber(),
                 asq.getPageSize())).build();
-        System.out.println(asq.getPageNumber());
+
         Call call = client.newCall(request);
 
         Response response = call.execute();
