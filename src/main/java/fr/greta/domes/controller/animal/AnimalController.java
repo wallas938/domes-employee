@@ -9,8 +9,7 @@ import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.specie.Specie;
-import fr.greta.domes.service.AnimalService;
-import fr.greta.domes.service.AnimalServiceImpl;
+import fr.greta.domes.service.*;
 import fr.greta.domes.utils.Utils;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -97,7 +96,11 @@ public class AnimalController implements Initializable {
         });
 
         byCategory.setOnAction(event -> {
-            onChoiceBoxCategoriesChange();
+            try {
+                onChoiceBoxCategoriesChange();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         /*
          * Animal Page size init
@@ -159,36 +162,25 @@ public class AnimalController implements Initializable {
         pagination.setCurrentPageIndex(currentPage - 1);
     }
 
-    private void onChoiceBoxCategoriesChange() {
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species/categoryName?categoryName=%s", byCategory.getValue())).build();
-
+    private void onChoiceBoxCategoriesChange() throws IOException {
+        SpecieService specieService = new SpecieServiceImpl();
         // Reset old values
         bySpecie.getItems().clear();
 
         // Init ChoiceBox "TOUTES" value
         bySpecie.getItems().add("TOUTES");
 
-        Platform.runLater(() -> {
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                }
+        Response response = specieService.getAll(byCategory.getValue());
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    updateChoiceBoxSpeciesValues(response);
-                }
-            });
-        });
+        updateChoiceBoxSpeciesValues(response);
     }
 
     private void updateChoiceBoxSpeciesValues(Response response) {
         Platform.runLater(() -> {
-            // Update UI here
             ObjectMapper objectMapper = new ObjectMapper();
+
             ResponseBody responseBody = response.body();
+
             try {
                 CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
 
@@ -206,37 +198,19 @@ public class AnimalController implements Initializable {
     }
 
     private void updateChoiceBoxCategoriesValues() {
-        OkHttpClient client = new OkHttpClient();
+        // Update UI here
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        Request request = new Request.Builder().url("http://localhost:8081/api/categories").build();
+        CategoryService categoryService = new CategoryServiceImpl();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        try {
+            Collection<String> categories = categoryService.getAll();
 
-            }
+            byCategory.getItems().addAll(FXCollections.observableList(categories.stream().toList()));
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Platform.runLater(() -> {
-                    // Update UI here
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    ResponseBody responseBody = response.body();
-                    try {
-                        CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Category.class);
-
-                        List<Category> categories = objectMapper.readValue(responseBody.byteStream(), listType);
-
-                        List<String> categoriesNames = categories.stream().map(category -> category.getName()).toList();
-
-                        byCategory.getItems().addAll(FXCollections.observableList(categoriesNames));
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
-        });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void initFilterFields() {
@@ -273,8 +247,6 @@ public class AnimalController implements Initializable {
         /*
          * Init Pagination values
          * */
-        int byElements = animalPage.getTotalElements() > 0 ? animalPage.getTotalElements() : 1;
-
         initTablePagination(Utils.intParser(pageNumberField.getText()), (animalPage.getTotalPages() - 1));
 
         /*
