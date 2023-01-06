@@ -9,6 +9,9 @@ import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.specie.Specie;
+import fr.greta.domes.service.AnimalService;
+import fr.greta.domes.service.AnimalServiceImpl;
+import fr.greta.domes.utils.Utils;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -62,18 +65,27 @@ public class AnimalController implements Initializable {
     private ChoiceBox<String> bySpecie;
     private Category filterCurrentCategory;
     private Specie filterCurrentSpecie;
+    private AnimalService animalService = new AnimalServiceImpl();
     @FXML
     private Button filterButton;
-
     private MenuItem size15 = new MenuItem("15");
     private MenuItem size25 = new MenuItem("25");
     private MenuItem size50 = new MenuItem("50");
+
+    private AnimalPage animalPage;
+
+    public AnimalController() {
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initFilterFields();
 
-        initTableView();
+        try {
+            initTableView();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         initEventListeners();
     }
@@ -98,33 +110,53 @@ public class AnimalController implements Initializable {
          * Size values event init
          * */
         size15.setOnAction(event -> {
-            updateTableView(Integer.parseInt(size15.getText()), numberParser(pageNumberField.getText()));
-            selectSizeValue.setText(String.valueOf(numberParser(size15.getText())));
+            try {
+                updateTableView(Integer.parseInt(size15.getText()), Utils.intParser(pageNumberField.getText()));
+                selectSizeValue.setText(String.valueOf(Utils.intParser(size15.getText())));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         size25.setOnAction(event -> {
-            updateTableView(Integer.parseInt(size25.getText()), numberParser(pageNumberField.getText()));
-            selectSizeValue.setText(String.valueOf(numberParser(size25.getText())));
+            try {
+                updateTableView(Integer.parseInt(size25.getText()), Utils.intParser(pageNumberField.getText()));
+                selectSizeValue.setText(String.valueOf(Utils.intParser(size25.getText())));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         size50.setOnAction(event -> {
-            updateTableView(Integer.parseInt(size50.getText()), numberParser(pageNumberField.getText()));
-            selectSizeValue.setText(String.valueOf(numberParser(size50.getText())));
+            try {
+                updateTableView(Integer.parseInt(size50.getText()), Utils.intParser(pageNumberField.getText()));
+                selectSizeValue.setText(String.valueOf(Utils.intParser(size50.getText())));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         /*
          * Paging search event init
          * */
         goToPage.setOnAction(event -> {
-            updateTableView(numberParser(selectSizeValue.getText()), numberParser(pageNumberField.getText()));
+            try {
+                updateTableView(Utils.intParser(selectSizeValue.getText()), Utils.intParser(pageNumberField.getText()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        filterButton.setOnAction(event -> {
+            try {
+                updateTableView(Utils.intParser(selectSizeValue.getText()), Utils.intParser(pageNumberField.getText()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
     private void initTablePagination(int currentPage, int pageCount) {
         pagination.setPageCount(pageCount);
         pagination.setCurrentPageIndex(currentPage - 1);
-        pagination.lookupAll(".bullet-button").forEach(node -> {
-            System.out.println(node);
-        });
-
     }
 
     private void onChoiceBoxCategoriesChange() {
@@ -227,161 +259,104 @@ public class AnimalController implements Initializable {
 
     }
 
-    private void initTableView() {
-        OkHttpClient client = new OkHttpClient();
-        // FETCH animals by filters - complete request url
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals?pageNumber=%s&pageSize=%s", numberParser(pageNumberField.getText()), size15.getText())).build();
+    private void initTableView() throws IOException {
+        AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
+                Utils.doubleParser(minPriceValue.getText()),
+                Utils.doubleParser(maxPriceValue.getText()),
+                Utils.intParser(minAgeValue.getText()),
+                Utils.intParser(maxAgeValue.getText()),
+                byCategory.getValue(),
+                bySpecie.getValue(),
+                Utils.intParser(pageNumberField.getText()),
+                Utils.intParser(size15.getText())));
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-            }
+        /*
+         * Init Pagination values
+         * */
+        int byElements = animalPage.getTotalElements() > 0 ? animalPage.getTotalElements() : 1;
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                ObjectMapper objectMapper = new ObjectMapper();
-                ResponseBody responseBody = response.body();
+        initTablePagination(Utils.intParser(pageNumberField.getText()), (animalPage.getTotalPages() - 1));
 
-                try {
+        /*
+         * Init Table Columns
+         * */
 
-                    AnimalPage animals = objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+        TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
+        refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-                    Platform.runLater(() -> {
-                        /*
-                         * Init Pagination values
-                         * */
-                        int byElements = animals.getTotalElements() > 0 ? animals.getTotalElements() : 1;
+        TableColumn<Animal, String> categoryColumn = new TableColumn<>("category");
+        categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCategory().getName()));
 
-                        initTablePagination(numberParser(pageNumberField.getText()), (animals.getTotalPages() - 1));
+        TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
+        specieColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSpecie().getName()));
 
-                        /*
-                         * Init Table Columns
-                         * */
+        TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-                        TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
-                        refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
-                        TableColumn<Animal, String> categoryColumn = new TableColumn<>("category");
-                        categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCategory().getName()));
+        animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
 
-                        TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
-                        specieColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSpecie().getName()));
+        /*
+         * Set Events on each table rows
+         * */
+        animalsTable.setRowFactory(param -> {
+            TableRow<Animal> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
 
-                        TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
-                        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-                        TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
-                        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
-
-                        animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
-
-                        /*
-                         * Set Events on each table rows
-                         * */
-                        animalsTable.setRowFactory(param -> {
-                            TableRow<Animal> row = new TableRow<>();
-                            row.setOnMouseClicked(event -> {
-
-                                if (!row.isEmpty()) {
-                                    Animal animal = row.getItem();
-                                    AnimalDetailController.setCurrentAnimal(animal);
-                                    showAnimalDetail();
-                                }
-                            });
-                            return row;
-                        });
-                        animalsTable.setItems(FXCollections.observableList(animals.getAnimals()));
-
-//                        createPage(animals);
-
-                    });
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (!row.isEmpty()) {
+                    Animal animal = row.getItem();
+                    AnimalDetailController.setCurrentAnimal(animal);
+                    showAnimalDetail();
                 }
-            }
+            });
+            return row;
         });
+        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
+//                        createPage(animals);
 
     }
 
-    private void updateTableView(int pageSize, int pageNumber) {
-        OkHttpClient client = new OkHttpClient();
+    private void updateTableView(int pageSize, int pageNumber) throws IOException {
+        double minPrice = Utils.doubleParser(minPriceValue.getText());
+        double maxPrice = Utils.doubleParser(maxPriceValue.getText());
+        int minAge = Utils.intParser(minAgeValue.getText());
+        int maxAge = Utils.intParser(maxAgeValue.getText());
+        AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
+                minPrice,
+                maxPrice,
+                minAge,
+                maxAge,
+                byCategory.getValue(),
+                bySpecie.getValue(),
+                pageNumber,
+                pageSize));
 
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/animals?pageNumber=%s&pageSize=%s", pageNumber, pageSize)).build();
+        minAgeValue.setText(String.valueOf(minAge));
+        maxAgeValue.setText(String.valueOf(maxAge == 1 ? 999 : maxAge));
+        minPriceValue.setText(String.valueOf(minPrice));
+        maxPriceValue.setText(String.valueOf(maxPrice == 1.0 ? 999.99 : maxPrice));
+        /*
+         * Init Pagination values
+         * */
+        int byElements = animalPage.getTotalElements() > 0 ? animalPage.getTotalElements() : 1;
 
-        Platform.runLater(() -> {
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    System.out.println("error");
-                }
+        initTablePagination(pageNumber, (animalPage.getTotalPages() - 1));
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    ObjectMapper objectMapper = new ObjectMapper();
-
-                    ResponseBody responseBody = response.body();
-
-                    try {
-                        AnimalPage animals = objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
-
-                        Platform.runLater(() -> {
-                            /*
-                             * Init Pagination values
-                             * */
-                            int byElements = animals.getTotalElements() > 0 ? animals.getTotalElements() : 1;
-
-                            initTablePagination(numberParser(pageNumberField.getText()), (animals.getTotalPages() - 1));
-                animalsTable.setItems(FXCollections.observableList(animals.getAnimals()));
+        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
 
 //                            createPage(animals);
 
-                        });
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-
-                    }
-                }
-            });
-        });
-    }
-
-//    private void createPage(AnimalPage animalPage) {
-//        pagination.setPageCount(animalPage.getAnimals().size());
-//        pagination.setCurrentPageIndex(numberParser(selectSizeValue.getText())-1);
-//        pagination.setPageFactory(new javafx.util.Callback<Integer, Node>() {
-//            public Node call(Integer pageIndex) {
-//                int fromIndex = (pageIndex * Integer.parseInt(selectSizeValue.getText()));
-//                int toIndex = Math.min(fromIndex + Integer.parseInt(selectSizeValue.getText()), animalPage.getAnimals().size());
-//                System.out.println(pageIndex);
-//                animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals().subList(fromIndex, toIndex)));
-//                return animalsTable;
-//            }
-//        });
-//    }
-
-    private int numberParser(String pageNumberString) {
-        int pageNumber = 1;
-        try {
-            // Gérer le type de la pageNumber
-            pageNumber = Integer.parseInt(pageNumberString);
-            return pageNumber;
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-            pageNumber = 1;
-            pageNumberField.setText("1");
-            return pageNumber;
-        }
     }
 
     private void showAnimalDetail() {
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
-//        Model.getInstance().getViewFactory().getAnimalDetailView();
     }
 
     private void showAnimalForm() {
         AnimalFormController.setAnimalData(null);
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
-//        Model.getInstance().getViewFactory().getAnimalFormView();
     }
 
     public void setPriceFieldsVisibility(boolean status) {
