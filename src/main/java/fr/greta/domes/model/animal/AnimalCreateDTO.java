@@ -1,18 +1,13 @@
 package fr.greta.domes.model.animal;
 
-import fr.greta.domes.model.category.Category;
-import fr.greta.domes.model.specie.Specie;
-
-import java.util.Objects;
-
 public class AnimalCreateDTO {
     private String description;
     private String mainPicture;
     private String secondPicture;
     private String thirdPicture;
     private String fourthPicture;
-    private Category category;
-    private Specie specie;
+    private String category;
+    private String specie;
     private double price;
     private int age;
 
@@ -59,19 +54,19 @@ public class AnimalCreateDTO {
         this.fourthPicture = fourthPicture;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public Specie getSpecie() {
+    public String getSpecie() {
         return specie;
     }
 
-    public void setSpecie(Specie specie) {
+    public void setSpecie(String specie) {
         this.specie = specie;
     }
 
@@ -91,5 +86,18 @@ public class AnimalCreateDTO {
         this.age = age;
     }
 
-
+    @Override
+    public String toString() {
+        return "AnimalCreateDTO{" +
+                "description='" + description + '\'' +
+                ", mainPicture='" + mainPicture + '\'' +
+                ", secondPicture='" + secondPicture + '\'' +
+                ", thirdPicture='" + thirdPicture + '\'' +
+                ", fourthPicture='" + fourthPicture + '\'' +
+                ", category='" + category + '\'' +
+                ", specie='" + specie + '\'' +
+                ", price=" + price +
+                ", age=" + age +
+                '}';
+    }
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.model.animal.AnimalPage;
-import fr.greta.domes.model.category.Category;
 import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.Navigation;
@@ -16,7 +15,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.*;
@@ -27,7 +25,7 @@ import java.util.*;
 
 public class AnimalController implements Initializable {
     @FXML
-    private Pagination pagination;
+    private Pagination pagination = new Pagination(15, 0);
     @FXML
     private Button goToPage;
     @FXML
@@ -37,7 +35,7 @@ public class AnimalController implements Initializable {
     @FXML
     private Button addAnimalButton;
     @FXML
-    private TableView<Animal> animalsTable;
+    private TableView<Animal> animalsTable = new TableView<>();
     @FXML
     private CheckBox priceCheckboxStatus;
     @FXML
@@ -62,16 +60,12 @@ public class AnimalController implements Initializable {
     private ChoiceBox<String> byCategory;
     @FXML
     private ChoiceBox<String> bySpecie;
-    private Category filterCurrentCategory;
-    private Specie filterCurrentSpecie;
-    private AnimalService animalService = new AnimalServiceImpl();
+    private final AnimalService animalService = new AnimalServiceImpl();
     @FXML
     private Button filterButton;
-    private MenuItem size15 = new MenuItem("15");
-    private MenuItem size25 = new MenuItem("25");
-    private MenuItem size50 = new MenuItem("50");
-
-    private AnimalPage animalPage;
+    private final MenuItem size15 = new MenuItem("15");
+    private final MenuItem size25 = new MenuItem("25");
+    private final MenuItem size50 = new MenuItem("50");
 
     public AnimalController() {
     }
@@ -91,9 +85,7 @@ public class AnimalController implements Initializable {
 
     private void initEventListeners() {
 
-        addAnimalButton.setOnMouseClicked(event -> {
-            showAnimalForm();
-        });
+        addAnimalButton.setOnMouseClicked(event -> showAnimalForm());
 
         byCategory.setOnAction(event -> {
             try {
@@ -184,9 +176,10 @@ public class AnimalController implements Initializable {
             try {
                 CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
 
+                assert responseBody != null;
                 List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
 
-                List<String> speciesNames = species.stream().map(specie -> specie.getName()).toList();
+                List<String> speciesNames = species.stream().map(Specie::getName).toList();
 
                 bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
 
@@ -198,8 +191,6 @@ public class AnimalController implements Initializable {
     }
 
     private void updateChoiceBoxCategoriesValues() {
-        // Update UI here
-        ObjectMapper objectMapper = new ObjectMapper();
 
         CategoryService categoryService = new CategoryServiceImpl();
 
@@ -233,21 +224,21 @@ public class AnimalController implements Initializable {
 
     }
 
-    private void initTableView() throws IOException {
+    public void initTableView() throws IOException {
         AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
-                Utils.doubleParser(minPriceValue.getText()),
-                Utils.doubleParser(maxPriceValue.getText()),
-                Utils.intParser(minAgeValue.getText()),
-                Utils.intParser(maxAgeValue.getText()),
-                byCategory.getValue(),
-                bySpecie.getValue(),
-                Utils.intParser(pageNumberField.getText()),
+                Utils.doubleParser("0"),
+                Utils.doubleParser("999"),
+                Utils.intParser("1"),
+                Utils.intParser("10"),
+                "TOUTES",
+                "TOUTES",
+                Utils.intParser("1"),
                 Utils.intParser(size15.getText())));
 
         /*
          * Init Pagination values
          * */
-        initTablePagination(Utils.intParser(pageNumberField.getText()), (animalPage.getTotalPages() - 1));
+        initTablePagination(Utils.intParser("1"), (animalPage.getTotalPages() - 1));
 
         /*
          * Init Table Columns
@@ -309,12 +300,8 @@ public class AnimalController implements Initializable {
         maxAgeValue.setText(String.valueOf(maxAge == 1 ? 999 : maxAge));
         minPriceValue.setText(String.valueOf(minPrice));
         maxPriceValue.setText(String.valueOf(maxPrice == 1.0 ? 999.99 : maxPrice));
-        /*
-         * Init Pagination values
-         * */
-        int byElements = animalPage.getTotalElements() > 0 ? animalPage.getTotalElements() : 1;
 
-        initTablePagination(pageNumber, (animalPage.getTotalPages() - 1));
+        initTablePagination(pageNumber, (animalPage.getTotalPages()));
 
         animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
 
@@ -351,7 +338,6 @@ public class AnimalController implements Initializable {
             return;
         }
         setPriceFieldsVisibility(false);
-        return;
     }
 
     public void toggleAgeCheckbox() {
@@ -360,6 +346,5 @@ public class AnimalController implements Initializable {
             return;
         }
         setAgeFieldsVisibility(false);
-        return;
     }
 }

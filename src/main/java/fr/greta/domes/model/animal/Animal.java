@@ -3,6 +3,7 @@ package fr.greta.domes.model.animal;
 import fr.greta.domes.model.category.Category;
 import fr.greta.domes.model.specie.Specie;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,21 +18,26 @@ public class Animal {
     private Specie specie;
     private double price;
     private int age;
+    private boolean sold;
+    private LocalDate registrationDate = LocalDate.now();
 
     public Animal() {
     }
 
-    public Animal(UUID id, String description, String mainPicture, String secondPicture, String thirdPicture, String fourthPicture, Category category, Specie specie, double price, int age) {
-        this.id = id;
-        this.description = description;
-        this.mainPicture = mainPicture;
-        this.secondPicture = secondPicture;
-        this.thirdPicture = thirdPicture;
-        this.fourthPicture = fourthPicture;
-        this.category = category;
-        this.specie = specie;
-        this.price = price;
-        this.age = age;
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 
     public String getDescription() {
@@ -119,12 +125,12 @@ public class Animal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return Double.compare(animal.price, price) == 0 && age == animal.age && Objects.equals(id, animal.id) && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && category == animal.category && specie == animal.specie;
+        return Double.compare(animal.price, price) == 0 && age == animal.age && sold == animal.sold && Objects.equals(description, animal.description) && Objects.equals(mainPicture, animal.mainPicture) && Objects.equals(secondPicture, animal.secondPicture) && Objects.equals(thirdPicture, animal.thirdPicture) && Objects.equals(fourthPicture, animal.fourthPicture) && Objects.equals(category, animal.category) && Objects.equals(specie, animal.specie);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age);
+        return Objects.hash(id, description, mainPicture, secondPicture, thirdPicture, fourthPicture, category, specie, price, age, sold);
     }
 
     @Override
@@ -140,6 +146,7 @@ public class Animal {
                 ", specie=" + specie +
                 ", price=" + price +
                 ", age=" + age +
+                ", sold=" + sold +
                 '}';
     }
 }

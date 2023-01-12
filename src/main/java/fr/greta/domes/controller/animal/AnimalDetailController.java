@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AnimalDetailController implements Initializable {
@@ -169,7 +170,7 @@ public class AnimalDetailController implements Initializable {
             return image;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            image = new Image(Main.class.getResource("images/no_picture.png").toString());
+            image = new Image(Objects.requireNonNull(Main.class.getResource("images/no_picture.png")).toString());
         }
         return image;
     }
