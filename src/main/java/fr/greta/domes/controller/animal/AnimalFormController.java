@@ -86,7 +86,7 @@ public class AnimalFormController implements Initializable {
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals(Navigation.TO_ANIMALS_FORM)) {
                 if (currentAnimal != null) {
-                    setFields(currentAnimal);
+                    initFormFields(currentAnimal);
                     save.setText("Modifier");
                 } else {
                     try {
@@ -102,14 +102,17 @@ public class AnimalFormController implements Initializable {
         initEventListeners();
 
         if (currentAnimal != null) {
-            setFields(currentAnimal);
+            initFormFields(currentAnimal);
             save.setText("Modifier");
         } else {
             save.setText("Enregistrer");
         }
     }
 
-    private void setFields(Animal animal) {
+    /*
+    *  First Initializations
+    * */
+    private void initFormFields(Animal animal) {
         ageField.setText(String.valueOf(animal.getAge()));
         priceField.setText(String.valueOf(animal.getPrice()));
         categoryField.setValue(animal.getCategory().getName());
@@ -226,6 +229,9 @@ public class AnimalFormController implements Initializable {
         });
     }
 
+    /*
+    * Actions
+    * */
     private void checkPictureUrlValidity(TextField field, Label errorLabel) {
         try {
             URL url = new URL(field.getText());
@@ -262,6 +268,10 @@ public class AnimalFormController implements Initializable {
             NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
         }
     }
+
+    /*
+    * View Updating
+    * */
 
     private void updateChoiceBoxCategoriesValues() {
         CategoryService categoryService = new CategoryServiceImpl();

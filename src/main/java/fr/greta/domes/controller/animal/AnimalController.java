@@ -83,6 +83,10 @@ public class AnimalController implements Initializable {
         initEventListeners();
     }
 
+    /*
+    * First initializations of Animal List Page
+    * */
+
     private void initEventListeners() {
 
         addAnimalButton.setOnMouseClicked(event -> showAnimalForm());
@@ -154,65 +158,15 @@ public class AnimalController implements Initializable {
         pagination.setCurrentPageIndex(currentPage - 1);
     }
 
-    private void onChoiceBoxCategoriesChange() throws IOException {
-        SpecieService specieService = new SpecieServiceImpl();
-        // Reset old values
-        bySpecie.getItems().clear();
-
-        // Init ChoiceBox "TOUTES" value
-        bySpecie.getItems().add("TOUTES");
-
-        Response response = specieService.getAll(byCategory.getValue());
-
-        updateChoiceBoxSpeciesValues(response);
-    }
-
-    private void updateChoiceBoxSpeciesValues(Response response) {
-        Platform.runLater(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            ResponseBody responseBody = response.body();
-
-            try {
-                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
-
-                assert responseBody != null;
-                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
-
-                List<String> speciesNames = species.stream().map(Specie::getName).toList();
-
-                bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    private void updateChoiceBoxCategoriesValues() {
-
-        CategoryService categoryService = new CategoryServiceImpl();
-
-        try {
-            Collection<String> categories = categoryService.getAll();
-
-            byCategory.getItems().addAll(FXCollections.observableList(categories.stream().toList()));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void initFilterFields() {
         setPriceFieldsVisibility(false);
 
         setAgeFieldsVisibility(false);
 
-        firstChoiceBoxesInit();
+        initChoiceBoxes();
     }
 
-    private void firstChoiceBoxesInit() {
+    private void initChoiceBoxes() {
         byCategory.getItems().add("TOUTES");
         bySpecie.getItems().add("TOUTES");
 
@@ -281,11 +235,29 @@ public class AnimalController implements Initializable {
 
     }
 
+    /*
+    * Navigation
+    * */
+
+    private void showAnimalDetail() {
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
+    }
+
+    private void showAnimalForm() {
+        AnimalFormController.setAnimalData(null);
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
+    }
+
+    /*
+    * Views Updating
+    * */
+
     private void updateTableView(int pageSize, int pageNumber) throws IOException {
-        double minPrice = Utils.doubleParser(minPriceValue.getText());
-        double maxPrice = Utils.doubleParser(maxPriceValue.getText());
-        int minAge = Utils.intParser(minAgeValue.getText());
-        int maxAge = Utils.intParser(maxAgeValue.getText());
+        double minPrice = Utils.doubleParser(minPriceValue.getText()) <= Utils.intParser(maxPriceValue.getText()) ? Utils.intParser(minPriceValue.getText()): 50;
+        double maxPrice = Utils.doubleParser(maxPriceValue.getText()) >= minPrice ? Utils.doubleParser(maxPriceValue.getText()): minPrice;
+        int minAge = Utils.intParser(minAgeValue.getText()) <= Utils.intParser(maxAgeValue.getText()) ? Utils.intParser(minAgeValue.getText()): 1;
+        int maxAge = Utils.intParser(maxAgeValue.getText()) >= minAge ? Utils.intParser(maxAgeValue.getText()): minAge;
+
         AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
                 minPrice,
                 maxPrice,
@@ -305,17 +277,56 @@ public class AnimalController implements Initializable {
 
         animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
 
-//                            createPage(animals);
-
     }
 
-    private void showAnimalDetail() {
-        NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
+    private void onChoiceBoxCategoriesChange() throws IOException {
+        SpecieService specieService = new SpecieServiceImpl();
+        // Reset old values
+        bySpecie.getItems().clear();
+
+        // Init ChoiceBox "TOUTES" value
+        bySpecie.getItems().add("TOUTES");
+
+        Response response = specieService.getAll(byCategory.getValue());
+
+        updateChoiceBoxSpeciesValues(response);
     }
 
-    private void showAnimalForm() {
-        AnimalFormController.setAnimalData(null);
-        NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
+    private void updateChoiceBoxSpeciesValues(Response response) {
+        Platform.runLater(() -> {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            ResponseBody responseBody = response.body();
+
+            try {
+                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
+
+                assert responseBody != null;
+                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
+
+                List<String> speciesNames = species.stream().map(Specie::getName).toList();
+
+                bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void updateChoiceBoxCategoriesValues() {
+
+        CategoryService categoryService = new CategoryServiceImpl();
+
+        try {
+            Collection<String> categories = categoryService.getAll();
+
+            byCategory.getItems().addAll(FXCollections.observableList(categories.stream().toList()));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setPriceFieldsVisibility(boolean status) {
