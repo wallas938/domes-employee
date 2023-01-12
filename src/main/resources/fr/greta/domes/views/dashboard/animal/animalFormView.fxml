@@ -26,18 +26,18 @@
          <Font size="16.0" />
       </font>
    </Label>
-   <TextField fx:id="fourthImageField" layoutX="180.0" layoutY="460.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
+   <TextField fx:id="fourthPictureField" layoutX="180.0" layoutY="460.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
    <TextField fx:id="ageField" layoutX="180.0" layoutY="80.0" prefHeight="30.0" prefWidth="90.0" styleClass="input" />
    <TextField fx:id="priceField" layoutX="180.0" layoutY="125.0" prefHeight="30.0" prefWidth="90.0" styleClass="input" />
    <TextArea fx:id="descriptionField" layoutX="180.0" layoutY="540.0" prefHeight="92.0" prefWidth="545.0" styleClass="input" />
    <ChoiceBox fx:id="categoryField" layoutX="180.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" />
    <ChoiceBox fx:id="specieField" layoutX="420.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" />
-   <Button fx:id="save" layoutX="500.0" layoutY="649.0" mnemonicParsing="false" onAction="#save" prefHeight="45.0" prefWidth="100.0" text="Enregistrer">
+   <Button fx:id="save" disable="true" layoutX="500.0" layoutY="649.0" mnemonicParsing="false" onAction="#save" prefHeight="45.0" prefWidth="100.0" text="Enregistrer">
       <styleClass>
          <String fx:value="cursor" />
          <String fx:value="save" />
       </styleClass></Button>
-   <Button fx:id="cancel" layoutX="625.0" layoutY="650.0" mnemonicParsing="false" onAction="#cancel" prefHeight="45.0" prefWidth="100.0" text="Annuler">
+   <Button fx:id="cancel" layoutX="625.0" layoutY="650.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Annuler">
       <styleClass>
          <String fx:value="cursor" />
          <String fx:value="cancel" />
@@ -53,16 +53,22 @@
          <Font size="16.0" />
       </font>
    </Label>
-   <TextField fx:id="secondImageField" layoutX="180.0" layoutY="310.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
+   <TextField fx:id="secondPictureField" layoutX="180.0" layoutY="310.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
    <Label layoutX="50.0" layoutY="230.0" text="Image principale">
       <font>
          <Font size="16.0" />
       </font>
    </Label>
-   <TextField fx:id="thirdImageField" layoutX="180.0" layoutY="390.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
+   <TextField fx:id="thirdPictureField" layoutX="180.0" layoutY="390.0" prefHeight="40.0" prefWidth="542.0" styleClass="input" />
    <Label layoutX="50.0" layoutY="542.0" text="Description :">
       <font>
          <Font size="16.0" />
       </font>
    </Label>
+   <Label fx:id="ageTextError" layoutX="280.0" layoutY="87.0" text="L'age d'un animal doit être au minimum supérieur ou égale à  1 an." textFill="RED" visible="false" />
+   <Label fx:id="priceTextError" layoutX="280.0" layoutY="129.0" text="Le prix minimum d'un produit doit être de 50euros " textFill="RED" visible="false" />
+   <Label fx:id="mainPictureTextError" layoutX="180.0" layoutY="270.0" text="lien de l'image invalide." textFill="RED" visible="false" />
+   <Label fx:id="secondPictureTextError" layoutX="180.0" layoutY="350.0" text="lien de l'image invalide." textFill="RED" visible="false" />
+   <Label fx:id="thirdPictureTextError" layoutX="180.0" layoutY="430.0" text="lien de l'image invalide." textFill="RED" visible="false" />
+   <Label fx:id="fourthTextError" layoutX="180.0" layoutY="500.0" text="lien de l'image invalide." textFill="RED" visible="false" />
 </AnchorPane>

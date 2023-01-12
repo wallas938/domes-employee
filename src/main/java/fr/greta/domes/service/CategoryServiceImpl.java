@@ -1,11 +1,8 @@
 package fr.greta.domes.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.model.category.Category;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -31,11 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Category.class);
 
+        assert responseBody != null;
         List<Category> categories = objectMapper.readValue(responseBody.byteStream(), listType);
 
-        List<String> categoriesNames = categories.stream().map(category -> category.getName()).toList();
-
-        return categoriesNames;
+        return categories.stream().map(Category::getName).toList();
     }
 
 }

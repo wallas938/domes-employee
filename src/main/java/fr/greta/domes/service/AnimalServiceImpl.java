@@ -3,6 +3,7 @@ package fr.greta.domes.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.greta.domes.controller.animal.AnimalController;
 import fr.greta.domes.controller.animal.AnimalSearchQuery;
+import fr.greta.domes.model.animal.AnimalCreateDTO;
 import fr.greta.domes.model.animal.AnimalPage;
 import okhttp3.*;
 
@@ -42,10 +43,50 @@ public class AnimalServiceImpl implements AnimalService {
 
         Response response = call.execute();
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         ResponseBody responseBody = response.body();
-        AnimalPage animalPage = objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
 
-        return animalPage;
+        assert responseBody != null;
+        return objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+    }
+
+    @Override
+    public void saveAnimal(AnimalCreateDTO animalCreateDTO) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "http://localhost:8081/api/animals";
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Create an object to serialize
+        AnimalCreateDTO dto = new AnimalCreateDTO();
+        dto.setDescription(animalCreateDTO.getDescription());
+        dto.setCategory(animalCreateDTO.getCategory());
+        dto.setSpecie(animalCreateDTO.getSpecie());
+        dto.setAge(animalCreateDTO.getAge());
+        dto.setPrice(animalCreateDTO.getPrice());
+        dto.setMainPicture(animalCreateDTO.getMainPicture());
+        dto.setSecondPicture(animalCreateDTO.getSecondPicture());
+        dto.setThirdPicture(animalCreateDTO.getThirdPicture());
+        dto.setFourthPicture(animalCreateDTO.getFourthPicture());
+
+        try {
+            // Convert the object to a JSON string
+            String jsonString = mapper.writeValueAsString(dto);
+
+            // Create the request body
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonString);
+
+            // Create the request
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+
+            // Send the request
+            Response response = client.newCall(request).execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

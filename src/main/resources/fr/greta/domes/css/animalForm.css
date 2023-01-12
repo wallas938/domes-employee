@@ -7,3 +7,12 @@
     -fx-background-color: #ccc;
     -fx-text-fill: white;
 }
+
+.input-error {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}
+
+.button-disabled {
+    -fx-background-color: #ccc;
+}

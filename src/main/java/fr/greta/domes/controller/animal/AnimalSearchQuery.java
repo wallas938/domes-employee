@@ -7,7 +7,6 @@ public class AnimalSearchQuery {
     private int maxAge;
     private String categoryName;
     private String specieName;
-
     private int pageNumber;
     private int pageSize;
 

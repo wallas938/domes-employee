@@ -1,6 +1,5 @@
 package fr.greta.domes.model.specie;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.greta.domes.model.category.Category;
 
 import java.util.Objects;
@@ -10,11 +9,6 @@ public class Specie {
     private UUID id;
     private String name;
     private Category category;
-
-    public Specie(String name, Category category) {
-        this.name = name;
-        this.category = category;
-    }
 
     public Specie() {
     }

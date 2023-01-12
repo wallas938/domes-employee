@@ -1,5 +1,4 @@
 package fr.greta.domes.controller;
-import fr.greta.domes.service.AnimalServiceImpl;
 import fr.greta.domes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

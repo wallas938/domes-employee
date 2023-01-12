@@ -1,10 +1,8 @@
 package fr.greta.domes.service;
 
-import fr.greta.domes.model.specie.Specie;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.util.Collection;
 
 public class SpecieServiceImpl implements SpecieService{
     @Override
@@ -16,8 +14,6 @@ public class SpecieServiceImpl implements SpecieService{
 
         Call call = client.newCall(request);
 
-        Response response = call.execute();
-
-        return response;
+        return call.execute();
     }
 }
