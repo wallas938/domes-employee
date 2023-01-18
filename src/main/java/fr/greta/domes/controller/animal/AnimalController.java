@@ -11,6 +11,8 @@ import fr.greta.domes.model.specie.Specie;
 import fr.greta.domes.service.*;
 import fr.greta.domes.utils.Utils;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,6 +26,10 @@ import java.net.URL;
 import java.util.*;
 
 public class AnimalController implements Initializable {
+    @FXML
+    private Label reloadMessage;
+    @FXML
+    private Button reloadButton;
     @FXML
     private Pagination pagination = new Pagination(15, 0);
     @FXML
@@ -60,12 +66,18 @@ public class AnimalController implements Initializable {
     private ChoiceBox<String> byCategory;
     @FXML
     private ChoiceBox<String> bySpecie;
-    private final AnimalService animalService = new AnimalServiceImpl();
     @FXML
     private Button filterButton;
+    @FXML
+    private final AnimalService animalService = new AnimalServiceImpl();
+
     private final MenuItem size15 = new MenuItem("15");
+
     private final MenuItem size25 = new MenuItem("25");
+
     private final MenuItem size50 = new MenuItem("50");
+
+    private static BooleanProperty reloadData = new SimpleBooleanProperty(false);
 
     public AnimalController() {
     }
@@ -73,7 +85,6 @@ public class AnimalController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initFilterFields();
-
         try {
             initTableView();
         } catch (IOException e) {
@@ -84,10 +95,23 @@ public class AnimalController implements Initializable {
     }
 
     /*
-    * First initializations of Animal List Page
-    * */
+     * First initializations of Animal List Page
+     * */
 
     private void initEventListeners() {
+
+        reloadButton.visibleProperty().bind(reloadData);
+
+        reloadMessage.visibleProperty().bind(reloadData);
+
+        reloadButton.setOnAction(event -> {
+            try {
+                updateTableView(Utils.intParser(selectSizeValue.getText()), Utils.intParser(pageNumberField.getText()));
+                setReloadData(false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         addAnimalButton.setOnMouseClicked(event -> showAnimalForm());
 
@@ -214,7 +238,6 @@ public class AnimalController implements Initializable {
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
         animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
-
         /*
          * Set Events on each table rows
          * */
@@ -230,16 +253,15 @@ public class AnimalController implements Initializable {
             });
             return row;
         });
-        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
-//                        createPage(animals);
 
+        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
     }
 
     /*
-    * Navigation
-    * */
+     * Navigation
+     * */
 
-    private void showAnimalDetail() {
+    public void showAnimalDetail() {
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMAL_DETAIL);
     }
 
@@ -249,14 +271,14 @@ public class AnimalController implements Initializable {
     }
 
     /*
-    * Views Updating
-    * */
+     * Views Updating
+     * */
 
     private void updateTableView(int pageSize, int pageNumber) throws IOException {
-        double minPrice = Utils.doubleParser(minPriceValue.getText()) <= Utils.intParser(maxPriceValue.getText()) ? Utils.intParser(minPriceValue.getText()): 50;
-        double maxPrice = Utils.doubleParser(maxPriceValue.getText()) >= minPrice ? Utils.doubleParser(maxPriceValue.getText()): minPrice;
-        int minAge = Utils.intParser(minAgeValue.getText()) <= Utils.intParser(maxAgeValue.getText()) ? Utils.intParser(minAgeValue.getText()): 1;
-        int maxAge = Utils.intParser(maxAgeValue.getText()) >= minAge ? Utils.intParser(maxAgeValue.getText()): minAge;
+        double minPrice = Utils.doubleParser(minPriceValue.getText()) <= Utils.intParser(maxPriceValue.getText()) ? Utils.intParser(minPriceValue.getText()) : 50;
+        double maxPrice = Utils.doubleParser(maxPriceValue.getText()) >= minPrice ? Utils.doubleParser(maxPriceValue.getText()) : minPrice;
+        int minAge = Utils.intParser(minAgeValue.getText()) <= Utils.intParser(maxAgeValue.getText()) ? Utils.intParser(minAgeValue.getText()) : 1;
+        int maxAge = Utils.intParser(maxAgeValue.getText()) >= minAge ? Utils.intParser(maxAgeValue.getText()) : minAge;
 
         AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
                 minPrice,
@@ -341,6 +363,10 @@ public class AnimalController implements Initializable {
         maxAgeValue.setVisible(status);
         minAgeLabel.setVisible(status);
         maxAgeLabel.setVisible(status);
+    }
+
+    public void setReloadData(boolean status) {
+        reloadData.setValue(status);
     }
 
     public void togglePriceCheckbox() {

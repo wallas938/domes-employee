@@ -41,6 +41,7 @@ public class AnimalDetailController implements Initializable {
     private ImageView thirdImage;
     @FXML
     private ImageView fourthImage;
+
     private static Animal currentAnimal;
 
     @Override
@@ -59,12 +60,12 @@ public class AnimalDetailController implements Initializable {
     public void showEditForm() {
         AnimalFormController.setAnimalData(currentAnimal);
         NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS_FORM);
-//        Model.getInstance().getViewFactory().getAnimalFormView();
     }
     public void setFields(Animal currentAnimal) {
         setAnimalRef(currentAnimal.getId().toString());
         setAge(currentAnimal.getAge());
         setPrice(currentAnimal.getPrice());
+        setDescription(currentAnimal.getDescription());
         setMainPicture(currentAnimal.getMainPicture());
         setSecondImage(currentAnimal.getSecondPicture());
         setThirdImage(currentAnimal.getThirdPicture());
