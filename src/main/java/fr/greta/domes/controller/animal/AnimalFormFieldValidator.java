@@ -13,11 +13,11 @@ public class AnimalFormFieldValidator {
     private final BooleanProperty isDescriptionValid = new SimpleBooleanProperty();
 
     public AnimalFormFieldValidator() {
-        setDescription(false);
-        setCategoryValid(false);
-        setSpecieValid(false);
-        setPriceValid(false);
-        setAgeValid(false);
+        setDescription(true);
+        setCategoryValid(true);
+        setSpecieValid(true);
+        setPriceValid(true);
+        setAgeValid(true);
     }
 
     public BooleanBinding isAnimalFormIsValid() {
@@ -25,7 +25,12 @@ public class AnimalFormFieldValidator {
         return getIsAgeValid()
                 .and(getIsPriceValid())
                 .and(getIsCategoryValid())
-                .and(getIsSpecieValid());
+                .and(getIsSpecieValid())
+                .and(getIsDescriptionValid());
+    }
+
+    public BooleanProperty getIsDescriptionValid() {
+        return isDescriptionValid;
     }
 
     public void setDescription(boolean status) {
@@ -62,6 +67,14 @@ public class AnimalFormFieldValidator {
 
     public void setSpecieValid(boolean status) {
         isSpecieValid.set(status);
+    }
+
+    public void resetData() {
+        setDescription(false);
+        setCategoryValid(false);
+        setSpecieValid(false);
+        setPriceValid(false);
+        setAgeValid(false);
     }
 
     @Override

@@ -8,6 +8,7 @@ import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.animal.AnimalCreateDTO;
+import fr.greta.domes.model.animal.AnimalEditDTO;
 import fr.greta.domes.model.specie.Specie;
 import fr.greta.domes.service.*;
 import javafx.application.Platform;
@@ -20,7 +21,6 @@ import okhttp3.ResponseBody;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -83,40 +83,38 @@ public class AnimalFormController implements Initializable {
          * For the first initialisation of the controller
          * */
 
+        checkIsEditMode();
+
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals(Navigation.TO_ANIMALS_FORM)) {
-                if (currentAnimal != null) {
-                    initFormFields(currentAnimal);
-                    save.setText("Modifier");
-                } else {
-                    try {
-                    save.setText("Enregistrer");
-                        resetFields();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                checkIsEditMode();
             }
         });
 
         initEventListeners();
-
-        if (currentAnimal != null) {
-            initFormFields(currentAnimal);
-            save.setText("Modifier");
-        } else {
-            save.setText("Enregistrer");
-        }
     }
 
     /*
-    *  First Initializations
-    * */
-    private void initFormFields(Animal animal) {
+     *  First Initializations
+     * */
+    private void initFormFields(Animal animal) throws IOException {
         ageField.setText(String.valueOf(animal.getAge()));
+        animalFormFieldValidator.setAgeValid(true);
+
         priceField.setText(String.valueOf(animal.getPrice()));
+        animalFormFieldValidator.setPriceValid(true);
+
         categoryField.setValue(animal.getCategory().getName());
+        animalFormFieldValidator.setCategoryValid(true);
+
+        onChoiceBoxCategoriesChange();
+
         specieField.setValue(animal.getSpecie().getName());
+        animalFormFieldValidator.setSpecieValid(true);
+
+        descriptionField.setText(animal.getDescription());
+        animalFormFieldValidator.setDescription(true);
+
         mainPictureField.setText(animal.getMainPicture());
         secondPictureField.setText(animal.getSecondPicture());
         thirdPictureField.setText(animal.getThirdPicture());
@@ -144,114 +142,124 @@ public class AnimalFormController implements Initializable {
 
     public void initRequiredFieldValidators() {
 
-        ageField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                try {
-                    int age = Integer.parseInt(ageField.getText());
-                    if (age > 0 && age <= 10) {
-                        ageField.getStyleClass().remove("input-error");
-                        ageTextError.setVisible(false);
-                        animalFormFieldValidator.setAgeValid(true);
-                    } else {
-                        ageField.getStyleClass().add("input-error");
-                        ageTextError.setVisible(true);
-                        animalFormFieldValidator.setAgeValid(false);
-                    }
-                } catch (NumberFormatException e) {
-                    ageField.getStyleClass().add("input-error");
+        ageField.textProperty().addListener(event -> {
+            try {
+                int age = Integer.parseInt(ageField.getText());
+                if (age > 0 && age <= 10) {
+                    ageTextError.setVisible(false);
+                    animalFormFieldValidator.setAgeValid(true);
+                } else {
                     ageTextError.setVisible(true);
                     animalFormFieldValidator.setAgeValid(false);
                 }
+            } catch (NumberFormatException e) {
+//                if(ageField.getText().trim().equals("")) {
+//                    ageTextError.setVisible(false);
+//                    animalFormFieldValidator.setAgeValid(true);
+//                    return;
+//                }
+                ageTextError.setVisible(true);
+                animalFormFieldValidator.setAgeValid(false);
             }
         });
 
-        priceField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                try {
-                    double price = Double.parseDouble(priceField.getText());
-                    if (price >= 50) {
-                        priceTextError.setVisible(false);
-                        priceField.getStyleClass().remove("input-error");
-                        animalFormFieldValidator.setPriceValid(true);
-                    } else {
-                        priceTextError.setVisible(true);
-                        priceField.getStyleClass().add("input-error");
-                        animalFormFieldValidator.setPriceValid(false);
-                    }
-                } catch (NumberFormatException e) {
+        priceField.textProperty().addListener(event -> {
+            try {
+                double price = Double.parseDouble(priceField.getText());
+                if (price >= 50) {
+                    priceTextError.setVisible(false);
+                    animalFormFieldValidator.setPriceValid(true);
+                } else {
                     priceTextError.setVisible(true);
-                    priceField.getStyleClass().add("input-error");
                     animalFormFieldValidator.setPriceValid(false);
                 }
+            } catch (NumberFormatException e) {
+//                if(priceField.getText().trim().equals("")) {
+//                    priceTextError.setVisible(false);
+//                    animalFormFieldValidator.setPriceValid(true);
+//                    return;
+//                }
+                priceTextError.setVisible(true);
+                animalFormFieldValidator.setPriceValid(false);
             }
         });
 
-        mainPictureField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                checkPictureUrlValidity(mainPictureField, mainPictureTextError);
+        /*
+        mainPictureField.textProperty().addListener(event -> {
+            checkPictureUrlValidity(mainPictureField, mainPictureTextError);
+        });
+
+        secondPictureField.textProperty().addListener(event -> {
+            checkPictureUrlValidity(secondPictureField, secondPictureTextError);
+        });
+
+        thirdPictureField.textProperty().addListener(event -> {
+            checkPictureUrlValidity(thirdPictureField, thirdPictureTextError);
+        });
+
+        fourthPictureField.textProperty().addListener(event -> {
+            checkPictureUrlValidity(fourthPictureField, fourthTextError);
+        });
+
+ */
+
+        categoryField.valueProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (categoryField.getValue() != null) {
+                animalFormFieldValidator.setCategoryValid(true);
+            } else {
+                animalFormFieldValidator.setCategoryValid(false);
             }
         });
 
-        secondPictureField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                checkPictureUrlValidity(secondPictureField, secondPictureTextError);
+        specieField.valueProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (specieField.getValue() != null) {
+                animalFormFieldValidator.setSpecieValid(true);
+            } else {
+                animalFormFieldValidator.setSpecieValid(false);
             }
         });
 
-        thirdPictureField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                checkPictureUrlValidity(thirdPictureField, thirdPictureTextError);
-            }
-        });
-
-        fourthPictureField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                checkPictureUrlValidity(fourthPictureField, fourthTextError);
-            }
-        });
-
-        categoryField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                animalFormFieldValidator.setCategoryValid(categoryField.getValue() != null);
-            }
-        });
-
-        specieField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                animalFormFieldValidator.setSpecieValid(specieField.getValue() != null);
-            }
-        });
-
-        descriptionField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (wasFocused) {
-                animalFormFieldValidator.setDescription(descriptionField.getText().length() <= 500);
-            }
-        });
+        descriptionField.textProperty().addListener(event -> animalFormFieldValidator.setDescription(descriptionField.getText().length() <= 500));
     }
 
     /*
-    * Actions
-    * */
-    private void checkPictureUrlValidity(TextField field, Label errorLabel) {
-        try {
-            URL url = new URL(field.getText());
-            URLConnection connection = url.openConnection();
-            connection.connect();
-            // The URL is valid
-            errorLabel.setVisible(false);
-            System.out.println("No image error");
-            field.getStyleClass().remove("input-error");
-        } catch (Exception e) {
-            System.out.println("Loading image error");
-            // The URL is invalid
-            errorLabel.setVisible(true);
-            field.getStyleClass().add("input-error");
+     * Actions
+     * */
+
+    private void checkIsEditMode() {
+        if (currentAnimal != null) {
+            try {
+                initFormFields(currentAnimal);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            save.setText("Modifier");
+        } else {
+            try {
+                resetFields();
+                save.setText("Enregistrer");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void save() throws IOException {
 
-        if (animalFormFieldValidator.isAnimalFormIsValid().get() || currentAnimal == null) {
+//    private void checkPictureUrlValidity(TextField field, Label errorLabel) {
+//        try {
+//            URL url = new URL(field.getText());
+//            URLConnection connection = url.openConnection();
+//            connection.connect();
+//            // The URL is valid
+//            errorLabel.setVisible(false);
+//        } catch (Exception e) {
+//            // The URL is invalid
+//            errorLabel.setVisible(true);
+//        }
+//    }
+
+    public void save() throws IOException {
+        if (animalFormFieldValidator.isAnimalFormIsValid().get() && currentAnimal == null) {
             AnimalCreateDTO animalCreateDTO = new AnimalCreateDTO();
             animalCreateDTO.setAge(Integer.parseInt(ageField.getText()));
             animalCreateDTO.setPrice(Double.parseDouble(priceField.getText()));
@@ -262,16 +270,32 @@ public class AnimalFormController implements Initializable {
             animalCreateDTO.setThirdPicture(thirdPictureField.getText());
             animalCreateDTO.setFourthPicture(fourthPictureField.getText());
             animalCreateDTO.setDescription(descriptionField.getText());
+
             animalService.saveAnimal(animalCreateDTO);
-            System.out.println("Animal submitted");
+
             animalController.initTableView();
+
             NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
+
+        } else if (animalFormFieldValidator.isAnimalFormIsValid().get() && currentAnimal != null) {
+            AnimalEditDTO dto = new AnimalEditDTO();
+            dto.setId(currentAnimal.getId().toString());
+            dto.setAge(Integer.parseInt(ageField.getText()));
+            dto.setPrice(Double.parseDouble(priceField.getText()));
+            dto.setCategory(categoryField.getValue());
+            dto.setSpecie(specieField.getValue());
+            dto.setMainPicture(mainPictureField.getText());
+            dto.setSecondPicture(secondPictureField.getText());
+            dto.setThirdPicture(thirdPictureField.getText());
+            dto.setFourthPicture(fourthPictureField.getText());
+            dto.setDescription(descriptionField.getText());
+            animalService.editAnimal(dto);
         }
     }
 
     /*
-    * View Updating
-    * */
+     * View Updating
+     * */
 
     private void updateChoiceBoxCategoriesValues() {
         CategoryService categoryService = new CategoryServiceImpl();
@@ -279,7 +303,7 @@ public class AnimalFormController implements Initializable {
         try {
             Collection<String> categories = categoryService.getAll();
 
-            categoryField.getItems().addAll(FXCollections.observableList(categories.stream().toList()));
+            categoryField.setItems(FXCollections.observableList(categories.stream().toList()));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -287,16 +311,21 @@ public class AnimalFormController implements Initializable {
     }
 
     public void resetFields() throws IOException {
-        ageField.setText("");
-        priceField.setText("");
-        mainPictureField.setText("");
-        secondPictureField.setText("");
-        thirdPictureField.setText("");
-        fourthPictureField.setText("");
+        priceField.clear();
+        ageField.clear();
+        descriptionField.clear();
+        mainPictureField.clear();
+        secondPictureField.clear();
+        thirdPictureField.clear();
+        fourthPictureField.clear();
+
+        animalFormFieldValidator.resetData();
 
         List<String> categories = (List<String>) categoryService.getAll();
 
         categoryField.setItems(FXCollections.observableList(categories));
+        specieField.getItems().clear();
+        specieField.setValue(null);
     }
 
     private void onChoiceBoxCategoriesChange() throws IOException {
