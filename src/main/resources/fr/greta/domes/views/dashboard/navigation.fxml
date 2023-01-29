@@ -25,31 +25,29 @@
          </VBox.margin>
          <Image url="@../../images/logo.png" />
       </ImageView>
-      <Button fx:id="toProducts" maxHeight="56.0" maxWidth="56.0" minHeight="56.0" minWidth="56.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" styleClass="nav-item">
+      <Button fx:id="toProducts" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
          <VBox.margin>
-            <Insets bottom="25.0" />
+            <Insets bottom="14.0" />
          </VBox.margin>
          <graphic>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
-               <image>
+            <ImageView fitHeight="50.0" fitWidth="50.0">
                   <Image url="@../../images/poducts_icon.png" />
-               </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="toClients" maxHeight="56.0" maxWidth="56.0" minHeight="56.0" minWidth="56.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" styleClass="nav-item">
+      <Button fx:id="toClients" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
          <graphic>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
+            <ImageView fitHeight="50.0" fitWidth="50.0">
                <Image url="@../../images/clients_icon.png" />
             </ImageView>
          </graphic>
          <VBox.margin>
-            <Insets bottom="25.0" />
+            <Insets bottom="14.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="toOrders" minHeight="56.0" minWidth="56.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" styleClass="nav-item">
+      <Button fx:id="toOrders" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
          <graphic>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
+            <ImageView fitHeight="50.0" fitWidth="50.0">
                <Image url="@../../images/order_icon.png" />
             </ImageView>
          </graphic>
@@ -57,22 +55,42 @@
             <Insets />
          </opaqueInsets>
          <VBox.margin>
-            <Insets bottom="134.0" />
+            <Insets bottom="14.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="toProfile" minHeight="56.0" minWidth="56.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" styleClass="nav-item">
+      <Button fx:id="toCategories" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
+         <VBox.margin>
+            <Insets bottom="14.0" />
+         </VBox.margin>
          <graphic>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
+            <ImageView fitHeight="58.0" fitWidth="58.0">
+                  <Image url="@../../images/category_icon.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="toPartners" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
+         <graphic>
+            <ImageView fitHeight="58.0" fitWidth="58.0">
+                  <Image url="@../../images/partners.png" />
+            </ImageView>
+         </graphic>
+         <VBox.margin>
+            <Insets bottom="126.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="toProfile" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0">
                <Image url="@../../images/profile_icon.png" />
             </ImageView>
          </graphic>
          <VBox.margin>
-            <Insets bottom="25.0" />
+            <Insets bottom="14.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="logout" minHeight="56.0" minWidth="56.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" styleClass="nav-item">
+      <Button fx:id="logout" maxHeight="48.0" maxWidth="48.0" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" styleClass="nav-item">
          <graphic>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
+            <ImageView fitHeight="50.0" fitWidth="50.0">
                <Image url="@../../images/logout.png" />
             </ImageView>
          </graphic>
