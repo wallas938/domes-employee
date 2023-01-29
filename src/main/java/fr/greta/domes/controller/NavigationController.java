@@ -3,6 +3,7 @@ package fr.greta.domes.controller;
 import fr.greta.domes.model.Navigation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
@@ -12,11 +13,20 @@ import java.util.ResourceBundle;
 public class NavigationController implements Initializable {
 
     private static final ObjectProperty<Navigation> currentNavigation = new SimpleObjectProperty<>();
-    public Button toProducts;
-    public Button toClients;
-    public Button toOrders;
-    public Button toProfile;
-    public Button logout;
+    @FXML
+    private Button toProducts;
+    @FXML
+    private Button toClients;
+    @FXML
+    private Button toOrders;
+    @FXML
+    private Button toProfile;
+    @FXML
+    private Button logout;
+    @FXML
+    private Button toPartners;
+    @FXML
+    private Button toCategories;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,6 +43,8 @@ public class NavigationController implements Initializable {
                     toOrders.getStyleClass().remove("nav-item-orders");
                     toClients.getStyleClass().remove("nav-item-clients");
                     toProfile.getStyleClass().remove("nav-item-profile");
+                    toPartners.getStyleClass().remove("nav-item-partners");
+                    toCategories.getStyleClass().remove("nav-item-categories");
                 }
                 case TO_CLIENTS -> {
                     if (!toClients.getStyleClass().contains("nav-item-clients"))
@@ -40,6 +52,8 @@ public class NavigationController implements Initializable {
                     toOrders.getStyleClass().remove("nav-item-orders");
                     toProducts.getStyleClass().remove("nav-item-products");
                     toProfile.getStyleClass().remove("nav-item-profile");
+                    toPartners.getStyleClass().remove("nav-item-partners");
+                    toCategories.getStyleClass().remove("nav-item-categories");
                 }
                 case TO_ORDERS -> {
                     if (!toOrders.getStyleClass().contains("nav-item-orders"))
@@ -47,6 +61,8 @@ public class NavigationController implements Initializable {
                     toProducts.getStyleClass().remove("nav-item-products");
                     toClients.getStyleClass().remove("nav-item-clients");
                     toProfile.getStyleClass().remove("nav-item-profile");
+                    toPartners.getStyleClass().remove("nav-item-partners");
+                    toCategories.getStyleClass().remove("nav-item-categories");
                 }
                 case TO_PROFILE -> {
                     if (!toProfile.getStyleClass().contains("nav-item-profile"))
@@ -54,6 +70,26 @@ public class NavigationController implements Initializable {
                     toOrders.getStyleClass().remove("nav-item-orders");
                     toClients.getStyleClass().remove("nav-item-clients");
                     toProducts.getStyleClass().remove("nav-item-products");
+                    toPartners.getStyleClass().remove("nav-item-partners");
+                    toCategories.getStyleClass().remove("nav-item-categories");
+                }
+                case TO_CATEGORIES -> {
+                    if (!toCategories.getStyleClass().contains("nav-item-categories"))
+                        toCategories.getStyleClass().add("nav-item-categories");
+                    toProfile.getStyleClass().remove("nav-item-profile");
+                    toOrders.getStyleClass().remove("nav-item-orders");
+                    toClients.getStyleClass().remove("nav-item-clients");
+                    toProducts.getStyleClass().remove("nav-item-products");
+                    toPartners.getStyleClass().remove("nav-item-partners");
+                }
+                case TO_PARTNERS -> {
+                    if (!toPartners.getStyleClass().contains("nav-item-partners"))
+                        toPartners.getStyleClass().add("nav-item-partners");
+                    toProfile.getStyleClass().remove("nav-item-profile");
+                    toOrders.getStyleClass().remove("nav-item-orders");
+                    toClients.getStyleClass().remove("nav-item-clients");
+                    toProducts.getStyleClass().remove("nav-item-products");
+                    toCategories.getStyleClass().remove("nav-item-categories");
                 }
             }
         });
@@ -71,6 +107,14 @@ public class NavigationController implements Initializable {
         });
         toProfile.setOnAction(event -> {
             setCurrentNavigation(Navigation.TO_PROFILE);
+//            updateView(Navigation.TO_PROFILE);
+        });
+        toCategories.setOnAction(event -> {
+            setCurrentNavigation(Navigation.TO_CATEGORIES);
+//            updateView(Navigation.TO_PROFILE);
+        });
+        toPartners.setOnAction(event -> {
+            setCurrentNavigation(Navigation.TO_PARTNERS);
 //            updateView(Navigation.TO_PROFILE);
         });
     }

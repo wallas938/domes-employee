@@ -25,3 +25,11 @@
 .nav-item-profile {
     -fx-background-color: rgba(0, 0, 0, 0.25);
 }
+
+.nav-item-categories {
+    -fx-background-color: rgba(250, 255, 0, 0.74);
+}
+
+.nav-item-partners {
+    -fx-background-color: rgba(142, 214, 158, 0.6);
+}
