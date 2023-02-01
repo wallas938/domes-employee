@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" stylesheets="@../../../css/clientDetail.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.client.ClientDetailController">
+   <children>
+      <Label layoutX="30.0" layoutY="30.0" styleClass="link-history" text="animaux &gt; info" />
+      <Label layoutX="570.0" layoutY="110.0" text="Dernière commande effectuée :" />
+      <Label layoutX="424.0" layoutY="359.0" text="2023-01-12" />
+      <Label layoutX="360.0" layoutY="317.0" text="3 place Charles MUNCH" />
+      <Label layoutX="397.0" layoutY="271.0" text="sissako@email.fr" />
+      <Label layoutX="421.0" layoutY="232.0" text="0142350221" />
+      <Label layoutX="447.0" layoutY="191.0" text="Sissako" />
+      <Label layoutX="28.0" layoutY="359.0" text="Date d’inscription :" />
+      <Label layoutX="28.0" layoutY="317.0" text="Adresse :" />
+      <Label layoutX="28.0" layoutY="271.0" text="Email: " />
+      <Label layoutX="28.0" layoutY="232.0" text="Téléphone :" />
+      <Label layoutX="28.0" layoutY="191.0" text="Prénom :" />
+      <Label layoutX="449.0" layoutY="152.0" text="Dramé" />
+      <Label layoutX="30.0" layoutY="152.0" text="Nom : " />
+      <Label layoutX="257.0" layoutY="110.0" text="333db7c6-7b04-46e8-b24e-e7379369ed4c" />
+      <Label layoutX="30.0" layoutY="110.0" text="Identifiant Client: " />
+      <Label layoutX="927.0" layoutY="232.0" text="389 Euros" />
+      <Label layoutX="570.0" layoutY="232.0" text="Total :" />
+      <Label layoutX="967.0" layoutY="191.0" text="x5" />
+      <Label layoutX="570.0" layoutY="191.0" text="Nombre d’articles achetés :" />
+      <Label layoutX="752.0" layoutY="152.0" text="444db7c6-7b04-46e8-b24e-e7379369ed4c" />
+      <Label layoutX="570.0" layoutY="152.0" text="Réference :" />
+      <Label layoutX="922.0" layoutY="299.0" text="2023-01-24" />
+      <Label layoutX="566.0" layoutY="299.0" text="Date d’achat :" />
+      <Button layoutX="816.0" layoutY="106.0" mnemonicParsing="false" text="Voir détail de la commande">
+         <styleClass>
+            <String fx:value="show-order-detail-btn" />
+            <String fx:value="client-btn" />
+         </styleClass>
+      </Button>
+      <Button layoutX="566.0" layoutY="355.0" mnemonicParsing="false" text="Voir toutes les commandes associées">
+         <styleClass>
+            <String fx:value="display-orders-btn" />
+            <String fx:value="client-btn" />
+         </styleClass>
+      </Button>
+      <Button layoutX="30.0" layoutY="400.0" mnemonicParsing="false" text="supprimer">
+         <styleClass>
+            <String fx:value="remove-btn" />
+            <String fx:value="client-btn" />
+         </styleClass>
+      </Button>
+      <Button layoutX="110.0" layoutY="400.0" mnemonicParsing="false" text="modifier">
+         <styleClass>
+            <String fx:value="edit-btn" />
+            <String fx:value="client-btn" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>

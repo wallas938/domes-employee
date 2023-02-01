@@ -5,6 +5,7 @@ public enum Navigation {
     TO_ANIMAL_DETAIL,
     TO_ANIMALS_FORM,
     TO_CLIENTS,
+    TO_CLIENT_DETAIL,
     TO_ORDERS,
     TO_PROFILE,
     TO_CATEGORIES,
