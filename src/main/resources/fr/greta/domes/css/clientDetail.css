@@ -1,0 +1,21 @@
+.client-btn {
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 0, 0, 2, 2);
+}
+
+.edit-btn {
+    -fx-background-color: rgba(255, 139, 0, 0.6);
+}
+
+.remove-btn {
+    -fx-background-color: rgba(255, 0, 0, 0.6);
+}
+
+.show-order-detail-btn {
+    -fx-background-color: rgba(255, 128, 182, 0.6);
+}
+
+.display-orders-btn {
+    -fx-background-color: rgba(255, 128, 182, 0.6);
+}

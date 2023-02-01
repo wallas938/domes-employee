@@ -1,5 +1,8 @@
 package fr.greta.domes.controller.client;
 
+import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.controller.animal.AnimalFormController;
+import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.client.Client;
 import fr.greta.domes.model.client.ClientPage;
 import fr.greta.domes.service.ClientService;
@@ -104,15 +107,18 @@ public class ClientController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty()) {
                     Client client = row.getItem();
-                    System.out.println(client);
-//                    AnimalDetailController.setCurrentAnimal(client);
-                    //showAnimalDetail();
+                    ClientDetailController.setCurrentClient(client);
+                    showClientDetail();
                 }
             });
             return row;
         });
 
         clientsTable.setItems(FXCollections.observableList(clientPage.getClients()));
+    }
+
+    private void showClientDetail() {
+        NavigationController.setCurrentNavigation(Navigation.TO_CLIENT_DETAIL);
     }
 
     private void initTablePagination(int currentPage, int pageCount) {

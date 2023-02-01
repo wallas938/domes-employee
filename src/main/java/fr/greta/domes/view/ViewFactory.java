@@ -17,6 +17,7 @@ public class ViewFactory {
     private AnchorPane animalDetailView;
     private AnchorPane animalFormView;
     private AnchorPane clientView;
+    private AnchorPane clientDetailView;
     private AnchorPane orderView;
     private AnchorPane profileView;
     private AnchorPane categoriesView;
@@ -40,7 +41,6 @@ public class ViewFactory {
         }
         return animalView;
     }
-
     public AnchorPane getAnimalDetailView() {
         if (animalDetailView == null) {
             try {
@@ -51,7 +51,6 @@ public class ViewFactory {
         }
         return animalDetailView;
     }
-
     public AnchorPane getAnimalFormView() {
         if (animalFormView == null) {
             try {
@@ -73,6 +72,16 @@ public class ViewFactory {
             }
         }
         return clientView;
+    }
+    public AnchorPane getClientDetailView() {
+        if (clientDetailView == null) {
+            try {
+                clientDetailView = new FXMLLoader(Main.class.getResource("views/dashboard/client/clientDetailView.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return clientDetailView;
     }
 
     //Order Views
