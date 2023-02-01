@@ -19,6 +19,8 @@ public class ViewFactory {
     private AnchorPane clientView;
     private AnchorPane orderView;
     private AnchorPane profileView;
+    private AnchorPane categoriesView;
+    private AnchorPane partnersView;
 
     public ViewFactory() {
     }
@@ -95,6 +97,29 @@ public class ViewFactory {
             }
         }
         return profileView;
+    }
+
+    //Categories Views
+    public AnchorPane getCategoriesView() {
+        if (categoriesView == null) {
+            try {
+                categoriesView = new FXMLLoader(Main.class.getResource("views/dashboard/category/categoryView.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return categoriesView;
+    }
+    //Categories Views
+    public AnchorPane getPartnersView() {
+        if (partnersView == null) {
+            try {
+                partnersView = new FXMLLoader(Main.class.getResource("views/dashboard/partner/partnerView.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return partnersView;
     }
 
     /*
