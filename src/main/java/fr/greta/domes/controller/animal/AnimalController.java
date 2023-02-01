@@ -68,7 +68,7 @@ public class AnimalController implements Initializable {
     private ChoiceBox<String> bySpecie;
     @FXML
     private Button filterButton;
-    @FXML
+
     private final AnimalService animalService = new AnimalServiceImpl();
 
     private final MenuItem size15 = new MenuItem("15");
