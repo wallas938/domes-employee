@@ -3,6 +3,7 @@ package fr.greta.domes.controller.client;
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.animal.Animal;
+import fr.greta.domes.model.client.Address;
 import fr.greta.domes.model.client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,9 +17,21 @@ public class ClientDetailController implements Initializable {
 
     private static Client currentClient;
     @FXML
-    private Label registrationDate;
+    private Button editBtn;
     @FXML
-    private Label clientAddress;
+    private Button removeBtn;
+    @FXML
+    private Label orderTotal;
+    @FXML
+    private Label clientCountry;
+    @FXML
+    private Label clientZipCode;
+    @FXML
+    private Label clientCity;
+    @FXML
+    private Label clientStreet;
+    @FXML
+    private Label registrationDate;
     @FXML
     private Label clientEmail;
     @FXML
@@ -77,12 +90,11 @@ public class ClientDetailController implements Initializable {
         this.registrationDate.setText(registrationDate);
     }
 
-    public Label getClientAddress() {
-        return clientAddress;
-    }
-
-    public void setClientAddress(String clientAddress) {
-        this.clientAddress.setText(clientAddress);
+    public void setClientAddress(Address clientAddress) {
+        this.clientCountry.setText(clientAddress.getCountry());
+        this.clientCity.setText(clientAddress.getCity());
+        this.clientZipCode.setText(clientAddress.getZipcode());
+        this.clientStreet.setText(clientAddress.getStreet());
     }
 
     public Label getClientEmail() {

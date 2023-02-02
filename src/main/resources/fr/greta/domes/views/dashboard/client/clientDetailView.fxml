@@ -8,25 +8,23 @@
 <AnchorPane prefHeight="500.0" prefWidth="1000.0" stylesheets="@../../../css/clientDetail.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.client.ClientDetailController">
       <Label layoutX="30.0" layoutY="30.0" styleClass="link-history" text="animaux &gt; info" />
       <Label layoutX="570.0" layoutY="110.0" text="Dernière commande effectuée :" />
-      <Label fx:id="registrationDate" alignment="CENTER_RIGHT" layoutX="324.0" layoutY="359.0" prefHeight="18.0" prefWidth="162.0" text="2023-01-12" />
-      <Label fx:id="clientAddress" alignment="CENTER_RIGHT" layoutX="325.0" layoutY="317.0" prefHeight="18.0" prefWidth="162.0" text="3 place Charles MUNCH" />
-      <Label fx:id="clientEmail" alignment="CENTER_RIGHT" layoutX="323.0" layoutY="271.0" prefHeight="18.0" prefWidth="162.0" text="sissako@email.fr" />
-      <Label fx:id="clientPhoneNumber" alignment="CENTER_RIGHT" layoutX="324.0" layoutY="232.0" prefHeight="18.0" prefWidth="162.0" text="0142350221" />
-      <Label fx:id="clientFirstname" alignment="CENTER_RIGHT" layoutX="324.0" layoutY="191.0" prefHeight="18.0" prefWidth="162.0" text="Sissako" />
-      <Label layoutX="28.0" layoutY="359.0" text="Date d’inscription :" />
-      <Label layoutX="28.0" layoutY="317.0" text="Adresse :" />
-      <Label layoutX="28.0" layoutY="271.0" text="Email: " />
-      <Label layoutX="28.0" layoutY="232.0" text="Téléphone :" />
-      <Label layoutX="28.0" layoutY="191.0" text="Prénom :" />
-      <Label fx:id="clientLastname" alignment="CENTER_RIGHT" layoutX="323.0" layoutY="152.0" prefHeight="18.0" prefWidth="162.0" text="Dramé" />
-      <Label layoutX="30.0" layoutY="152.0" text="Nom : " />
-      <Label fx:id="clientId" layoutX="257.0" layoutY="110.0" text="333db7c6-7b04-46e8-b24e-e7379369ed4c" />
-      <Label layoutX="30.0" layoutY="110.0" text="Identifiant Client: " />
+      <Label fx:id="registrationDate" alignment="CENTER_RIGHT" layoutX="319.0" layoutY="366.0" prefHeight="18.0" prefWidth="162.0" />
+      <Label fx:id="clientPhoneNumber" alignment="CENTER_RIGHT" layoutX="321.0" layoutY="189.0" prefHeight="18.0" prefWidth="162.0" />
+      <Label fx:id="clientFirstname" alignment="CENTER_RIGHT" layoutX="321.0" layoutY="159.0" prefHeight="18.0" prefWidth="162.0" />
+      <Label layoutX="28.0" layoutY="367.0" text="Date d’inscription :" />
+      <Label layoutX="29.0" layoutY="249.0" text="Pays :" />
+      <Label layoutX="29.0" layoutY="223.0" text="Email: " />
+      <Label layoutX="30.0" layoutY="190.0" text="Téléphone :" />
+      <Label layoutX="30.0" layoutY="160.0" text="Prénom :" />
+      <Label fx:id="clientLastname" alignment="CENTER_RIGHT" layoutX="319.0" layoutY="131.0" prefHeight="18.0" prefWidth="162.0" />
+      <Label layoutX="29.0" layoutY="132.0" text="Nom : " />
+      <Label fx:id="clientId" alignment="CENTER_RIGHT" layoutX="224.0" layoutY="99.0" prefHeight="18.0" prefWidth="258.0" textAlignment="RIGHT" />
+      <Label layoutX="30.0" layoutY="100.0" text="Identifiant Client: " />
       <Label layoutX="948.0" layoutY="232.0" prefHeight="18.0" prefWidth="34.0" text="Euros" />
       <Label layoutX="570.0" layoutY="232.0" text="Total :" />
       <Label fx:id="orderNumberOfArticles" alignment="CENTER_RIGHT" layoutX="752.0" layoutY="191.0" prefHeight="18.0" prefWidth="227.0" text="xxx" />
       <Label layoutX="570.0" layoutY="191.0" text="Nombre d’articles achetés :" />
-      <Label fx:id="orderReference" layoutX="752.0" layoutY="152.0" prefHeight="18.0" prefWidth="227.0" text="ReferenceID" />
+      <Label fx:id="orderReference" alignment="CENTER_RIGHT" layoutX="752.0" layoutY="152.0" prefHeight="18.0" prefWidth="227.0" text="ReferenceID" textAlignment="RIGHT" />
       <Label layoutX="570.0" layoutY="152.0" text="Réference :" />
       <Label fx:id="purchaseDate" alignment="CENTER_RIGHT" layoutX="752.0" layoutY="298.0" prefHeight="18.0" prefWidth="227.0" text="Date" />
       <Label layoutX="566.0" layoutY="299.0" text="Date d’achat :" />
@@ -55,4 +53,12 @@
          </styleClass>
       </Button>
    <Label fx:id="orderTotal" alignment="CENTER_RIGHT" layoutX="752.0" layoutY="232.0" prefHeight="18.0" prefWidth="192.0" text="..." />
+   <Label layoutX="30.0" layoutY="280.0" text="Ville :" />
+   <Label fx:id="clientEmail" alignment="CENTER_RIGHT" layoutX="321.0" layoutY="219.0" prefHeight="18.0" prefWidth="162.0" />
+   <Label layoutX="30.0" layoutY="310.0" text="Rue :" />
+   <Label fx:id="clientStreet" alignment="CENTER_RIGHT" layoutX="319.0" layoutY="309.0" prefHeight="18.0" prefWidth="162.0" />
+   <Label fx:id="clientCity" alignment="CENTER_RIGHT" layoutX="321.0" layoutY="279.0" prefHeight="18.0" prefWidth="162.0" />
+   <Label fx:id="clientCountry" alignment="CENTER_RIGHT" layoutX="321.0" layoutY="248.0" prefHeight="18.0" prefWidth="162.0" />
+   <Label layoutX="29.0" layoutY="337.0" text="Code postale :" />
+   <Label fx:id="clientZipCode" alignment="CENTER_RIGHT" layoutX="319.0" layoutY="336.0" prefHeight="18.0" prefWidth="162.0" />
 </AnchorPane>

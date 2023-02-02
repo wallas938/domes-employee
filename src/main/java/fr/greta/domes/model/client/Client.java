@@ -11,14 +11,14 @@ public class Client {
     private String lastname;
     private String firstname;
     private String phoneNumber;
-    private String address;
+    private Address address;
     private String email;
     private Collection<Order> orders;
     private LocalDate registrationDate = LocalDate.now();
 
     public Client() {}
 
-    public Client(UUID id, String lastname, String firstname, String phoneNumber, String address, String email, Collection<Order> orders, LocalDate registrationDate) {
+    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, Collection<Order> orders, LocalDate registrationDate) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -61,11 +61,11 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
