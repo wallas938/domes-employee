@@ -13,19 +13,17 @@ public class Client {
     private String phoneNumber;
     private Address address;
     private String email;
-    private Collection<Order> orders;
     private LocalDate registrationDate = LocalDate.now();
 
     public Client() {}
 
-    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, Collection<Order> orders, LocalDate registrationDate) {
+    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, LocalDate registrationDate) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
-        this.orders = orders;
         this.registrationDate = registrationDate;
     }
 
@@ -77,14 +75,6 @@ public class Client {
         this.email = email;
     }
 
-    public Collection<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
-    }
-
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
@@ -92,6 +82,4 @@ public class Client {
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
-
-
 }

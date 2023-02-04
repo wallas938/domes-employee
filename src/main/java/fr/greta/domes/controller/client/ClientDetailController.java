@@ -1,8 +1,6 @@
 package fr.greta.domes.controller.client;
 
 import fr.greta.domes.controller.NavigationController;
-import fr.greta.domes.model.Navigation;
-import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.client.Address;
 import fr.greta.domes.model.client.Client;
 import javafx.fxml.FXML;
@@ -73,9 +71,6 @@ public class ClientDetailController implements Initializable {
         setClientPhoneNumber(currentClient.getPhoneNumber());
         setClientEmail(currentClient.getEmail());
         setRegistrationDate(currentClient.getRegistrationDate().toString());
-//        setFourthImage(currentAnimal.getFourthPicture());
-//        setCategory(currentAnimal.getCategory().getName());
-//        setSpecie(currentAnimal.getSpecie().getName());
     }
 
     public static Client getCurrentClient() {
@@ -102,6 +97,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setClientEmail(String clientEmail) {
+        if (clientEmail.isBlank()) {
+            this.clientEmail.setText("");
+            return;
+        }
         this.clientEmail.setText(clientEmail);
     }
 
@@ -110,6 +109,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setClientPhoneNumber(String clientPhoneNumber) {
+        if (clientPhoneNumber.isBlank()) {
+            this.clientPhoneNumber.setText("");
+            return;
+        }
         this.clientPhoneNumber.setText(clientPhoneNumber);
     }
 
@@ -118,6 +121,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setClientFirstname(String clientFirstname) {
+        if (clientFirstname.isBlank()) {
+            this.clientFirstname.setText("");
+            return;
+        }
         this.clientFirstname.setText(clientFirstname);
     }
 
@@ -126,6 +133,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setClientLastname(String clientLastname) {
+        if (clientLastname.isBlank()) {
+            this.clientLastname.setText("");
+            return;
+        }
         this.clientLastname.setText(clientLastname);
     }
 
@@ -134,6 +145,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setClientId(String clientId) {
+        if (clientId.isBlank()) {
+            this.clientId.setText("");
+            return;
+        }
         this.clientId.setText(clientId);
     }
 
@@ -142,6 +157,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setOrderNumberOfArticles(int orderNumberOfArticles) {
+        if (orderNumberOfArticles == 0) {
+            this.orderNumberOfArticles.setText("");
+            return;
+        }
         this.orderNumberOfArticles.setText(String.valueOf(orderNumberOfArticles));
     }
 
@@ -150,7 +169,19 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setOrderReference(String orderReference) {
+        if (orderReference.isBlank()) {
+            this.orderReference.setText("");
+            return;
+        }
         this.orderReference.setText(orderReference);
+    }
+
+    public Label getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal.setText(String.valueOf(orderTotal));
     }
 
     public Label getPurchaseDate() {
@@ -158,6 +189,10 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setPurchaseDate(String purchaseDate) {
+        if (purchaseDate.isBlank()) {
+            this.purchaseDate.setText("");
+            return;
+        }
         this.purchaseDate.setText(purchaseDate);
     }
 
