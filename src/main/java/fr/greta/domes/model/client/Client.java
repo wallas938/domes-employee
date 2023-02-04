@@ -13,20 +13,20 @@ public class Client {
     private String phoneNumber;
     private Address address;
     private String email;
-    private Collection<Order> orders;
     private LocalDate registrationDate = LocalDate.now();
+    private Order lastOrder;
 
     public Client() {}
 
-    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, Collection<Order> orders, LocalDate registrationDate) {
+    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, LocalDate registrationDate, Order lastOrder) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
-        this.orders = orders;
         this.registrationDate = registrationDate;
+        this.lastOrder = lastOrder;
     }
 
     public UUID getId() {
@@ -77,14 +77,6 @@ public class Client {
         this.email = email;
     }
 
-    public Collection<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
-    }
-
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
@@ -93,5 +85,11 @@ public class Client {
         this.registrationDate = registrationDate;
     }
 
+    public Order getLastOrder() {
+        return lastOrder;
+    }
 
+    public void setLastOrder(Order lastOrder) {
+        this.lastOrder = lastOrder;
+    }
 }
