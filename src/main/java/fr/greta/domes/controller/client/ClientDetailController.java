@@ -3,6 +3,7 @@ package fr.greta.domes.controller.client;
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.model.client.Address;
 import fr.greta.domes.model.client.Client;
+import fr.greta.domes.model.order.Order;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,10 +15,6 @@ import java.util.ResourceBundle;
 public class ClientDetailController implements Initializable {
 
     private static Client currentClient;
-    @FXML
-    private Button editBtn;
-    @FXML
-    private Button removeBtn;
     @FXML
     private Label orderTotal;
     @FXML
@@ -48,14 +45,37 @@ public class ClientDetailController implements Initializable {
     private Label purchaseDate;
     @FXML
     private Button showOrderDetail;
+    @FXML
+    private Button editBtn;
+    @FXML
+    private Button removeBtn;
+    @FXML
+    private Button showAllClientOrder;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setFields(currentClient);
+
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
 //            if (newValue.equals(Navigation.TO_CLIENT_DETAIL))
             setFields(currentClient);
+            handleOrderActionVisibility();
+            initEventListeners();
         });
+        initEventListeners();
+
+    }
+
+    private void initEventListeners() {}
+
+    private void handleOrderActionVisibility() {
+        if (currentClient.getLastOrder() != null) {
+            showOrderDetail.setVisible(true);
+            showAllClientOrder.setVisible(true);
+        } else {
+            showOrderDetail.setVisible(false);
+            showAllClientOrder.setVisible(false);
+        }
     }
 
     public static void setCurrentClient(Client client) {
@@ -63,7 +83,6 @@ public class ClientDetailController implements Initializable {
     }
 
     public void setFields(Client currentClient) {
-
         setClientId(currentClient.getId().toString());
         setClientLastname(currentClient.getLastname());
         setClientFirstname(currentClient.getFirstname());
@@ -71,14 +90,30 @@ public class ClientDetailController implements Initializable {
         setClientPhoneNumber(currentClient.getPhoneNumber());
         setClientEmail(currentClient.getEmail());
         setRegistrationDate(currentClient.getRegistrationDate().toString());
+        if (currentClient.getLastOrder() != null) setLastOrder(currentClient.getLastOrder());
+        else resetLastOrderFields();
+    }
+
+    private void resetLastOrderFields() {
+        orderTotal.setText("0");
+        orderReference.setText("Non disponible");
+        orderNumberOfArticles.setText("Non disponible");
+        purchaseDate.setText("Non disponible");
+    }
+
+    private void setLastOrder(Order lastOrder) {
+        setOrderTotal(lastOrder.getTotal());
+        setPurchaseDate(lastOrder.getPurchaseDate().toString());
+        setOrderNumberOfArticles(lastOrder.getNumberOfArticles());
+        setOrderReference(lastOrder.getId().toString());
     }
 
     public static Client getCurrentClient() {
         return currentClient;
     }
 
-    public Label getRegistrationDate() {
-        return registrationDate;
+    public String getRegistrationDate() {
+        return registrationDate.getText();
     }
 
     public void setRegistrationDate(String registrationDate) {
@@ -92,111 +127,82 @@ public class ClientDetailController implements Initializable {
         this.clientStreet.setText(clientAddress.getStreet());
     }
 
-    public Label getClientEmail() {
-        return clientEmail;
+    public String getClientEmail() {
+        return clientEmail.getText();
     }
 
     public void setClientEmail(String clientEmail) {
-        if (clientEmail.isBlank()) {
-            this.clientEmail.setText("");
-            return;
-        }
         this.clientEmail.setText(clientEmail);
     }
 
-    public Label getClientPhoneNumber() {
-        return clientPhoneNumber;
+    public String getClientPhoneNumber() {
+        return clientPhoneNumber.getText();
     }
 
     public void setClientPhoneNumber(String clientPhoneNumber) {
-        if (clientPhoneNumber.isBlank()) {
-            this.clientPhoneNumber.setText("");
-            return;
-        }
         this.clientPhoneNumber.setText(clientPhoneNumber);
     }
 
-    public Label getClientFirstname() {
-        return clientFirstname;
+    public String getClientFirstname() {
+        return clientFirstname.getText();
     }
 
     public void setClientFirstname(String clientFirstname) {
-        if (clientFirstname.isBlank()) {
-            this.clientFirstname.setText("");
-            return;
-        }
         this.clientFirstname.setText(clientFirstname);
     }
 
-    public Label getClientLastname() {
-        return clientLastname;
+    public String getClientLastname() {
+        return clientLastname.getText();
     }
 
     public void setClientLastname(String clientLastname) {
-        if (clientLastname.isBlank()) {
-            this.clientLastname.setText("");
-            return;
-        }
         this.clientLastname.setText(clientLastname);
     }
 
-    public Label getClientId() {
-        return clientId;
+    public String getClientId() {
+        return clientId.getText();
     }
 
     public void setClientId(String clientId) {
-        if (clientId.isBlank()) {
-            this.clientId.setText("");
-            return;
-        }
         this.clientId.setText(clientId);
     }
 
-    public Label getOrderNumberOfArticles() {
-        return orderNumberOfArticles;
+    public String getOrderNumberOfArticles() {
+        return orderNumberOfArticles.getText();
     }
 
     public void setOrderNumberOfArticles(int orderNumberOfArticles) {
-        if (orderNumberOfArticles == 0) {
-            this.orderNumberOfArticles.setText("");
-            return;
-        }
-        this.orderNumberOfArticles.setText(String.valueOf(orderNumberOfArticles));
+        if (orderNumberOfArticles == 0) this.orderNumberOfArticles.setText("null");
+        else this.orderNumberOfArticles.setText(String.valueOf(orderNumberOfArticles));
     }
 
-    public Label getOrderReference() {
-        return orderReference;
+    public String getOrderReference() {
+        return orderReference.getId();
     }
 
     public void setOrderReference(String orderReference) {
-        if (orderReference.isBlank()) {
-            this.orderReference.setText("");
-            return;
-        }
-        this.orderReference.setText(orderReference);
+        if (orderReference.isBlank()) this.orderReference.setText("null");
+        else this.orderReference.setText(orderReference);
     }
 
-    public Label getOrderTotal() {
-        return orderTotal;
+    public String getOrderTotal() {
+        return orderTotal.getText();
     }
 
     public void setOrderTotal(double orderTotal) {
-        this.orderTotal.setText(String.valueOf(orderTotal));
+        if (currentClient.getLastOrder() != null) this.orderTotal.setText(String.valueOf(orderTotal));
+        else this.orderTotal.setText("null");
     }
 
-    public Label getPurchaseDate() {
-        return purchaseDate;
+    public String getPurchaseDate() {
+        return purchaseDate.getText();
     }
 
     public void setPurchaseDate(String purchaseDate) {
         if (purchaseDate.isBlank()) {
-            this.purchaseDate.setText("");
+            this.purchaseDate.setText("null");
             return;
         }
         this.purchaseDate.setText(purchaseDate);
-    }
-
-    public Button getShowOrderDetail() {
-        return showOrderDetail;
     }
 }
