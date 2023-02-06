@@ -8,6 +8,7 @@ import fr.greta.domes.model.client.ClientPage;
 import fr.greta.domes.service.ClientService;
 import fr.greta.domes.service.ClientServiceImpl;
 import fr.greta.domes.utils.Utils;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -18,7 +19,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ClientController implements Initializable {
     @FXML
@@ -26,7 +32,7 @@ public class ClientController implements Initializable {
     @FXML
     private Button clientSearchButton;
     @FXML
-    private TableView<Client> clientsTable =  new TableView<>();
+    private TableView<Client> clientsTable = new TableView<>();
     @FXML
     private Pagination clientPagination = new Pagination(15, 0);
     @FXML
@@ -52,24 +58,94 @@ public class ClientController implements Initializable {
 
     private static BooleanProperty reloadData = new SimpleBooleanProperty(false);
 
-    public ClientController() {}
+    private ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
+
+
+    public ClientController() {
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
             initTableView();
+            initEventListeners();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public void initEventListeners() {
+        clientSelectSizeValue.getItems().addAll(size15, size25, size50);
+
+        clientSelectSizeValue.setText(size15.getText());
+
+        /*
+         * Size values event init
+         * */
+        size15.setOnAction(event -> {
+            try {
+                clientSelectSizeValue.setText(String.valueOf(Utils.intParser(size15.getText())));
+                updateTableView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        size25.setOnAction(event -> {
+            try {
+                clientSelectSizeValue.setText(String.valueOf(Utils.intParser(size25.getText())));
+                updateTableView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        size50.setOnAction(event -> {
+            try {
+                clientSelectSizeValue.setText(String.valueOf(Utils.intParser(size50.getText())));
+                updateTableView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        /*
+         * Paging search event init
+         * */
+        clientGoToPage.setOnAction(event -> {
+            try {
+                updateTableView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        clientSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            Runnable task = () -> {
+                Platform.runLater(() -> {
+                    try {
+                        updateTableView();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            };
+
+            executor.shutdownNow();
+
+            // Schedule a new task to run after 2 seconds
+            executor = new ScheduledThreadPoolExecutor(1);
+            executor.schedule(task, 500, TimeUnit.MILLISECONDS);
+        });
+    }
+
     public void initTableView() throws IOException {
+        int pageNumber = Utils.intParser(clientPageNumberField.getText()) <= 0 ? 1 : Utils.intParser(clientPageNumberField.getText());
+        clientPageNumberField.setText(String.valueOf(pageNumber));
         ClientPage clientPage = clientService.getClientPage(new ClientSearchQuery(
                 "",
                 "",
                 "",
                 "",
-                Utils.intParser(clientPageNumberField.getText()),
+                pageNumber,
                 Utils.intParser(size15.getText())));
 
         /*
@@ -113,6 +189,22 @@ public class ClientController implements Initializable {
             });
             return row;
         });
+
+        clientsTable.getItems().addAll(FXCollections.observableList(clientPage.getClients()));
+    }
+
+    public void updateTableView() throws IOException {
+        clientsTable.setItems(FXCollections.observableList(List.of()));
+        int pageNumber = Utils.intParser(clientPageNumberField.getText()) <= 0 ? 1 : Utils.intParser(clientPageNumberField.getText());
+        clientPageNumberField.setText(String.valueOf(pageNumber));
+        String searchBarValue = clientSearchBar.getText();
+        ClientPage clientPage = clientService.searchBarGetClients(new ClientSearchQuery(
+                searchBarValue,
+                searchBarValue,
+                searchBarValue,
+                searchBarValue,
+                pageNumber,
+                Utils.intParser(clientSelectSizeValue.getText())));
 
         clientsTable.setItems(FXCollections.observableList(clientPage.getClients()));
     }

@@ -184,24 +184,6 @@ public class AnimalFormController implements Initializable {
             }
         });
 
-        /*
-        mainPictureField.textProperty().addListener(event -> {
-            checkPictureUrlValidity(mainPictureField, mainPictureTextError);
-        });
-
-        secondPictureField.textProperty().addListener(event -> {
-            checkPictureUrlValidity(secondPictureField, secondPictureTextError);
-        });
-
-        thirdPictureField.textProperty().addListener(event -> {
-            checkPictureUrlValidity(thirdPictureField, thirdPictureTextError);
-        });
-
-        fourthPictureField.textProperty().addListener(event -> {
-            checkPictureUrlValidity(fourthPictureField, fourthTextError);
-        });
-
- */
 
         categoryField.valueProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (categoryField.getValue() != null) {

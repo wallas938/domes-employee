@@ -7,4 +7,5 @@ import java.io.IOException;
 
 public interface ClientService {
     ClientPage getClientPage(ClientSearchQuery clientSearchQuery) throws IOException;
+    ClientPage searchBarGetClients(ClientSearchQuery clientSearchQuery) throws IOException;
 }

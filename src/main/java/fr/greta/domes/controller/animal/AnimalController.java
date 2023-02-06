@@ -161,8 +161,10 @@ public class AnimalController implements Initializable {
          * Paging search event init
          * */
         goToPage.setOnAction(event -> {
+            int pageNumber = Integer.parseInt(pageNumberField.getText()) <= 0 ? 1 : Integer.parseInt(pageNumberField.getText());
+            pageNumberField.setText(String.valueOf(pageNumber));
             try {
-                updateTableView(Utils.intParser(selectSizeValue.getText()), Utils.intParser(pageNumberField.getText()));
+                updateTableView(Utils.intParser(selectSizeValue.getText()), Utils.intParser(String.valueOf(pageNumber)));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
