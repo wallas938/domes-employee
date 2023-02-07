@@ -1,32 +1,25 @@
 package fr.greta.domes.model.client;
 
-import fr.greta.domes.model.order.Order;
-
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.UUID;
 
-public class Client {
+public class ClientPutDTO {
     private UUID id;
     private String lastname;
     private String firstname;
     private String phoneNumber;
     private Address address;
     private String email;
-    private LocalDate registrationDate = LocalDate.now();
-    private Order lastOrder;
 
-    public Client() {}
+    public ClientPutDTO() {
+    }
 
-    public Client(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email, LocalDate registrationDate, Order lastOrder) {
+    public ClientPutDTO(UUID id, String lastname, String firstname, String phoneNumber, Address address, String email) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
-        this.registrationDate = registrationDate;
-        this.lastOrder = lastOrder;
     }
 
     public UUID getId() {
@@ -77,32 +70,14 @@ public class Client {
         this.email = email;
     }
 
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(LocalDate registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public Order getLastOrder() {
-        return lastOrder;
-    }
-
-    public void setLastOrder(Order lastOrder) {
-        this.lastOrder = lastOrder;
-    }
-
     @Override
     public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", lastname='" + lastname + '\'' +
+        return "ClientPutDTO{" +
+                "lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address=" + address +
                 ", email='" + email + '\'' +
-                ", registrationDate=" + registrationDate +
                 '}';
     }
 }

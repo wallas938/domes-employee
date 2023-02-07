@@ -19,6 +19,7 @@ public class DashboardController implements Initializable{
                 case TO_ANIMALS_FORM -> dashboard.setCenter(Model.getInstance().getViewFactory().getAnimalFormView());
                 case TO_CLIENTS -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientView());
                 case TO_CLIENT_DETAIL -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientDetailView());
+                case TO_CLIENTS_FORM -> dashboard.setCenter(Model.getInstance().getViewFactory().getClientFormView());
                 case TO_ORDERS -> dashboard.setCenter(Model.getInstance().getViewFactory().getOrderView());
                 case TO_CATEGORIES -> dashboard.setCenter(Model.getInstance().getViewFactory().getCategoriesView());
                 case TO_PARTNERS -> dashboard.setCenter(Model.getInstance().getViewFactory().getPartnersView());
