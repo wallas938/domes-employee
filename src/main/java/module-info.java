@@ -24,7 +24,6 @@ module fr.greta.domes {
     opens fr.greta.domes.model to javafx.base;
     opens fr.greta.domes.model.order to javafx.base;
     opens fr.greta.domes.model.specie to javafx.base;
-    opens fr.greta.domes.model.animal to javafx.base;
     opens fr.greta.domes.model.category to javafx.base;
     opens fr.greta.domes.model.client to javafx.base;
     opens fr.greta.domes.model.article to javafx.base;
@@ -37,5 +36,6 @@ module fr.greta.domes {
     exports fr.greta.domes.model.article to com.fasterxml.jackson.databind;
 
     exports fr.greta.domes;
+    opens fr.greta.domes.model.animal to javafx.base, javafx.fxml;
 
 }

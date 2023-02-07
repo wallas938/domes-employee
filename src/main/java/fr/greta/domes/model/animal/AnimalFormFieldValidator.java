@@ -1,4 +1,4 @@
-package fr.greta.domes.controller.animal;
+package fr.greta.domes.model.animal;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;

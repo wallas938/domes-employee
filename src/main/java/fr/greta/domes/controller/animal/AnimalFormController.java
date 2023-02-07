@@ -9,6 +9,7 @@ import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.animal.AnimalCreateDTO;
 import fr.greta.domes.model.animal.AnimalEditDTO;
+import fr.greta.domes.model.animal.AnimalFormFieldValidator;
 import fr.greta.domes.model.specie.Specie;
 import fr.greta.domes.service.*;
 import javafx.application.Platform;

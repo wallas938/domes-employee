@@ -1,6 +1,7 @@
 package fr.greta.domes.controller.client;
 
 import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.client.Address;
 import fr.greta.domes.model.client.Client;
 import fr.greta.domes.model.order.Order;
@@ -57,7 +58,6 @@ public class ClientDetailController implements Initializable {
         setFields(currentClient);
 
         NavigationController.getCurrentNavigation().addListener((observable, oldValue, newValue) -> {
-//            if (newValue.equals(Navigation.TO_CLIENT_DETAIL))
             setFields(currentClient);
             handleOrderActionVisibility();
             initEventListeners();
@@ -66,7 +66,14 @@ public class ClientDetailController implements Initializable {
 
     }
 
-    private void initEventListeners() {}
+    private void initEventListeners() {
+        editBtn.setOnAction(event -> showClientForm());
+    }
+
+    private void showClientForm() {
+        ClientFormController.setClientData(currentClient);
+        NavigationController.setCurrentNavigation(Navigation.TO_CLIENTS_FORM);
+    }
 
     private void handleOrderActionVisibility() {
         if (currentClient.getLastOrder() != null) {

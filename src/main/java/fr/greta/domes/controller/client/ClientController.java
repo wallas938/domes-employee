@@ -30,8 +30,6 @@ public class ClientController implements Initializable {
     @FXML
     private TextField clientSearchBar;
     @FXML
-    private Button clientSearchButton;
-    @FXML
     private TableView<Client> clientsTable = new TableView<>();
     @FXML
     private Pagination clientPagination = new Pagination(15, 0);
@@ -41,8 +39,6 @@ public class ClientController implements Initializable {
     private TextField clientPageNumberField;
     @FXML
     private Button clientGoToPage;
-    @FXML
-    private Button addClientButton;
     @FXML
     private Button clientReloadButton;
     @FXML
@@ -60,7 +56,6 @@ public class ClientController implements Initializable {
 
     private ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
 
-
     public ClientController() {
     }
 
@@ -75,6 +70,19 @@ public class ClientController implements Initializable {
     }
 
     public void initEventListeners() {
+        clientReloadButton.visibleProperty().bind(reloadData);
+
+        clientReloadMessage.visibleProperty().bind(reloadData);
+
+        clientReloadButton.setOnAction(event -> {
+            try {
+                updateTableView();
+                setReloadData(false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         clientSelectSizeValue.getItems().addAll(size15, size25, size50);
 
         clientSelectSizeValue.setText(size15.getText());
@@ -137,15 +145,17 @@ public class ClientController implements Initializable {
         });
     }
 
+    public void setReloadData(boolean status) {
+        reloadData.setValue(status);
+    }
+
     public void initTableView() throws IOException {
-        int pageNumber = Utils.intParser(clientPageNumberField.getText()) <= 0 ? 1 : Utils.intParser(clientPageNumberField.getText());
-        clientPageNumberField.setText(String.valueOf(pageNumber));
         ClientPage clientPage = clientService.getClientPage(new ClientSearchQuery(
                 "",
                 "",
                 "",
                 "",
-                pageNumber,
+                1,
                 Utils.intParser(size15.getText())));
 
         /*
