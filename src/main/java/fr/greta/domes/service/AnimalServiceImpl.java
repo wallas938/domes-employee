@@ -60,6 +60,7 @@ public class AnimalServiceImpl implements AnimalService {
         OkHttpClient client = new OkHttpClient();
 
         String url = "http://localhost:8081/api/animals";
+
         ObjectMapper mapper = new ObjectMapper();
 
         try {

@@ -65,7 +65,7 @@
                            <Font size="16.0" />
                         </font>
                      </Label>
-                     <PasswordField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input" />
+                     <PasswordField fx:id="password" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input" />
                   </children>
                </VBox>
             </children>

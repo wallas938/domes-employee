@@ -18,11 +18,20 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        submitButton.setOnAction(event -> {
+            submit();
+        });
     }
 
     public void login(ActionEvent event) {
         Stage stage = (Stage) submitButton.getScene().getWindow();
         Model.getInstance().getViewFactory().closeCurrentWindow(stage);
         Model.getInstance().getViewFactory().showDashboardWindow();
+    }
+
+    private void submit() {
+        if(!email.getText().isBlank() && !password.getText().isBlank())
+        System.out.println(email.getText());
+        System.out.println(password.getText());
     }
 }
