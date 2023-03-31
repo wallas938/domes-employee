@@ -25,7 +25,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         ResponseBody responseBody = response.body();
 
-
         CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Category.class);
 
         assert responseBody != null;
