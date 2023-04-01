@@ -1,7 +1,10 @@
 package fr.greta.domes.service;
 
+import fr.greta.domes.model.auth.AuthenticationToken;
+
 import java.io.IOException;
+import java.util.Optional;
 
 public interface AuthService {
-    void login(String email, String password) throws IOException;
+    Optional<AuthenticationToken> login(String email, String password) throws IOException;
 }

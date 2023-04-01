@@ -1,5 +1,6 @@
 package fr.greta.domes.service;
 
+import fr.greta.domes.model.Model;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -10,7 +11,10 @@ public class SpecieServiceImpl implements SpecieService{
 
         OkHttpClient client = new OkHttpClient();
 
-        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species/categoryName?categoryName=%s", categoryName)).build();
+        Request request = new Request.Builder().url(String.format("http://localhost:8081/api/species/categoryName?categoryName=%s", categoryName))
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                .build();
 
         Call call = client.newCall(request);
 

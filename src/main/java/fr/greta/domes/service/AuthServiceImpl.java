@@ -1,38 +1,46 @@
 package fr.greta.domes.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
+import fr.greta.domes.model.auth.AuthenticationCredentials;
 import fr.greta.domes.model.auth.AuthenticationToken;
-import fr.greta.domes.model.category.Category;
 import okhttp3.*;
-import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Optional;
 
 public class AuthServiceImpl implements AuthService {
     @Override
-    public void login(String email, String password) throws IOException {
+    public Optional<AuthenticationToken> login(String email, String password) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Request request = new Request.Builder()
-                .url("http://localhost:8081/api/auth/login")
-                .build();
+        try {
 
-        Call call = client.newCall(request);
+            String json = objectMapper.writeValueAsString(new AuthenticationCredentials(email, password));
 
-        Response response = call.execute();
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
 
-        ResponseBody responseBody = response.body();
 
-        assert responseBody != null;
+            Request request = new Request.Builder()
+                    .url("http://localhost:8081/api/auth/login")
+                    .method("POST", body)
+                    .build();
 
-        AuthenticationToken authenticationToken = objectMapper.readValue(responseBody.byteStream(), AuthenticationToken.class);
+            Call call = client.newCall(request);
 
-        System.out.println(authenticationToken);
+            Response response = call.execute();
 
-//        return categories.stream().map(Category::getName).toList();
+            ResponseBody responseBody = response.body();
+
+            assert responseBody != null;
+
+            return Optional.of(objectMapper.readValue(responseBody.byteStream(), AuthenticationToken.class));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+
     }
 }
