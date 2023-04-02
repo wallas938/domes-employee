@@ -41,6 +41,7 @@ public class AuthenticationController implements Initializable {
 
     public void login() throws IOException {
         if (email.getText().isBlank() && password.getText().isBlank()) {
+            errorMessage.setVisible(true);
             return;
         }
         authService.login(email.getText(), password.getText()).ifPresentOrElse(authenticationToken -> {
@@ -48,8 +49,9 @@ public class AuthenticationController implements Initializable {
             Stage stage = (Stage) submitButton.getScene().getWindow();
             Model.getInstance().getViewFactory().closeCurrentWindow(stage);
             Model.getInstance().getViewFactory().showDashboardWindow();
+            errorMessage.setVisible(false);
         }, () -> {
-            System.out.println("Error");
+            errorMessage.setVisible(true);
         });
     }
 }

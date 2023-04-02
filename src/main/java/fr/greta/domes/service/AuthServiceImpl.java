@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
 
 
             Request request = new Request.Builder()
-                    .url("http://localhost:8081/api/auth/login")
+                    .url("http://localhost:8081/api/auth/employee-authentication")
                     .method("POST", body)
                     .build();
 

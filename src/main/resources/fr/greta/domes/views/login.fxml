@@ -25,7 +25,7 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Connexion" />
       </HBox>
       <HBox alignment="CENTER" layoutX="5.0" layoutY="176.0" prefHeight="35.0" prefWidth="600.0">
-         <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED">
+         <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED" visible="false">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
@@ -38,7 +38,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="email" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input">
+            <TextField fx:id="email" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input">
                <effect>
                   <DropShadow offsetX="3.0" offsetY="3.0" />
                </effect>
