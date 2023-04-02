@@ -1,16 +1,14 @@
 package fr.greta.domes.view;
 
 import fr.greta.domes.Main;
-import fr.greta.domes.controller.LoginController;
-import fr.greta.domes.controller.animal.AnimalDetailController;
-import fr.greta.domes.model.Navigation;
+import fr.greta.domes.controller.AuthenticationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class ViewFactory {
     private AnchorPane animalView;
@@ -153,8 +151,6 @@ public class ViewFactory {
 
     public void showLoginWindow() {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/login.fxml"));
-        LoginController loginController = new LoginController();
-        loader.setController(loginController);
         createStage(loader, "css/login.css");
     }
 
@@ -170,7 +166,7 @@ public class ViewFactory {
         }
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.getIcons().add(new Image(Main.class.getResource("images/logo.png").toString()));
+        stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResource("images/logo.png")).toString()));
         stage.show();
     }
 
@@ -182,10 +178,11 @@ public class ViewFactory {
             e.printStackTrace();
         }
         Stage stage = new Stage();
-        scene.getStylesheets().add(Main.class.getResource(stylesheetPath).toString());
+        assert scene != null;
+        scene.getStylesheets().add((Objects.requireNonNull(Main.class.getResource(stylesheetPath))).toString());
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.getIcons().add(new Image(Main.class.getResource("images/logo.png").toString()));
+        stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResource("images/logo.png")).toString()));
         stage.centerOnScreen();
         stage.show();
     }

@@ -52,7 +52,7 @@ public class ClientController implements Initializable {
 
     private final MenuItem size50 = new MenuItem("50");
 
-    private static BooleanProperty reloadData = new SimpleBooleanProperty(false);
+    private static final BooleanProperty reloadData = new SimpleBooleanProperty(false);
 
     private ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
 

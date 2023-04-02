@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.controller.animal.AnimalController;
 import fr.greta.domes.controller.animal.AnimalSearchQuery;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.animal.AnimalCreateDTO;
 import fr.greta.domes.model.animal.AnimalEditDTO;
@@ -42,16 +43,21 @@ public class AnimalServiceImpl implements AnimalService {
                 asq.getCategoryName(),
                 asq.getSpecieName(),
                 asq.getPageNumber(),
-                asq.getPageSize())).build();
+                asq.getPageSize()))
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                .build();
 
         Call call = client.newCall(request);
 
         Response response = call.execute();
 
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+
         ResponseBody responseBody = response.body();
 
         assert responseBody != null;
+
         return objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
     }
 
@@ -60,6 +66,7 @@ public class AnimalServiceImpl implements AnimalService {
         OkHttpClient client = new OkHttpClient();
 
         String url = "http://localhost:8081/api/animals";
+
         ObjectMapper mapper = new ObjectMapper();
 
         try {

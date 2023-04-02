@@ -14,67 +14,51 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.AuthenticationController">
    <Pane layoutX="3.0" layoutY="11.0" prefHeight="1000.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <children>
-         <ImageView fitHeight="350.0" fitWidth="347.0" layoutX="130.0" layoutY="305.0">
-            <Image url="@../images/logo.png" />
-         </ImageView>
-      </children>
+      <ImageView fitHeight="350.0" fitWidth="347.0" layoutX="130.0" layoutY="305.0">
+         <Image url="@../images/logo.png" />
+      </ImageView>
    </Pane>
    <Pane layoutX="686.0" layoutY="-44.0" prefHeight="800.0" prefWidth="600.0" styleClass="right" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <children>
-         <HBox alignment="CENTER" layoutY="100.0" prefHeight="35.0" prefWidth="600.0">
-            <children>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Connexion" />
-            </children>
-         </HBox>
-         <HBox alignment="CENTER" layoutX="5.0" layoutY="176.0" prefHeight="35.0" prefWidth="600.0">
-            <children>
-               <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED">
-                  <font>
-                     <Font name="System Bold" size="20.0" />
-                  </font>
-               </Label>
-            </children>
-         </HBox>
-         <VBox alignment="CENTER" layoutY="330.0" prefHeight="76.0" prefWidth="600.0">
-            <children>
-               <VBox alignment="TOP_CENTER">
-                  <children>
-                     <Label text="Email" textFill="WHITE">
-                        <font>
-                           <Font size="16.0" />
-                        </font>
-                     </Label>
-                     <TextField fx:id="email" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input">
-                        <effect>
-                           <DropShadow offsetX="3.0" offsetY="3.0" />
-                        </effect>
-                     </TextField>
-                  </children>
-               </VBox>
-            </children>
-         </VBox>
-         <VBox alignment="CENTER" layoutY="450.0" prefHeight="76.0" prefWidth="600.0">
-            <children>
-               <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity">
-                  <children>
-                     <Label text="Mot de passe" textFill="WHITE">
-                        <font>
-                           <Font size="16.0" />
-                        </font>
-                     </Label>
-                     <PasswordField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input" />
-                  </children>
-               </VBox>
-            </children>
-         </VBox>
-         <Button fx:id="submitButton" layoutX="191.0" layoutY="582.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #5597FF; -fx-background-radius: 30;" styleClass="cursor" text="se connecter" textFill="WHITE">
+      <HBox alignment="CENTER" layoutY="100.0" prefHeight="35.0" prefWidth="600.0">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Connexion" />
+      </HBox>
+      <HBox alignment="CENTER" layoutX="5.0" layoutY="176.0" prefHeight="35.0" prefWidth="600.0">
+         <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED" visible="false">
             <font>
-               <Font name="System Bold" size="32.0" />
+               <Font name="System Bold" size="20.0" />
             </font>
-         </Button>
-      </children>
+         </Label>
+      </HBox>
+      <VBox alignment="CENTER" layoutY="330.0" prefHeight="76.0" prefWidth="600.0">
+         <VBox alignment="TOP_CENTER">
+            <Label text="Email" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="email" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input">
+               <effect>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
+               </effect>
+            </TextField>
+         </VBox>
+      </VBox>
+      <VBox alignment="CENTER" layoutY="450.0" prefHeight="76.0" prefWidth="600.0">
+         <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity">
+            <Label text="Mot de passe" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="password" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" styleClass="input" />
+         </VBox>
+      </VBox>
+      <Button fx:id="submitButton" layoutX="191.0" layoutY="582.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #5597FF; -fx-background-radius: 30;" styleClass="cursor" text="se connecter" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Button>
    </Pane>
 </AnchorPane>

@@ -50,7 +50,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.14.1'
 
-
     // https://mvnrepository.com/artifact/de.jensd/fontawesomefx
     implementation group: 'de.jensd', name: 'fontawesomefx-fontawesome', version: '4.7.0-9.1.2'
     //implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')

@@ -326,6 +326,7 @@ public class AnimalController implements Initializable {
                 CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
 
                 assert responseBody != null;
+
                 List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
 
                 List<String> speciesNames = species.stream().map(Specie::getName).toList();
