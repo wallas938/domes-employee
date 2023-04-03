@@ -80,6 +80,8 @@ public class AnimalServiceImpl implements AnimalService {
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
                     .build();
 
             // Send the request
@@ -110,6 +112,8 @@ public class AnimalServiceImpl implements AnimalService {
             Request request = new Request.Builder()
                     .url(url)
                     .put(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
                     .build();
 
             // Send the request
