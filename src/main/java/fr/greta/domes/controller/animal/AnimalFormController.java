@@ -146,7 +146,7 @@ public class AnimalFormController implements Initializable {
         ageField.textProperty().addListener(event -> {
             try {
                 int age = Integer.parseInt(ageField.getText());
-                if (age > 0 && age <= 10) {
+                if (age > 1 && age <= 24) {
                     ageTextError.setVisible(false);
                     animalFormFieldValidator.setAgeValid(true);
                 } else {
@@ -227,20 +227,6 @@ public class AnimalFormController implements Initializable {
         }
     }
 
-
-//    private void checkPictureUrlValidity(TextField field, Label errorLabel) {
-//        try {
-//            URL url = new URL(field.getText());
-//            URLConnection connection = url.openConnection();
-//            connection.connect();
-//            // The URL is valid
-//            errorLabel.setVisible(false);
-//        } catch (Exception e) {
-//            // The URL is invalid
-//            errorLabel.setVisible(true);
-//        }
-//    }
-
     public void save() throws IOException {
         if (animalFormFieldValidator.isAnimalFormIsValid().get() && currentAnimal == null) {
             AnimalCreateDTO animalCreateDTO = new AnimalCreateDTO();
@@ -261,6 +247,8 @@ public class AnimalFormController implements Initializable {
             NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
 
         } else if (animalFormFieldValidator.isAnimalFormIsValid().get() && currentAnimal != null) {
+            System.out.println(animalFormFieldValidator.isAnimalFormIsValid().get());
+
             AnimalEditDTO dto = new AnimalEditDTO();
             dto.setId(currentAnimal.getId().toString());
             dto.setAge(Integer.parseInt(ageField.getText()));

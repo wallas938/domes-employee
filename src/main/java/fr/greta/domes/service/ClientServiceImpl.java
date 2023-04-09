@@ -56,7 +56,10 @@ public class ClientServiceImpl implements ClientService {
                 csq.getPhoneNumber(),
                 csq.getEmail(),
                 csq.getPageNumber() - 1,
-                csq.getPageSize())).build();
+                csq.getPageSize()))
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                .build();
 
         Call call = client.newCall(request);
 
@@ -89,6 +92,8 @@ public class ClientServiceImpl implements ClientService {
             Request request = new Request.Builder()
                     .url(url)
                     .put(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
                     .build();
 
             // Send the request

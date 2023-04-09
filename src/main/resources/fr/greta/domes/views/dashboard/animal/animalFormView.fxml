@@ -65,8 +65,8 @@
          <Font size="16.0" />
       </font>
    </Label>
-   <Label fx:id="ageTextError" layoutX="280.0" layoutY="87.0" text="L'age d'un animal doit être entre 1 et 10 ans" textFill="RED" visible="false" />
-   <Label fx:id="priceTextError" layoutX="280.0" layoutY="129.0" text="Le prix minimum d'un produit doit être de 50euros " textFill="RED" visible="false" />
+   <Label fx:id="ageTextError" layoutX="280.0" layoutY="87.0" text="L'age d'un animal doit être entre 1 et 24 mois" textFill="RED" visible="false" />
+   <Label fx:id="priceTextError" layoutX="280.0" layoutY="129.0" text="Le prix minimum d'un produit doit être de 50 euros " textFill="RED" visible="false" />
    <Label fx:id="mainPictureTextError" layoutX="180.0" layoutY="270.0" text="lien de l'image invalide." textFill="RED" visible="false" />
    <Label fx:id="secondPictureTextError" layoutX="180.0" layoutY="350.0" text="lien de l'image invalide." textFill="RED" visible="false" />
    <Label fx:id="thirdPictureTextError" layoutX="180.0" layoutY="430.0" text="lien de l'image invalide." textFill="RED" visible="false" />
