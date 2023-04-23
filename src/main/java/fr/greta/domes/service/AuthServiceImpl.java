@@ -1,6 +1,7 @@
 package fr.greta.domes.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.auth.AuthenticationCredentials;
 import fr.greta.domes.model.auth.AuthenticationToken;
 import okhttp3.*;
@@ -42,5 +43,33 @@ public class AuthServiceImpl implements AuthService {
             return Optional.empty();
         }
 
+    }
+
+    @Override
+    public Optional<AuthenticationToken> renewAccessToken(String refreshToken) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Request request = new Request.Builder()
+                .url("http://localhost:8081/api/auth/employee/token/refresh")
+                .addHeader("refresh_token", Model.getAuthenticationToken().getRefreshToken())
+                .build();
+
+        Call call = client.newCall(request);
+
+        Response response = call.execute();
+        try {
+            ResponseBody responseBody = response.body();
+
+        } catch (Exception e) {
+            if (response.code() == 403) {
+                System.out.println("refresh token is expired too");
+                Model.setAuthenticationToken(null);
+                Model.getInstance().getViewFactory().closeCurrentWindow(currentStage);
+                Model.getInstance().getViewFactory().showDashboardWindow();
+            }
+        }
+        return Optional.empty();
     }
 }

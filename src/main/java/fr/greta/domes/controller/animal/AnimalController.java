@@ -311,32 +311,14 @@ public class AnimalController implements Initializable {
         // Init ChoiceBox "TOUTES" value
         bySpecie.getItems().add("TOUTES");
 
-        Response response = specieService.getAll(byCategory.getValue());
+        List<String> specieNames = specieService.getAll(byCategory.getValue());
 
-        updateChoiceBoxSpeciesValues(response);
+        updateChoiceBoxSpeciesValues(specieNames);
     }
 
-    private void updateChoiceBoxSpeciesValues(Response response) {
+    private void updateChoiceBoxSpeciesValues(List<String> specieNames) {
         Platform.runLater(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            ResponseBody responseBody = response.body();
-
-            try {
-                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
-
-                assert responseBody != null;
-
-                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
-
-                List<String> speciesNames = species.stream().map(Specie::getName).toList();
-
-                bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            bySpecie.getItems().addAll(FXCollections.observableList(specieNames));
         });
     }
 
