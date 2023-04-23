@@ -29,7 +29,7 @@ public class ClientServiceImpl implements ClientService {
                         csq.getPageNumber() - 1,
                         csq.getPageSize()))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                .addHeader("Authorization", Model.getAuthenticationToken().getAccessToken())
                 .build();
 
         Call call = client.newCall(request);

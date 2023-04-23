@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface AuthService {
     Optional<AuthenticationToken> login(String email, String password) throws IOException;
+    Optional<AuthenticationToken> renewAccessToken(String refreshToken) throws IOException;
 }

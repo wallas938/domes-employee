@@ -318,35 +318,18 @@ public class AnimalFormController implements Initializable {
 
         // Init ChoiceBox "TOUTES" value
 
-        Response response = specieService.getAll(categoryField.getValue());
+        List<String> specieNames = specieService.getAll(categoryField.getValue());
 
-        updateChoiceBoxSpeciesValues(response);
+        updateChoiceBoxSpeciesValues(specieNames);
     }
 
-    private void updateChoiceBoxSpeciesValues(Response response) {
-        updateSpeciesChoiceBoxView(response, specieField);
+    private void updateChoiceBoxSpeciesValues(List<String> specieNames) {
+        updateSpeciesChoiceBoxView(specieNames, specieField);
     }
 
-    private void updateSpeciesChoiceBoxView(Response response, ChoiceBox<String> field) {
+    private void updateSpeciesChoiceBoxView(List<String> specieNames, ChoiceBox<String> field) {
         Platform.runLater(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            ResponseBody responseBody = response.body();
-
-            try {
-                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
-
-                assert responseBody != null;
-                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
-
-                List<String> speciesNames = species.stream().map(Specie::getName).toList();
-
-                field.getItems().addAll(FXCollections.observableList(speciesNames));
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            field.getItems().addAll(FXCollections.observableList(specieNames));
         });
     }
 }

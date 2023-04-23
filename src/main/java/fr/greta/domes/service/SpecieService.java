@@ -3,7 +3,8 @@ package fr.greta.domes.service;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface SpecieService {
-    Response getAll(String categoryName) throws IOException;
+    List<String> getAll(String categoryName) throws IOException;
 }

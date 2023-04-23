@@ -190,4 +190,8 @@ public class ViewFactory {
     public void closeCurrentWindow(Stage stage) {
         stage.close();
     }
+
+    public void closeAllWindow() {
+
+    }
 }

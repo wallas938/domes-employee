@@ -36,29 +36,35 @@ public class AnimalServiceImpl implements AnimalService {
 
         // FETCH animals by filters - complete request url
         Request request = new Request.Builder().url(String.format(url,
-                asq.getMinPrice(),
-                asq.getMaxPrice(),
-                asq.getMinAge(),
-                asq.getMaxAge(),
-                asq.getCategoryName(),
-                asq.getSpecieName(),
-                asq.getPageNumber(),
-                asq.getPageSize()))
+                        asq.getMinPrice(),
+                        asq.getMaxPrice(),
+                        asq.getMinAge(),
+                        asq.getMaxAge(),
+                        asq.getCategoryName(),
+                        asq.getSpecieName(),
+                        asq.getPageNumber(),
+                        asq.getPageSize()))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                .addHeader("Authorization", Model.getAuthenticationToken().getAccessToken())
                 .build();
 
-        Call call = client.newCall(request);
+        try {
+            Call call = client.newCall(request);
 
-        Response response = call.execute();
+            Response response = call.execute();
 
-        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+            ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
-        ResponseBody responseBody = response.body();
+            ResponseBody responseBody = response.body();
 
-        assert responseBody != null;
+            assert responseBody != null;
 
-        return objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+            return objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        return null;
     }
 
     @Override
