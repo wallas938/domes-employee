@@ -16,14 +16,7 @@ import java.util.Collection;
 
 public class AnimalServiceImpl implements AnimalService {
 
-    static public Collection<String> categories() {
-        return null;
-    }
-
-    static public Collection<String> species() {
-        return null;
-    }
-
+    private AuthService authService = new AuthServiceImpl();
     public AnimalServiceImpl() {
     }
 
@@ -48,10 +41,10 @@ public class AnimalServiceImpl implements AnimalService {
                 .addHeader("Authorization", Model.getAuthenticationToken().getAccessToken())
                 .build();
 
-        try {
             Call call = client.newCall(request);
 
             Response response = call.execute();
+        try {
 
             ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
@@ -61,7 +54,9 @@ public class AnimalServiceImpl implements AnimalService {
 
             return objectMapper.readValue(responseBody.byteStream(), AnimalPage.class);
         } catch (Exception e) {
-            System.out.println("error");
+            if(response.code() == 401) {
+
+            }
         }
 
         return null;
@@ -87,7 +82,7 @@ public class AnimalServiceImpl implements AnimalService {
                     .url(url)
                     .post(body)
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                    .addHeader("Authorization", Model.getAuthenticationToken().getAccessToken())
                     .build();
 
             // Send the request
@@ -119,7 +114,7 @@ public class AnimalServiceImpl implements AnimalService {
                     .url(url)
                     .put(body)
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", Model.getAuthenticationToken().getAccess_token())
+                    .addHeader("Authorization", Model.getAuthenticationToken().getAccessToken())
                     .build();
 
             // Send the request

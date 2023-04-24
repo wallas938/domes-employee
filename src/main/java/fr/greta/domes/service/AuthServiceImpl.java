@@ -66,8 +66,7 @@ public class AuthServiceImpl implements AuthService {
             if (response.code() == 403) {
                 System.out.println("refresh token is expired too");
                 Model.setAuthenticationToken(null);
-                Model.getInstance().getViewFactory().closeCurrentWindow(currentStage);
-                Model.getInstance().getViewFactory().showDashboardWindow();
+                return Optional.empty();
             }
         }
         return Optional.empty();

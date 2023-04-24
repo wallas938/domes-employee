@@ -60,6 +60,7 @@ public class AuthenticationController implements Initializable {
             Model.getInstance().getViewFactory().showDashboardWindow();
             errorMessage.setVisible(false);
         }, () -> {
+            System.out.println("Wrong password");
             errorMessage.setVisible(true);
         });
     }

@@ -9,6 +9,7 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
@@ -28,6 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         Response response = call.execute();
 
+        try {
+
         ResponseBody responseBody = response.body();
 
         CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Category.class);
@@ -37,6 +40,13 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = objectMapper.readValue(responseBody.byteStream(), listType);
 
         return categories.stream().map(Category::getName).toList();
+        } catch (Exception e) {
+            if(response.code() == 401) {
+                System.out.println("Unauthenticated!");
+            }
+            return Collections.emptyList();
+        }
+
     }
 
 }
