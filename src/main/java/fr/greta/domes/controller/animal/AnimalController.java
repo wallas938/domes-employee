@@ -318,6 +318,7 @@ public class AnimalController implements Initializable {
 
     private void updateChoiceBoxSpeciesValues(List<String> specieNames) {
         Platform.runLater(() -> {
+            System.out.println(specieNames);
             bySpecie.getItems().addAll(FXCollections.observableList(specieNames));
         });
     }

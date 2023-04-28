@@ -3,6 +3,7 @@ package fr.greta.domes.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.greta.domes.model.Model;
 import fr.greta.domes.model.auth.AuthenticationCredentials;
+import fr.greta.domes.model.auth.AuthenticationRefreshToken;
 import fr.greta.domes.model.auth.AuthenticationToken;
 import okhttp3.*;
 
@@ -46,14 +47,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Optional<AuthenticationToken> renewAccessToken(String refreshToken) throws IOException {
+    public Optional<AuthenticationToken> renewAccessToken(AuthenticationRefreshToken authenticationRefreshToken) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
+        String json = objectMapper.writeValueAsString(authenticationRefreshToken);
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
+
         Request request = new Request.Builder()
                 .url("http://localhost:8081/api/auth/employee/token/refresh")
-                .addHeader("refresh_token", Model.getAuthenticationToken().getRefreshToken())
+                .method("POST", body)
                 .build();
 
         Call call = client.newCall(request);
@@ -61,6 +66,10 @@ public class AuthServiceImpl implements AuthService {
         Response response = call.execute();
         try {
             ResponseBody responseBody = response.body();
+
+            assert responseBody != null;
+
+            return Optional.of(objectMapper.readValue(responseBody.byteStream(), AuthenticationToken.class));
 
         } catch (Exception e) {
             if (response.code() == 403) {

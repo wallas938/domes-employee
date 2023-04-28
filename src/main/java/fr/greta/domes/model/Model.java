@@ -6,7 +6,10 @@ import fr.greta.domes.view.ViewFactory;
 public class Model {
     private static Model model;
 
+    private static String subject;
+
     private static AuthenticationToken authenticationToken;
+
     private final ViewFactory viewFactory;
 
     private Model() {
@@ -18,6 +21,14 @@ public class Model {
             model = new Model();
         }
         return model;
+    }
+
+    public static String getSubject() {
+        return subject;
+    }
+
+    public static void setSubject(String subject) {
+        Model.subject = subject;
     }
 
     public static AuthenticationToken getAuthenticationToken() {
