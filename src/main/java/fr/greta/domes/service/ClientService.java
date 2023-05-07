@@ -6,10 +6,11 @@ import fr.greta.domes.model.client.ClientPage;
 import fr.greta.domes.model.client.ClientPutDTO;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface ClientService {
-    ClientPage getClientPage(ClientSearchQuery clientSearchQuery) throws IOException;
-    ClientPage searchBarGetClients(ClientSearchQuery clientSearchQuery) throws IOException;
+    Optional<ClientPage> getClientPage(ClientSearchQuery clientSearchQuery) throws IOException;
+    Optional<ClientPage> searchBarGetClients(ClientSearchQuery clientSearchQuery) throws IOException;
 
-    void editClient(ClientPutDTO client) throws IOException;
+    Optional<Boolean> editClient(ClientPutDTO client) throws IOException;
 }

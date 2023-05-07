@@ -1,31 +1,25 @@
 package fr.greta.domes.controller.animal;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.animal.Animal;
 
 import fr.greta.domes.model.animal.AnimalCreateDTO;
 import fr.greta.domes.model.animal.AnimalEditDTO;
 import fr.greta.domes.model.animal.AnimalFormFieldValidator;
-import fr.greta.domes.model.specie.Specie;
 import fr.greta.domes.service.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AnimalFormController implements Initializable {
     @FXML
@@ -154,11 +148,6 @@ public class AnimalFormController implements Initializable {
                     animalFormFieldValidator.setAgeValid(false);
                 }
             } catch (NumberFormatException e) {
-//                if(ageField.getText().trim().equals("")) {
-//                    ageTextError.setVisible(false);
-//                    animalFormFieldValidator.setAgeValid(true);
-//                    return;
-//                }
                 ageTextError.setVisible(true);
                 animalFormFieldValidator.setAgeValid(false);
             }
@@ -175,11 +164,6 @@ public class AnimalFormController implements Initializable {
                     animalFormFieldValidator.setPriceValid(false);
                 }
             } catch (NumberFormatException e) {
-//                if(priceField.getText().trim().equals("")) {
-//                    priceTextError.setVisible(false);
-//                    animalFormFieldValidator.setPriceValid(true);
-//                    return;
-//                }
                 priceTextError.setVisible(true);
                 animalFormFieldValidator.setPriceValid(false);
             }
@@ -187,19 +171,11 @@ public class AnimalFormController implements Initializable {
 
 
         categoryField.valueProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (categoryField.getValue() != null) {
-                animalFormFieldValidator.setCategoryValid(true);
-            } else {
-                animalFormFieldValidator.setCategoryValid(false);
-            }
+            animalFormFieldValidator.setCategoryValid(categoryField.getValue() != null);
         });
 
         specieField.valueProperty().addListener((obs, wasFocused, isNowFocused) -> {
-            if (specieField.getValue() != null) {
-                animalFormFieldValidator.setSpecieValid(true);
-            } else {
-                animalFormFieldValidator.setSpecieValid(false);
-            }
+            animalFormFieldValidator.setSpecieValid(specieField.getValue() != null);
         });
 
         descriptionField.textProperty().addListener(event -> animalFormFieldValidator.setDescription(descriptionField.getText().length() <= 500));
@@ -240,14 +216,17 @@ public class AnimalFormController implements Initializable {
             animalCreateDTO.setFourthPicture(fourthPictureField.getText());
             animalCreateDTO.setDescription(descriptionField.getText());
 
-            animalService.saveAnimal(animalCreateDTO);
+            animalService.saveAnimal(animalCreateDTO).ifPresentOrElse(aBoolean -> {
+                try {
+                    animalController.initTableView();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
+            }, this::closeWindow);
 
-            animalController.initTableView();
-
-            NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
 
         } else if (animalFormFieldValidator.isAnimalFormIsValid().get() && currentAnimal != null) {
-            System.out.println(animalFormFieldValidator.isAnimalFormIsValid().get());
 
             AnimalEditDTO dto = new AnimalEditDTO();
             dto.setId(currentAnimal.getId().toString());
@@ -260,7 +239,8 @@ public class AnimalFormController implements Initializable {
             dto.setThirdPicture(thirdPictureField.getText());
             dto.setFourthPicture(fourthPictureField.getText());
             dto.setDescription(descriptionField.getText());
-            animalService.editAnimal(dto);
+            animalService.editAnimal(dto).ifPresentOrElse(aBoolean -> {
+            }, this::closeWindow);
         }
     }
 
@@ -272,9 +252,10 @@ public class AnimalFormController implements Initializable {
         CategoryService categoryService = new CategoryServiceImpl();
 
         try {
-            Collection<String> categories = categoryService.getAll();
+            categoryService.getAll().ifPresentOrElse(names -> {
+                categoryField.setItems(FXCollections.observableList(names));
+            }, this::closeWindow);
 
-            categoryField.setItems(FXCollections.observableList(categories.stream().toList()));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -292,11 +273,12 @@ public class AnimalFormController implements Initializable {
 
         animalFormFieldValidator.resetData();
 
-        List<String> categories = (List<String>) categoryService.getAll();
+        categoryService.getAll().ifPresentOrElse(names -> {
+            categoryField.setItems(FXCollections.observableList(names));
+            specieField.getItems().clear();
+            specieField.setValue(null);
+        }, this::closeWindow);
 
-        categoryField.setItems(FXCollections.observableList(categories));
-        specieField.getItems().clear();
-        specieField.setValue(null);
     }
 
     private void onChoiceBoxCategoriesChange() throws IOException {
@@ -306,9 +288,9 @@ public class AnimalFormController implements Initializable {
 
         // Init ChoiceBox "TOUTES" value
 
-        List<String> specieNames = specieService.getAll(categoryField.getValue());
+        Optional<List<String>> specieNames = specieService.getAll(categoryField.getValue());
 
-        updateChoiceBoxSpeciesValues(specieNames);
+        specieNames.ifPresentOrElse(this::updateChoiceBoxSpeciesValues, this::closeWindow);
     }
 
     private void updateChoiceBoxSpeciesValues(List<String> specieNames) {
@@ -319,5 +301,11 @@ public class AnimalFormController implements Initializable {
         Platform.runLater(() -> {
             field.getItems().addAll(FXCollections.observableList(specieNames));
         });
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) categoryField.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeCurrentWindow(stage);
+        Model.getInstance().getViewFactory().showLoginWindow();
     }
 }

@@ -2,7 +2,9 @@ package fr.greta.domes.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
-    Collection<String> getAll() throws IOException;
+    Optional<List<String>> getAll() throws IOException;
 }
