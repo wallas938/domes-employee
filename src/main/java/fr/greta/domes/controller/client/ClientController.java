@@ -2,6 +2,7 @@ package fr.greta.domes.controller.client;
 
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.controller.animal.AnimalFormController;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.Navigation;
 import fr.greta.domes.model.client.Client;
 import fr.greta.domes.model.client.ClientPage;
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -150,57 +152,59 @@ public class ClientController implements Initializable {
     }
 
     public void initTableView() throws IOException {
-        ClientPage clientPage = clientService.getClientPage(new ClientSearchQuery(
+        clientService.getClientPage(new ClientSearchQuery(
                 "",
                 "",
                 "",
                 "",
                 1,
-                Utils.intParser(size15.getText())));
+                Utils.intParser(size15.getText()))).ifPresentOrElse(clientPage -> {
+            initTablePagination(Utils.intParser("1"), (clientPage.getTotalPages() - 1));
+
+            /*
+             * Init Table Columns
+             * */
+
+            TableColumn<Client, String> refColumn = new TableColumn<>("id");
+            refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+            TableColumn<Client, String> lastnameColumn = new TableColumn<>("Nom");
+            lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+
+            TableColumn<Client, String> firstnameColumn = new TableColumn<>("Prénom");
+            firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+
+            TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Téléphone");
+            phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+
+            TableColumn<Client, String> emailColumn = new TableColumn<>("@");
+            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+            clientsTable.getColumns().addAll(refColumn, lastnameColumn, firstnameColumn, phoneNumberColumn, emailColumn);
+
+            /*
+             * Set Events on each table rows
+             * */
+            clientsTable.setRowFactory(param -> {
+                TableRow<Client> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (!row.isEmpty()) {
+                        Client client = row.getItem();
+                        ClientDetailController.setCurrentClient(client);
+                        showClientDetail();
+                    }
+                });
+                return row;
+            });
+
+            clientsTable.getItems().addAll(FXCollections.observableList(clientPage.getClients()));
+        }, this::closeWindow);
 
         /*
          * Init Pagination values
          * */
 
-        initTablePagination(Utils.intParser("1"), (clientPage.getTotalPages() - 1));
 
-        /*
-         * Init Table Columns
-         * */
-
-        TableColumn<Client, String> refColumn = new TableColumn<>("id");
-        refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-        TableColumn<Client, String> lastnameColumn = new TableColumn<>("Nom");
-        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-
-        TableColumn<Client, String> firstnameColumn = new TableColumn<>("Prénom");
-        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-
-        TableColumn<Client, String> phoneNumberColumn = new TableColumn<>("Téléphone");
-        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-
-        TableColumn<Client, String> emailColumn = new TableColumn<>("@");
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        clientsTable.getColumns().addAll(refColumn, lastnameColumn, firstnameColumn, phoneNumberColumn, emailColumn);
-
-        /*
-         * Set Events on each table rows
-         * */
-        clientsTable.setRowFactory(param -> {
-            TableRow<Client> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty()) {
-                    Client client = row.getItem();
-                    ClientDetailController.setCurrentClient(client);
-                    showClientDetail();
-                }
-            });
-            return row;
-        });
-
-        clientsTable.getItems().addAll(FXCollections.observableList(clientPage.getClients()));
     }
 
     public void updateTableView() throws IOException {
@@ -208,15 +212,14 @@ public class ClientController implements Initializable {
         int pageNumber = Utils.intParser(clientPageNumberField.getText()) <= 0 ? 1 : Utils.intParser(clientPageNumberField.getText());
         clientPageNumberField.setText(String.valueOf(pageNumber));
         String searchBarValue = clientSearchBar.getText();
-        ClientPage clientPage = clientService.searchBarGetClients(new ClientSearchQuery(
+        clientService.searchBarGetClients(new ClientSearchQuery(
                 searchBarValue,
                 searchBarValue,
                 searchBarValue,
                 searchBarValue,
                 pageNumber,
-                Utils.intParser(clientSelectSizeValue.getText())));
+                Utils.intParser(clientSelectSizeValue.getText()))).ifPresentOrElse(clientPage -> clientsTable.setItems(FXCollections.observableList(clientPage.getClients())), this::closeWindow);
 
-        clientsTable.setItems(FXCollections.observableList(clientPage.getClients()));
     }
 
     private void showClientDetail() {
@@ -226,5 +229,11 @@ public class ClientController implements Initializable {
     private void initTablePagination(int currentPage, int pageCount) {
         clientPagination.setPageCount(pageCount);
         clientPagination.setCurrentPageIndex(currentPage - 1);
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) clientsTable.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeCurrentWindow(stage);
+        Model.getInstance().getViewFactory().showLoginWindow();
     }
 }

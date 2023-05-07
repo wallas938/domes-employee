@@ -2,6 +2,7 @@ package fr.greta.domes.view;
 
 import fr.greta.domes.Main;
 import fr.greta.domes.controller.AuthenticationController;
+import fr.greta.domes.model.Model;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -189,5 +190,9 @@ public class ViewFactory {
 
     public void closeCurrentWindow(Stage stage) {
         stage.close();
+    }
+
+    public void closeAllWindow() {
+
     }
 }

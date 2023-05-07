@@ -6,11 +6,12 @@ import fr.greta.domes.model.animal.AnimalEditDTO;
 import fr.greta.domes.model.animal.AnimalPage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface AnimalService {
-    AnimalPage getAnimalPage(AnimalSearchQuery animalSearchQuery) throws IOException;
+    Optional<AnimalPage> getAnimalPage(AnimalSearchQuery animalSearchQuery) throws IOException;
 
-    void saveAnimal(AnimalCreateDTO animalCreateDTO) throws IOException;
+    Optional<Boolean> saveAnimal(AnimalCreateDTO animalCreateDTO) throws IOException;
 
-    void editAnimal(AnimalEditDTO dto);
+    Optional<Boolean> editAnimal(AnimalEditDTO dto) throws IOException;
 }

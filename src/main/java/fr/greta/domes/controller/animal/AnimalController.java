@@ -3,6 +3,7 @@ package fr.greta.domes.controller.animal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import fr.greta.domes.controller.NavigationController;
+import fr.greta.domes.model.Model;
 import fr.greta.domes.model.animal.AnimalPage;
 import fr.greta.domes.model.animal.Animal;
 
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -205,7 +207,7 @@ public class AnimalController implements Initializable {
     }
 
     public void initTableView() throws IOException {
-        AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
+        animalService.getAnimalPage(new AnimalSearchQuery(
                 Utils.doubleParser("0"),
                 Utils.doubleParser("999"),
                 Utils.intParser("1"),
@@ -213,50 +215,50 @@ public class AnimalController implements Initializable {
                 "TOUTES",
                 "TOUTES",
                 Utils.intParser("1"),
-                Utils.intParser(size15.getText())));
+                Utils.intParser(size15.getText()))).ifPresentOrElse(animalPage -> {
+            /*
+             * Init Pagination values
+             * */
+            initTablePagination(Utils.intParser("1"), (animalPage.getTotalPages() - 1));
 
-        /*
-         * Init Pagination values
-         * */
-        initTablePagination(Utils.intParser("1"), (animalPage.getTotalPages() - 1));
+            /*
+             * Init Table Columns
+             * */
 
-        /*
-         * Init Table Columns
-         * */
+            TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
+            refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Animal, String> refColumn = new TableColumn<>("ref");
-        refColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            TableColumn<Animal, String> categoryColumn = new TableColumn<>("category");
+            categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCategory().getName()));
 
-        TableColumn<Animal, String> categoryColumn = new TableColumn<>("category");
-        categoryColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCategory().getName()));
+            TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
+            specieColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSpecie().getName()));
 
-        TableColumn<Animal, String> specieColumn = new TableColumn<>("specie");
-        specieColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getSpecie().getName()));
+            TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableColumn<Animal, Integer> priceColumn = new TableColumn<>("price");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+            TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
+            ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
-        TableColumn<Animal, String> ageColumn = new TableColumn<>("age");
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+            animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
+            /*
+             * Set Events on each table rows
+             * */
+            animalsTable.setRowFactory(param -> {
+                TableRow<Animal> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
 
-        animalsTable.getColumns().addAll(refColumn, categoryColumn, specieColumn, priceColumn, ageColumn);
-        /*
-         * Set Events on each table rows
-         * */
-        animalsTable.setRowFactory(param -> {
-            TableRow<Animal> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-
-                if (!row.isEmpty()) {
-                    Animal animal = row.getItem();
-                    AnimalDetailController.setCurrentAnimal(animal);
-                    showAnimalDetail();
-                }
+                    if (!row.isEmpty()) {
+                        Animal animal = row.getItem();
+                        AnimalDetailController.setCurrentAnimal(animal);
+                        showAnimalDetail();
+                    }
+                });
+                return row;
             });
-            return row;
-        });
 
-        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
+            animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
+        }, this::closeWindow);
     }
 
     /*
@@ -282,7 +284,7 @@ public class AnimalController implements Initializable {
         int minAge = Utils.intParser(minAgeValue.getText()) <= Utils.intParser(maxAgeValue.getText()) ? Utils.intParser(minAgeValue.getText()) : 1;
         int maxAge = Utils.intParser(maxAgeValue.getText()) >= minAge ? Utils.intParser(maxAgeValue.getText()) : minAge;
 
-        AnimalPage animalPage = animalService.getAnimalPage(new AnimalSearchQuery(
+        animalService.getAnimalPage(new AnimalSearchQuery(
                 minPrice,
                 maxPrice,
                 minAge,
@@ -290,17 +292,16 @@ public class AnimalController implements Initializable {
                 byCategory.getValue(),
                 bySpecie.getValue(),
                 pageNumber,
-                pageSize));
+                pageSize)).ifPresentOrElse(animalPage -> {
+            minAgeValue.setText(String.valueOf(minAge));
+            maxAgeValue.setText(String.valueOf(maxAge == 1 ? 999 : maxAge));
+            minPriceValue.setText(String.valueOf(minPrice));
+            maxPriceValue.setText(String.valueOf(maxPrice == 1.0 ? 999.99 : maxPrice));
 
-        minAgeValue.setText(String.valueOf(minAge));
-        maxAgeValue.setText(String.valueOf(maxAge == 1 ? 999 : maxAge));
-        minPriceValue.setText(String.valueOf(minPrice));
-        maxPriceValue.setText(String.valueOf(maxPrice == 1.0 ? 999.99 : maxPrice));
+            initTablePagination(pageNumber, (animalPage.getTotalPages()));
 
-        initTablePagination(pageNumber, (animalPage.getTotalPages()));
-
-        animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
-
+            animalsTable.setItems(FXCollections.observableList(animalPage.getAnimals()));
+        }, this::closeWindow);
     }
 
     private void onChoiceBoxCategoriesChange() throws IOException {
@@ -311,32 +312,15 @@ public class AnimalController implements Initializable {
         // Init ChoiceBox "TOUTES" value
         bySpecie.getItems().add("TOUTES");
 
-        Response response = specieService.getAll(byCategory.getValue());
+        Optional<List<String>> specieNames = specieService.getAll(byCategory.getValue());
 
-        updateChoiceBoxSpeciesValues(response);
+        specieNames.ifPresentOrElse(this::updateChoiceBoxSpeciesValues, this::closeWindow);
+
     }
 
-    private void updateChoiceBoxSpeciesValues(Response response) {
+    private void updateChoiceBoxSpeciesValues(List<String> specieNames) {
         Platform.runLater(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            ResponseBody responseBody = response.body();
-
-            try {
-                CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Specie.class);
-
-                assert responseBody != null;
-
-                List<Specie> species = objectMapper.readValue(responseBody.byteStream(), listType);
-
-                List<String> speciesNames = species.stream().map(Specie::getName).toList();
-
-                bySpecie.getItems().addAll(FXCollections.observableList(speciesNames));
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            bySpecie.getItems().addAll(FXCollections.observableList(specieNames));
         });
     }
 
@@ -345,9 +329,12 @@ public class AnimalController implements Initializable {
         CategoryService categoryService = new CategoryServiceImpl();
 
         try {
-            Collection<String> categories = categoryService.getAll();
+            Optional<List<String>> categories = categoryService.getAll();
 
-            byCategory.getItems().addAll(FXCollections.observableList(categories.stream().toList()));
+            categories.ifPresentOrElse(names -> {
+                byCategory.getItems().addAll(FXCollections.observableList(names));
+            }, this::closeWindow);
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -386,5 +373,11 @@ public class AnimalController implements Initializable {
             return;
         }
         setAgeFieldsVisibility(false);
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) addAnimalButton.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeCurrentWindow(stage);
+        Model.getInstance().getViewFactory().showLoginWindow();
     }
 }
