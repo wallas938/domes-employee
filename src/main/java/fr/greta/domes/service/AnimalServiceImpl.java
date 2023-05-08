@@ -1,6 +1,7 @@
 package fr.greta.domes.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.greta.domes.controller.AuthenticationController;
 import fr.greta.domes.controller.NavigationController;
 import fr.greta.domes.controller.animal.AnimalController;
 import fr.greta.domes.controller.animal.AnimalSearchQuery;
@@ -40,9 +41,10 @@ public class AnimalServiceImpl implements AnimalService {
 
                 return Optional.of(getAnimalPageConverter(response2));
             } catch (Exception e) {
-                System.out.println("Thrown by orElseThrow() " + e.getMessage());
+                System.out.println("RefreshToken is expired: " + e.getMessage());
             }
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 
@@ -99,10 +101,10 @@ public class AnimalServiceImpl implements AnimalService {
                 saveAnimalRequest(animalCreateDTO, authenticationToken.getAccessToken());
                 return Optional.of(true);
             } catch (Exception e) {
-                System.out.println("Thrown by orElseThrow() " + e.getMessage());
+                System.out.println("RefreshToken is expired: " + e.getMessage());
             }
-            return Optional.empty();
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 
@@ -146,13 +148,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         Response response = editAnimalRequest(dto, Model.getAuthenticationToken().getAccessToken());
         if (response.code() == 201) {
-            AnimalController animalController = new AnimalController();
-
-            animalController.initTableView();
-
-            animalController.setReloadData(true);
-
-            NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
+            setReloadMessage();
 
             return Optional.of(true);
 
@@ -164,20 +160,14 @@ public class AnimalServiceImpl implements AnimalService {
 
                 editAnimalRequest(dto, authenticationToken.getAccessToken());
 
-                AnimalController animalController = new AnimalController();
-
-                animalController.initTableView();
-
-                animalController.setReloadData(true);
-
-                NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
+                setReloadMessage();
 
                 return Optional.of(true);
             } catch (Exception e) {
-                System.out.println("Thrown by orElseThrow() " + e.getMessage());
+                System.out.println("RefreshToken is expired: " + e.getMessage());
             }
-            return Optional.empty();
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 
@@ -205,5 +195,13 @@ public class AnimalServiceImpl implements AnimalService {
         return client.newCall(request).execute();
     }
 
+    private static void setReloadMessage() throws IOException {
+        AnimalController animalController = new AnimalController();
 
+        animalController.initTableView();
+
+        animalController.setReloadData(true);
+
+        NavigationController.setCurrentNavigation(Navigation.TO_ANIMALS);
+    }
 }
