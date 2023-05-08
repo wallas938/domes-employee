@@ -79,7 +79,7 @@ public class AnimalController implements Initializable {
 
     private final MenuItem size50 = new MenuItem("50");
 
-    private static BooleanProperty reloadData = new SimpleBooleanProperty(false);
+    private static final BooleanProperty reloadData = new SimpleBooleanProperty(false);
 
     public AnimalController() {
     }

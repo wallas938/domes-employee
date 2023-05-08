@@ -24,10 +24,17 @@
       <HBox alignment="CENTER" layoutY="100.0" prefHeight="35.0" prefWidth="600.0">
          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Connexion" />
       </HBox>
-      <HBox alignment="CENTER" layoutX="5.0" layoutY="176.0" prefHeight="35.0" prefWidth="600.0">
+      <HBox alignment="CENTER" layoutX="5.0" layoutY="175.0" prefHeight="35.0" prefWidth="600.0">
          <Label fx:id="errorMessage" styleClass="error" text="Email/mot de passe est incorrect." textFill="RED" visible="false">
             <font>
                <Font name="System Bold" size="20.0" />
+            </font>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="5.0" layoutY="175.0" prefHeight="35.0" prefWidth="600.0">
+         <Label fx:id="refreshTokenMessage" alignment="CENTER" prefHeight="35.0" prefWidth="588.0" style="-fx-font-size: 16;" styleClass="error" text="Pour des raisons de sécurité, veuillez vous reconnecter" textFill="RED" visible="false">
+            <font>
+               <Font name="System Bold" size="16.0" />
             </font>
          </Label>
       </HBox>

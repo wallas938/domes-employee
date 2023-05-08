@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 public class AuthenticationController implements Initializable {
     @FXML
+    private Label refreshTokenMessage;
+    @FXML
     private Label errorMessage;
     @FXML
     private Button submitButton;
@@ -37,6 +39,7 @@ public class AuthenticationController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        this.refreshTokenMessage.visibleProperty().bind(Model.isRefreshTokenExpired());
     }
 
     public void login() throws IOException {
@@ -51,6 +54,7 @@ public class AuthenticationController implements Initializable {
 //            Model.getInstance().getViewFactory().closeCurrentWindow(stage);
 //            Model.getInstance().getViewFactory().showDashboardWindow();
 //            errorMessage.setVisible(false);
+//            Model.setRefreshTokenExpired(false);
 //        }, () -> {
 //            errorMessage.setVisible(true);
 //        });
@@ -61,8 +65,8 @@ public class AuthenticationController implements Initializable {
             Model.getInstance().getViewFactory().closeCurrentWindow(stage);
             Model.getInstance().getViewFactory().showDashboardWindow();
             errorMessage.setVisible(false);
+            Model.setRefreshTokenExpired(false);
         }, () -> {
-            System.out.println("Wrong password");
             errorMessage.setVisible(true);
         });
     }

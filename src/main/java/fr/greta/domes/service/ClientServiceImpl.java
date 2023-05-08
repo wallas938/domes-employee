@@ -97,8 +97,10 @@ public class ClientServiceImpl implements ClientService {
             } catch (Exception e) {
                 System.out.println("Thrown by orElseThrow() " + e.getMessage());
             }
+            Model.setRefreshTokenExpired(true);
             return Optional.empty();
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 
@@ -173,8 +175,10 @@ public class ClientServiceImpl implements ClientService {
             } catch (Exception e) {
                 System.out.println("Thrown by orElseThrow() " + e.getMessage());
             }
+            Model.setRefreshTokenExpired(true);
             return Optional.empty();
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 

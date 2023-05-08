@@ -2,8 +2,12 @@ package fr.greta.domes.model;
 
 import fr.greta.domes.model.auth.AuthenticationToken;
 import fr.greta.domes.view.ViewFactory;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Model {
+
+    private static BooleanProperty refreshTokenExpired = new SimpleBooleanProperty(false);
     private static Model model;
 
     private static String subject;
@@ -37,6 +41,14 @@ public class Model {
 
     public static void setAuthenticationToken(AuthenticationToken authenticationToken) {
         Model.authenticationToken = authenticationToken;
+    }
+
+    public static BooleanProperty isRefreshTokenExpired() {
+        return refreshTokenExpired;
+    }
+
+    public static void setRefreshTokenExpired(boolean refreshTokenExpired) {
+        Model.refreshTokenExpired.set(refreshTokenExpired);
     }
 
     public ViewFactory getViewFactory() {

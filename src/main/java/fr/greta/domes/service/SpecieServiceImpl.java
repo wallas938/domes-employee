@@ -2,6 +2,7 @@ package fr.greta.domes.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import fr.greta.domes.controller.AuthenticationController;
 import fr.greta.domes.model.Model;
 import fr.greta.domes.model.auth.AuthenticationRefreshToken;
 import fr.greta.domes.model.auth.AuthenticationToken;
@@ -37,6 +38,7 @@ public class SpecieServiceImpl implements SpecieService {
                 System.out.println("Thrown by orElseThrow() " + e.getMessage());
             }
         }
+        Model.setRefreshTokenExpired(true);
         return Optional.empty();
     }
 
@@ -69,4 +71,5 @@ public class SpecieServiceImpl implements SpecieService {
         return species.stream().map(Specie::getName).toList();
 
     }
+
 }
