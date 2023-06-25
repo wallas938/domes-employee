@@ -98,7 +98,7 @@ public class ClientFormController implements Initializable {
         address.setCountry(countryField.getText());
         address.setCity(cityField.getText());
         address.setStreet(streetField.getText());
-        address.setZipcode(zipCodeField.getText());
+        address.setZipCode(zipCodeField.getText());
         clientPutDTO.setAddress(address);
         clientPutDTO.setLastname(lastnameField.getText());
         clientPutDTO.setFirstname(firstnameField.getText());
@@ -227,7 +227,7 @@ public class ClientFormController implements Initializable {
         clientFormFieldValidator.setIsCityValid(true);
         streetField.setText(address.getStreet());
         clientFormFieldValidator.setIsStreetValid(true);
-        zipCodeField.setText(address.getZipcode());
+        zipCodeField.setText(address.getZipCode());
         clientFormFieldValidator.setIsZipCode(true);
     }
 }

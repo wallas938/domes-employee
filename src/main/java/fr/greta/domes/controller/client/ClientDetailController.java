@@ -130,7 +130,7 @@ public class ClientDetailController implements Initializable {
     public void setClientAddress(Address clientAddress) {
         this.clientCountry.setText(clientAddress.getCountry());
         this.clientCity.setText(clientAddress.getCity());
-        this.clientZipCode.setText(clientAddress.getZipcode());
+        this.clientZipCode.setText(clientAddress.getZipCode());
         this.clientStreet.setText(clientAddress.getStreet());
     }
 

@@ -140,7 +140,7 @@ public class ClientServiceImpl implements ClientService {
     public Optional<Boolean> editClient(ClientPutDTO editedClient) throws IOException {
         Response response = editClientRequest(editedClient, Model.getAuthenticationToken().getAccessToken());
 
-        if (response.code() == 201) {
+        if (response.code() == 202) {
 
             ClientController clientController = new ClientController();
 
