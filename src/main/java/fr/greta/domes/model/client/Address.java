@@ -4,7 +4,7 @@ public class Address {
     private String country;
     private String city;
     private String street;
-    private String zipcode;
+    private String zipCode;
 
     public Address() {
     }
@@ -13,7 +13,7 @@ public class Address {
         this.country = country;
         this.city = city;
         this.street = street;
-        this.zipcode = zipcode;
+        this.zipCode = zipcode;
     }
 
     public String getCountry() {
@@ -40,12 +40,12 @@ public class Address {
         this.street = street;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Address {
                 "country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
-                ", zipcode='" + zipcode + '\'' +
+                ", zipcode='" + zipCode + '\'' +
                 '}';
     }
 }
