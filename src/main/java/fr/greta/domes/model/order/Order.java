@@ -1,5 +1,6 @@
 package fr.greta.domes.model.order;
 
+import fr.greta.domes.model.animal.Animal;
 import fr.greta.domes.model.article.Article;
 import fr.greta.domes.model.client.Address;
 import fr.greta.domes.model.client.Client;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public class Order {
     private UUID id;
-    private Collection<Article> articles;
+    private Collection<Animal> animals;
     private Client client;
     private Address shippingAddress;
     private int numberOfArticles;
@@ -20,9 +21,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(UUID reference, Collection<Article> articles, Client client, Address shippingAddress, int numberOfArticles, double total, LocalDate purchaseDate) {
+    public Order(UUID reference, Collection<Animal> animals, Client client, Address shippingAddress, int numberOfArticles, double total, LocalDate purchaseDate) {
         this.id = reference;
-        this.articles = articles;
+        this.animals = animals;
         this.client = client;
         this.shippingAddress = shippingAddress;
         this.numberOfArticles = numberOfArticles;
@@ -38,12 +39,12 @@ public class Order {
         this.id = id;
     }
 
-    public Collection<Article> getArticles() {
-        return articles;
+    public Collection<Animal> getAnimals() {
+        return animals;
     }
 
-    public void setArticles(Collection<Article> articles) {
-        this.articles = articles;
+    public void setArticles(Collection<Animal> animals) {
+        this.animals = animals;
     }
 
     public Client getClient() {

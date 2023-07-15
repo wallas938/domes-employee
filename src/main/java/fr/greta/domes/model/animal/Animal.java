@@ -1,6 +1,7 @@
 package fr.greta.domes.model.animal;
 
 import fr.greta.domes.model.category.Category;
+import fr.greta.domes.model.order.Order;
 import fr.greta.domes.model.specie.Specie;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class Animal {
     private Category category;
     private Specie specie;
     private double price;
+    private Order order;
     private int age;
     private boolean sold;
     private LocalDate registrationDate = LocalDate.now();
@@ -114,6 +116,14 @@ public class Animal {
 
     public UUID getId() {
         return id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public void setId(UUID id) {

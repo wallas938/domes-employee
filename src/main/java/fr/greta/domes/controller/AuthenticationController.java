@@ -43,21 +43,21 @@ public class AuthenticationController implements Initializable {
     }
 
     public void login() throws IOException {
-//        if (email.getText().isBlank() && password.getText().isBlank()) {
-//            errorMessage.setVisible(true);
-//            return;
-//        }
-//        authService.login(email.getText(), password.getText()).ifPresentOrElse(authenticationToken -> {
-//            Model.setAuthenticationToken(authenticationToken);
-//            Model.setSubject(email.getText());
-//            Stage stage = (Stage) submitButton.getScene().getWindow();
-//            Model.getInstance().getViewFactory().closeCurrentWindow(stage);
-//            Model.getInstance().getViewFactory().showDashboardWindow();
-//            errorMessage.setVisible(false);
-//            Model.setRefreshTokenExpired(false);
-//        }, () -> {
-//            errorMessage.setVisible(true);
-//        });
+        if (email.getText().isBlank() && password.getText().isBlank()) {
+            errorMessage.setVisible(true);
+            return;
+        }
+        authService.login(email.getText(), password.getText()).ifPresentOrElse(authenticationToken -> {
+            Model.setAuthenticationToken(authenticationToken);
+            Model.setSubject(email.getText());
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            Model.getInstance().getViewFactory().closeCurrentWindow(stage);
+            Model.getInstance().getViewFactory().showDashboardWindow();
+            errorMessage.setVisible(false);
+            Model.setRefreshTokenExpired(false);
+        }, () -> {
+            errorMessage.setVisible(true);
+        });
         authService.login("asimi@email.fr", "Password123").ifPresentOrElse(authenticationToken -> {
             Model.setAuthenticationToken(authenticationToken);
             Model.setSubject("asimi@email.fr");
