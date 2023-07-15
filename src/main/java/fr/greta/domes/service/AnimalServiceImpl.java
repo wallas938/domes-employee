@@ -109,15 +109,10 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     public Response saveAnimalRequest(AnimalCreateDTO animalCreateDTO, String accessToken) {
-
         OkHttpClient client = new OkHttpClient();
-
         String url = "http://localhost:8081/api/animals";
-
         ObjectMapper mapper = new ObjectMapper();
-
         Response response = null;
-
         try {
             // Convert the object to a JSON string
             String jsonString = mapper.writeValueAsString(animalCreateDTO);

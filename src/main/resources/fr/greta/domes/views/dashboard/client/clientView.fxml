@@ -13,33 +13,33 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.greta.domes.controller.client.ClientController">
-   <children>
-      <Label layoutX="56.0" layoutY="24.0" styleClass="link-history" text="clients &gt;" />
-      <TableView fx:id="clientsTable" editable="true" layoutX="42.0" layoutY="173.0" prefHeight="354.0" prefWidth="818.0" />
-      <Pane layoutX="34.0" layoutY="546.0" prefHeight="54.0" prefWidth="818.0">
-         <children>
-            <Pagination fx:id="clientPagination" layoutX="303.0" layoutY="2.0" maxPageIndicatorCount="0" pageCount="2" prefHeight="51.0" prefWidth="213.0" />
-            <MenuButton fx:id="clientSelectSizeValue" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="volume" />
-            <TextField fx:id="clientPageNumberField" layoutX="721.0" layoutY="14.0" prefHeight="25.0" prefWidth="41.0" promptText="n°" text="1" />
-            <Label layoutX="673.0" layoutY="18.0" text="Page n°" />
-            <Button fx:id="clientGoToPage" layoutX="770.0" layoutY="14.0" mnemonicParsing="false" styleClass="cursor" text="GO" />
-         </children>
-      </Pane>
-      <SimpleCheckBoxControl layoutX="66.0" layoutY="59.0" prefHeight="17.0" prefWidth="40.0" />
-      <Button fx:id="clientReloadButton" alignment="CENTER" layoutX="833.0" layoutY="142.0" mnemonicParsing="false">
-         <graphic>
-            <FontAwesomeIconView glyphName="REFRESH" />
-         </graphic>
-      </Button>
-      <Label fx:id="clientReloadMessage" layoutX="516.0" layoutY="145.0" text="Nouvelles données disponibles ! Veuillez recharger =&gt;" textFill="RED">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <TextField fx:id="clientSearchBar" layoutX="42.0" layoutY="140.0" prefHeight="26.0" prefWidth="354.0" />
-      <Button fx:id="clientSearchButton" layoutX="406.0" layoutY="140.0" mnemonicParsing="false">
-         <graphic>
-            <FontAwesomeIconView glyphName="SEARCH" wrappingWidth="12.0" />
-         </graphic></Button>
-   </children>
+    <children>
+        <Label layoutX="56.0" layoutY="24.0" styleClass="link-history" text="clients &gt;" />
+        <TableView fx:id="clientsTable" editable="true" layoutX="42.0" layoutY="173.0" prefHeight="354.0" prefWidth="818.0" />
+        <Pane layoutX="34.0" layoutY="546.0" prefHeight="54.0" prefWidth="818.0">
+            <children>
+                <Pagination fx:id="clientPagination" layoutX="303.0" layoutY="2.0" maxPageIndicatorCount="0" pageCount="2" prefHeight="51.0" prefWidth="213.0" />
+                <MenuButton fx:id="clientSelectSizeValue" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="volume" />
+                <TextField fx:id="clientPageNumberField" layoutX="721.0" layoutY="14.0" prefHeight="25.0" prefWidth="41.0" promptText="n°" text="1" />
+                <Label layoutX="673.0" layoutY="18.0" text="Page n°" />
+                <Button fx:id="clientGoToPage" layoutX="770.0" layoutY="14.0" mnemonicParsing="false" styleClass="cursor" text="GO" />
+            </children>
+        </Pane>
+        <SimpleCheckBoxControl layoutX="66.0" layoutY="59.0" prefHeight="17.0" prefWidth="40.0" />
+        <Button fx:id="clientReloadButton" alignment="CENTER" layoutX="833.0" layoutY="142.0" mnemonicParsing="false">
+            <graphic>
+                <FontAwesomeIconView glyphName="REFRESH" />
+            </graphic>
+        </Button>
+        <Label fx:id="clientReloadMessage" layoutX="516.0" layoutY="145.0" text="Nouvelles données disponibles ! Veuillez recharger =&gt;" textFill="RED">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <TextField fx:id="clientSearchBar" layoutX="42.0" layoutY="140.0" prefHeight="26.0" prefWidth="354.0" />
+        <Button fx:id="clientSearchButton" layoutX="406.0" layoutY="140.0" mnemonicParsing="false">
+            <graphic>
+                <FontAwesomeIconView glyphName="SEARCH" wrappingWidth="12.0" />
+            </graphic></Button>
+    </children>
 </AnchorPane>
